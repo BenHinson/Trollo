@@ -18,6 +18,12 @@ export default function Login() {
         email: ${emailValue}
         password: ${passwordValue}
         `)
+
+        let signup = await(await fetch(`http://localhost:2053/user/signup`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: 'test@example.com', password: 'example'})})).json();
+        console.log(signup)
     }
     return (
         <div>
