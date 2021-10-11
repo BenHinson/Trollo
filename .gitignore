@@ -1,3 +1,7 @@
+*.sqlite
+template
+
+
 # Logs
 logs
 *.log
