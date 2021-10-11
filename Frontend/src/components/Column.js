@@ -9,10 +9,11 @@ export default function Column({id, columnName, deleteColumn}){
     // boolean to control whether to pop up a modal for creating a new task
     const [addTaskModalVisible, setAddTaskModalVisible] = useState(false)
 
+    // find tasks of this colum
     const tasks = tasksArr.filter((task) => {
         return task.columnId === id
     }).map((task) => {
-        <Task name={task.name} description={task.description}/>
+        return <Task name={task.name} description={task.description}/>
     })
 
     const addTaskButtonClick = () => {
@@ -24,7 +25,7 @@ export default function Column({id, columnName, deleteColumn}){
     }
 
     return (
-        <div>
+        <div style={style}>
             <h3>{columnName}</h3>
             <button onClick={() => deleteColumn(columnName)}>➖ Delete column</button>
             {tasks}
@@ -32,4 +33,14 @@ export default function Column({id, columnName, deleteColumn}){
             {addTaskModalVisible && <AddTaskModal hideModal={hideModal}/>}
         </div>
     )
+}
+
+// style for development
+const style = {
+    width: "25%",
+    padding: 20, 
+    margin: 10,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "red",
 }

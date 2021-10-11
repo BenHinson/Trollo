@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import SelectUser from "./SelectUser"
 
 export default function AddTaskModal({ hideModal }){
 
@@ -41,12 +42,7 @@ export default function AddTaskModal({ hideModal }){
                 </label>
                 <label>
                     Assigned user:
-                    <select value={assignedUser} onChange={handleAssignedUserSelect}>
-                        <option value="" selected disabled hidden></option>
-                        <option value="Ben">Ben</option>
-                        <option value="Gabriel">Gabriel</option>
-                        <option value="Jenny">Jenny</option>
-                    </select>
+                    <SelectUser assignedUser={assignedUser} handleAssignedUserSelect={handleAssignedUserSelect} />
                 </label>
                 <button onClick={() => hideModal}>Create new task</button>
             </form>

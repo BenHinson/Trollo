@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 // dummy data to make component work
 const users = {
   1: {
@@ -14,15 +14,15 @@ const users = {
 export default function Avatar({ userId }) {
   const avatarImgSrc = users[userId].avatar;
 
-  // style for development
-  const style = {
-    height: 30,
-    width: 30,
-  };
-
   return (
     <div>
       <img src={avatarImgSrc} style={style} />
     </div>
   );
 }
+
+// style for development
+const style = {
+  height: 30,
+  width: 30,
+};
