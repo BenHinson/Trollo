@@ -1,9 +1,18 @@
-import React from "react"
+import React, { useState } from "react";
+import Avatar from "./Avatar"
 
-export default function Task(){
-    return (
-        <div>
-            <p>I am a task.</p>
-        </div>
-    )
+export default function Task({ name, description }) {
+  const [userId, setUserId] = useState(null);
+
+  const assignUser = (userId) => {
+      setUserId(userId)
+  }
+
+  return (
+    <div>
+      <p>{name}</p>
+      <p>{description}</p>
+      {userId && <Avatar userId={userId} />}
+    </div>
+  );
 }
