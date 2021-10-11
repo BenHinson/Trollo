@@ -1,22 +1,19 @@
 {
-  "name": "Trollo",
+  "name": "Backend",
   "version": "1.0.0",
-  "description": "Totally not Trello",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "run": "node index.js",
-    "nodemon": "nodemon --delay 10 server.js",
-    "test": "jest"
-  },
-  "author": "BenHinson",
-  "license": "UNLICENSED",
+  "description": "",
+  "main": "server.js",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "nanoid": "^3.1.25",
-    "nodemon": "^2.0.12",
-    "sequelize": "^6.6.5",
-    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master"
-  }
+    "nanoid": "^3.1.29",
+    "nodemon": "^2.0.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --delay 10 server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
