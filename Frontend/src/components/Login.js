@@ -11,7 +11,7 @@ export default function Login() {
         email: ${emailValue}
         password: ${passwordValue}`)
     }
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault()
         console.log(`
         Sign Up
