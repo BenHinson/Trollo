@@ -1,0 +1,55 @@
+import React, {useState} from "react"
+
+export default function AddTaskModal({ hideModal }){
+
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [assignedUser, setAssignedUser] = useState([])
+
+    const handleNameChange = e => {
+        setName(e.target.value)
+    }
+
+    const handleDescriptionChange = e => {
+        setDescription(e.target.value)
+    }
+
+    const handleAssignedUserSelect = e => {
+        setAssignedUser(e.target.value)
+    }
+
+    const handleSubmit = () => {
+        // TODO: This is where API call happens and task is created in the database
+        console.log("Form has been submitted")
+        hideModal()
+    }
+
+    const handleOutOfFocus = () => {
+        // TODO: Implement a way to hide the modal on "click out", so that it doesn't force the user to create a task once open
+    }
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Name:
+                    <input value={name} onChange={handleNameChange} type="text" required></input>
+                </label>
+                <label>
+                    Description:
+                    <input value={description} onChange={handleDescriptionChange} type="text" required></input>
+                </label>
+                <label>
+                    Assigned user:
+                    <select value={assignedUser} onChange={handleAssignedUserSelect}>
+                        <option value="" selected disabled hidden></option>
+                        <option value="Ben">Ben</option>
+                        <option value="Gabriel">Gabriel</option>
+                        <option value="Jenny">Jenny</option>
+                    </select>
+                </label>
+                <button onClick={() => hideModal}>Create new task</button>
+            </form>
+        </div>
+    )
+}

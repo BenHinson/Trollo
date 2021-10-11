@@ -24,7 +24,7 @@ export default function Board() {
         <button onClick={addColumn}>Add Column</button>
       </div>
       {columns.map((column) => {
-        return <Column columnName={column} deleteColumn={deleteColumn}></Column>
+        return <Column columnName={column} deleteColumn={deleteColumn} id={1} ></Column>
       })}
     </div>
   );
