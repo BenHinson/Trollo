@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Authenticated({user}) {
+    const UserContext = React.createContext()
     return(
         <div>
             <div>
