@@ -4,7 +4,7 @@ const cors = require('cors');
 const { Op } = require('sequelize');
 
 const initialise = require('./initialise.js');
-const { Project, Board, Column, Task, User } = require("./models.js");
+const { Project, Board, Column, Task, User, ProjectMembers } = require("./models.js");
 const auth = require('./auth.js');
 
 const app = express();
@@ -30,9 +30,9 @@ app.get('/projects', async(req, res) => { // Receives UID and returns names of p
     });
   }).catch((err) => res.json({'message': 'failed', 'error': err}))
 })
-app.get('/project/:projectID', async(req, res) => { // Receives projectID. Returns Boards within.
-  const projectID = req.params.projectID;
-  Board.findAll({where: {projectId: projectID}}).then((e) => {
+app.get('/project/:projectId', async(req, res) => { // Receives projectId. Returns Boards within.
+  const projectId = req.params.projectId;
+  Board.findAll({where: {projectId: projectId}}).then((e) => {
     return res.json({
       'message': 'success',
       'data': e.map(e => e.dataValues)
@@ -65,12 +65,24 @@ app.post('/project', async(req, res) => { // Create Project
     });
   }).catch((err) => {res.json({'message': 'failed', 'error': err})})
 })
-app.post('/:projectID/board', async(req, res) => { // Create Board for the assigned projectID.
-  const projectID = req.params.projectID;
-  const {} = req.body;
-  // Check user is allowed.
-  // let userIsMember = await Project.find
+app.post('/project/:projectId/board', auth.middle, async(req, res) => { // Create Board for the assigned projectID.
+  const projectId = req.params.projectId;
+  const {name} = req.body;
+  if (!name) { return res.status(400).json({'error': 'Please provide a name for the board'}) };
 
+  const background = ['#fafaeb', '#f3e4f1', '#d5ebda', '#f4cacd', '#ead3d4'][Math.round(Math.random() * 4)];
+
+  if (!checkUserIsMember(projectId, req.uID)) {
+    return res.status(400).json({'error': 'You are not a member of this project'})
+  }
+
+  Project.createBoard({name, background}).then((e) => {
+    res.json({
+      'message': 'success',
+      'data': {name, background},
+      'id': e.dataValues.id,
+    });
+  }).catch((err) => {res.json({'message': 'failed', 'error': err})})
 })
 
 
@@ -86,6 +98,12 @@ app.post('/user/login', async(req, res) => {
 
 app.use((req, res) => { return res.json({'Status': 'The API is working'}) })
 
+
+
+
+function checkUserIsMember(projectId, userId) {
+  return Project.findOne({where: {projectId: projectId, adminId: userId}}).length ? true : false;
+}
 
 
 
