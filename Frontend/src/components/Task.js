@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import Avatar from "./Avatar"
+import Avatar from "./Avatar";
 import SelectUser from "./SelectUser";
 
-export default function Task({ name, description }) {
-  const [userId, setUserId] = useState(null);
-
-  const assignUser = (userId) => {
-      setUserId(userId)
-  }
+export default function Task({ name, description, userId, userData }) {
 
   return (
     <div style={style}>
       <h3>{name}</h3>
       <p>{description}</p>
-      {userId && <Avatar userId={userId} />}
+      {userId && <Avatar userData={userData} userId={userId} />}
       <label>
         Assign user
+        {/* // TODO: Finish implementing  */}
         <SelectUser />
       </label>
     </div>
@@ -25,5 +21,5 @@ export default function Task({ name, description }) {
 // style for development
 
 const style = {
-    backgroundColor: "aqua"
-}
+  backgroundColor: "aqua",
+};

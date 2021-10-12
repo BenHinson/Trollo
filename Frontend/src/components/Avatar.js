@@ -1,18 +1,7 @@
 import React from "react";
-// dummy data to make component work
-const users = {
-  1: {
-    avatar:
-      "https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",
-  },
-  2: {
-    avatar:
-      "https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",
-  },
-};
 
-export default function Avatar({ userId }) {
-  const avatarImgSrc = users[userId].avatar;
+export default function Avatar({ userId, userData }) {
+  const avatarImgSrc = userData[userId].avatar;
 
   return (
     <div>

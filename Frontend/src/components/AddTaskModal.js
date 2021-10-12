@@ -1,11 +1,11 @@
 import React, {useState} from "react"
 import SelectUser from "./SelectUser"
 
-export default function AddTaskModal({ hideModal }){
+export default function AddTaskModal({ hideModal, addNewTask, columnId }){
 
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
-    const [assignedUser, setAssignedUser] = useState([])
+    const [assignedUser, setAssignedUser] = useState("")
 
     const handleNameChange = e => {
         setName(e.target.value)
@@ -19,9 +19,17 @@ export default function AddTaskModal({ hideModal }){
         setAssignedUser(e.target.value)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
         // TODO: This is where API call happens and task is created in the database
-        console.log("Form has been submitted")
+        const task = {
+            columnId,
+            name,
+            description,
+            user: assignedUser
+        }
+
+        e.preventDefault()
+        addNewTask(task)
         hideModal()
     }
 
