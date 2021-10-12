@@ -5,7 +5,7 @@ export default function Avatar({ userId, userData }) {
 
   return (
     <div>
-      <img src={avatarImgSrc} style={style} />
+      <img src={avatarImgSrc} style={style} alt="" />
     </div>
   );
 }

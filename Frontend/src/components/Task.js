@@ -1,21 +1,20 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Avatar from "./Avatar";
 import SelectUser from "./SelectUser";
 
 export default function Task({ name, description, userId, userData }) {
+  const [assignedUserId, setAssignedUserId] = useState(userId);
 
-  const [assignedUserId, setAssignedUserId] = useState(userId)
-
-  const handleUserChange = userId => {
-      setAssignedUserId(userId)
-  }
+  const handleUserChange = (userId) => {
+    setAssignedUserId(userId);
+  };
 
   const userComponent = assignedUserId ? (
     <Avatar userData={userData} userId={assignedUserId} />
   ) : (
     <label>
-        Assign user
-        <SelectUser handleSelect={handleUserChange} userData={userData}/>
+      Assign user
+      <SelectUser handleSelect={handleUserChange} userData={userData} />
     </label>
   );
 
