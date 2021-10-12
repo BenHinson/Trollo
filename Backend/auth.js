@@ -53,7 +53,7 @@ module.exports = {
 
   middle: async(req, res, next) => { // Ignore. Do not use. Use the id returned for the time being instead.
     // ! Dev Bypass.
-    if (req.headers?.auth === 'trollo') { req.headers.uID = 1; return next(); }
+    if (req.headers?.auth === 'trollo' || req.headers?.auth === 1) { req.headers.uID = 1; return next(); }
 
     // ! FOR DEV:
     if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
