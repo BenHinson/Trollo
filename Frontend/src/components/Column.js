@@ -31,13 +31,13 @@ export default function Column({ id, columnName, deleteColumn }) {
       id: 2,
       name: "Jenny",
       avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png",
+        "https://source.boringavatars.com/beam",
     },
     3: {
       id: 3,
       name: "Gabriel",
       avatar:
-        "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
+        "https://source.boringavatars.com/beam",
     },
   });
 
