@@ -1,28 +1,18 @@
-import React, { useState } from "react";
-// dummy data to make component work
-const users = {
-  1: {
-    avatar:
-      "https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",
-  },
-  2: {
-    avatar:
-      "https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",
-  },
-};
+import React from "react";
 
-export default function Avatar({ userId }) {
-  const avatarImgSrc = users[userId].avatar;
-
-  // style for development
-  const style = {
-    height: 30,
-    width: 30,
-  };
+export default function Avatar({ userId, userData }) {
+  const avatarImgSrc = userId ? userData[userId].avatar : "";
+  const str = 
 
   return (
     <div>
-      <img src={avatarImgSrc} style={style} />
+      <img src={avatarImgSrc} style={style} alt="" />
     </div>
   );
 }
+
+// style for development
+const style = {
+  height: 30,
+  width: 30,
+};
