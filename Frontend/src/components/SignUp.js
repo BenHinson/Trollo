@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 
-export default function SignUp() {
+export default function SignUp({setMessage, setAccountState}) {
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
-    const [error, setErrors] = useState("")
+    const [avatarValue, setAvatarValue] = useState("")
 
     const handleSignUp = async (e) => {
         e.preventDefault()
@@ -11,14 +11,18 @@ export default function SignUp() {
         let signup = await(await fetch(`http://localhost:2053/user/signup`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email: emailValue, password: passwordValue })}
+            body: JSON.stringify({email: emailValue, password: passwordValue, avatar: avatarValue })}
         )).json();
 
         if(signup.error) {
-            setErrors(signup.error)
+            setMessage(signup.error)
+        } else {
+            setMessage("Account created successfully")
+            setAccountState("login")
         }
         setEmailValue("")
         setPasswordValue("")
+        setAvatarValue("")
     }
     return (
         <div>
@@ -33,10 +37,9 @@ export default function SignUp() {
                 </div>
                 <div>
                     <label htmlFor="avatarUrl">Avatar URL: </label>
-                    <input type="text" id="avatarUrl" value={emailValue} onChange={e => setEmailValue(e.target.value)}></input>
+                    <input type="text" id="avatarUrl" value={avatarValue} onChange={e => setAvatarValue(e.target.value)}></input>
                 </div>
                 <button onClick={handleSignUp}>Sign Up</button>
-                {error ? <p>{error}</p> : null}
             </form>
         </div>
     )

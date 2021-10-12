@@ -1,10 +1,9 @@
 import React from "react";
 import {useState} from "react"
 
-export default function Login() {
+export default function Login({loginUser, setMessage}) {
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
-    const [error, setErrors] = useState("")
 
     const handleLogIn = async (e) => {
         e.preventDefault()
@@ -15,9 +14,9 @@ export default function Login() {
         )).json();
 
         if(login.error) {
-            setErrors(login.error)
+            setMessage(login.error)
         } else {
-            console.log(login)
+            loginUser(login.account)
         }
     }
    
@@ -33,7 +32,6 @@ export default function Login() {
                     <input type="password" id="password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)}></input>
                 </div>
                 <button onClick={handleLogIn}>Log In</button>
-                {error ? <p>{error}</p> : null}
             </form>
         </div>
     )

@@ -1,16 +1,24 @@
 import './App.css';
+import { useState } from 'react';
 import Project from "./components/Project"
 import Account from "./components/Account"
-import { useState } from 'react';
+import Authenticated from "./components/Authenticated"
 
 function App() {
   const [user, setUser] = useState(undefined)
-  return (
-    <div className="App">
-      <Account></Account>
-      <Project />
-    </div>
-  );
+
+  const loginUser = (user) => {
+    setUser(user);
+  }
+  if(user) {
+    return (
+      <Authenticated user={user}></Authenticated>
+    )
+  } else {
+    return (
+      <Account loginUser={loginUser}></Account>
+    )
+  }
 }
 
 export default App;
