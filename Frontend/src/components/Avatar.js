@@ -2,6 +2,7 @@ import React from "react";
 
 export default function Avatar({ userId, userData }) {
   const avatarImgSrc = userId ? userData[userId].avatar : "";
+  const str = 
 
   return (
     <div>
