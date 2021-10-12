@@ -25,7 +25,7 @@ export default function Column({ id, columnName, deleteColumn }) {
       id: 1,
       name: "Ben",
       avatar:
-        "https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",
+        "https://source.boringavatars.com/beam",
     },
     2: {
       id: 2,
