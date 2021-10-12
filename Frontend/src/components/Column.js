@@ -36,7 +36,7 @@ export default function Column({ id, columnName, deleteColumn }) {
     setAddTaskModalVisible(false);
   };
 
-  const addNewTask = task => {
+  const createNewTask = task => {
       // TODO: This is where API call happens to create a new task in the database
       setTaskData([...taskData, task])
   }
@@ -47,14 +47,14 @@ export default function Column({ id, columnName, deleteColumn }) {
       <button onClick={() => deleteColumn(columnName)}>➖ Delete column</button>
       {tasks}
       <button onClick={addTaskButtonClick}>➕ Add task</button>
-      {addTaskModalVisible && <AddTaskModal hideModal={hideModal} addNewTask={addNewTask} columnId={id} />}
+      {addTaskModalVisible && <AddTaskModal userData={userData} hideModal={hideModal} createNewTask={createNewTask} columnId={id} />}
     </div>
   );
 }
 
 // style for development
 const style = {
-  width: "50%",
+  width: "25%",
   padding: 20,
   margin: 10,
   borderStyle: "solid",

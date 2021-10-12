@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 //TODO: Hook up to actual data
-export default function SelectUser({ assignedUser, handleAssignedUserSelect }) {
+export default function SelectUser({ handleSelect, userData }) {
+
+    const options = Object.values(userData).map(user => {
+        return <option value={user.id}>{user.name}</option>
+    })
+
+    const handleChange = e => {
+        const userId = e.target.value;
+        handleSelect(userId)
+    }
+
   return (
-    <select value={assignedUser} onChange={handleAssignedUserSelect}>
+    <select onChange={handleChange}>
       <option value="" selected disabled hidden></option>
-      <option value="Ben">Ben</option>
-      <option value="Gabriel">Gabriel</option>
-      <option value="Jenny">Jenny</option>
+      {options}
     </select>
   );
 }

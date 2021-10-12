@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Avatar from "./Avatar";
 import SelectUser from "./SelectUser";
 
 export default function Task({ name, description, userId, userData }) {
+
+  const hand
+
   const userComponent = userId ? (
     <Avatar userData={userData} userId={userId} />
   ) : (
     <label>
         Assign user
-        <SelectUser />
+        {/* <SelectUser assignedUser={usersId} userData={userData}/> */}
     </label>
   );
 
@@ -22,7 +25,6 @@ export default function Task({ name, description, userId, userData }) {
 }
 
 // style for development
-
 const style = {
   backgroundColor: "aqua",
 };

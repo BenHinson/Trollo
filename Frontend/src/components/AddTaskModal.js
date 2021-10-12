@@ -1,11 +1,11 @@
 import React, {useState} from "react"
 import SelectUser from "./SelectUser"
 
-export default function AddTaskModal({ hideModal, addNewTask, columnId }){
+export default function AddTaskModal({ hideModal, createNewTask, columnId, userData }){
 
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
-    const [assignedUser, setAssignedUser] = useState("")
+    const [assignedUserId, setAssignedUserId] = useState(null)
 
     const handleNameChange = e => {
         setName(e.target.value)
@@ -15,8 +15,8 @@ export default function AddTaskModal({ hideModal, addNewTask, columnId }){
         setDescription(e.target.value)
     }
 
-    const handleAssignedUserSelect = e => {
-        setAssignedUser(e.target.value)
+    const handleUserChange = userId => {
+        setAssignedUserId(userId)
     }
 
     const handleSubmit = (e) => {
@@ -25,11 +25,12 @@ export default function AddTaskModal({ hideModal, addNewTask, columnId }){
             columnId,
             name,
             description,
-            user: assignedUser
+            userId: assignedUserId
         }
 
+        console.log(task)
         e.preventDefault()
-        addNewTask(task)
+        createNewTask(task)
         hideModal()
     }
 
@@ -49,8 +50,8 @@ export default function AddTaskModal({ hideModal, addNewTask, columnId }){
                     <input value={description} onChange={handleDescriptionChange} type="text" required></input>
                 </label>
                 <label>
-                    Assigned user:
-                    <SelectUser assignedUser={assignedUser} handleAssignedUserSelect={handleAssignedUserSelect} />
+                    Assign user:
+                    <SelectUser userData={userData} handleSelect={handleUserChange} />
                 </label>
                 <button onClick={() => hideModal}>Create new task</button>
             </form>
