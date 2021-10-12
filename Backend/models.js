@@ -8,9 +8,13 @@ class Task extends Model {};
 
 class User extends Model {};
 
+
+class ProjectMembers extends Model {};
+
+
 Project.init({
     name: DataTypes.STRING,
-    admin: DataTypes.STRING
+    members: DataTypes.JSON,
   }, {
     sequelize,
     modelName: 'project',
@@ -20,7 +24,6 @@ Project.init({
 Board.init({
     name: DataTypes.STRING,
     background: DataTypes.STRING,
-    editors: DataTypes.JSON,
   }, {
     sequelize,
     modelName: 'board',
@@ -38,7 +41,7 @@ Column.init({
 Task.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    assigned: DataTypes.JSON,
+    assigned: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'task',
@@ -59,4 +62,13 @@ User.init({
   }
 )
 
-module.exports = {Project, Board, Column, Task, User};
+ProjectMembers.init({
+
+  }, {
+    sequelize,
+    modelName: 'members',
+    timestamps: false
+  }
+)
+
+module.exports = {Project, Board, Column, Task, User, ProjectMembers};
