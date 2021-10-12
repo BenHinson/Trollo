@@ -61,9 +61,8 @@ User.init({
   }
 )
 
+
 ProjectMembers.init({
-    // projectId: DataTypes.STRING,
-    // userId: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'members',
