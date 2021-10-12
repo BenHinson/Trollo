@@ -14,7 +14,6 @@ class ProjectMembers extends Model {};
 
 Project.init({
     name: DataTypes.STRING,
-    members: DataTypes.JSON,
   }, {
     sequelize,
     modelName: 'project',
@@ -63,7 +62,8 @@ User.init({
 )
 
 ProjectMembers.init({
-
+    // projectId: DataTypes.STRING,
+    // userId: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'members',

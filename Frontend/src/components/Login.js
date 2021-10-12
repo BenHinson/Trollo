@@ -1,30 +1,25 @@
 import React from "react";
 import {useState} from "react"
 
-export default function Login() {
+export default function Login({loginUser, setMessage}) {
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
-    const handleLogIn = (e) => {
-        e.preventDefault()
-        console.log(`
-        Log In
-        email: ${emailValue}
-        password: ${passwordValue}`)
-    }
-    const handleSignUp = async (e) => {
-        e.preventDefault()
-        console.log(`
-        Sign Up
-        email: ${emailValue}
-        password: ${passwordValue}
-        `)
 
-        let signup = await(await fetch(`http://localhost:2053/user/signup`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email: 'test@example.com', password: 'example'})})).json();
-        console.log(signup)
+    const handleLogIn = async (e) => {
+        e.preventDefault()
+        let login = await(await fetch(`http://localhost:2053/user/login`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email: emailValue, password: passwordValue })}
+        )).json();
+
+        if(login.error) {
+            setMessage(login.error)
+        } else {
+            loginUser(login.account)
+        }
     }
+   
     return (
         <div>
             <form>
@@ -37,7 +32,6 @@ export default function Login() {
                     <input type="password" id="password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)}></input>
                 </div>
                 <button onClick={handleLogIn}>Log In</button>
-                <button onClick={handleSignUp}>Sign Up</button>
             </form>
         </div>
     )
