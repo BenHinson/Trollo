@@ -4,14 +4,18 @@ import SelectUser from "./SelectUser";
 
 export default function Task({ name, description, userId, userData }) {
 
-  const hand
+  const [assignedUserId, setAssignedUserId] = useState(userId)
 
-  const userComponent = userId ? (
-    <Avatar userData={userData} userId={userId} />
+  const handleUserChange = userId => {
+      setAssignedUserId(userId)
+  }
+
+  const userComponent = assignedUserId ? (
+    <Avatar userData={userData} userId={assignedUserId} />
   ) : (
     <label>
         Assign user
-        {/* <SelectUser assignedUser={usersId} userData={userData}/> */}
+        <SelectUser handleSelect={handleUserChange} userData={userData}/>
     </label>
   );
 
