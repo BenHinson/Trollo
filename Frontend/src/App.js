@@ -1,4 +1,3 @@
-import './App.css';
 import { useState } from 'react';
 import Project from "./components/Project"
 import Account from "./components/Account"
