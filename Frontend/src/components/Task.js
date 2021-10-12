@@ -1,18 +1,33 @@
 import React, { useState } from "react";
-import Avatar from "./Avatar"
+import Avatar from "./Avatar";
+import SelectUser from "./SelectUser";
 
-export default function Task({ name, description }) {
-  const [userId, setUserId] = useState(null);
+export default function Task({ name, description, userId, userData }) {
+  const [assignedUserId, setAssignedUserId] = useState(userId);
 
-  const assignUser = (userId) => {
-      setUserId(userId)
-  }
+  const handleUserChange = (userId) => {
+    setAssignedUserId(userId);
+  };
+
+  const userComponent = assignedUserId ? (
+    <Avatar userData={userData} userId={assignedUserId} />
+  ) : (
+    <label>
+      Assign user
+      <SelectUser handleSelect={handleUserChange} userData={userData} />
+    </label>
+  );
 
   return (
-    <div>
-      <p>{name}</p>
+    <div style={style}>
+      <h3>{name}</h3>
       <p>{description}</p>
-      {userId && <Avatar userId={userId} />}
+      {userComponent}
     </div>
   );
 }
+
+// style for development
+const style = {
+  backgroundColor: "aqua",
+};
