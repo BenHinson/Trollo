@@ -1,12 +1,13 @@
-import { useState } from 'react';
 import './App.css';
 import Project from "./components/Project"
-import Login from "./components/Login"
+import Account from "./components/Account"
+import { useState } from 'react';
 
 function App() {
+  const [user, setUser] = useState(undefined)
   return (
     <div className="App">
-      <Login></Login>
+      <Account></Account>
       <Project />
     </div>
   );
