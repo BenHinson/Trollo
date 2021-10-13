@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Avatar from "./Avatar";
+import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
 
 export default function Task({ name, description, userId, userData }) {
@@ -10,7 +10,7 @@ export default function Task({ name, description, userId, userData }) {
   };
 
   const userComponent = assignedUserId ? (
-    <Avatar userData={userData} userId={assignedUserId} />
+    <UserAvatar userData={userData} userId={assignedUserId} />
   ) : (
     <label>
       Assign user
