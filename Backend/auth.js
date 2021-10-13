@@ -24,7 +24,7 @@ module.exports = {
 
     User.create({email, password, username, password: hashedPassword, cookieKey}).then((e) => {
       console.log('Successful account creation.')
-      res.json({ 'message': 'Account Created' });
+      res.json({ 'message': 'success' });
     }).catch((err) => {res.json({'message': 'failed', 'error': err})})
   },
 
@@ -58,8 +58,8 @@ module.exports = {
 
     // ! FOR DEV:
     if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
-    let accountID = await User.findOne({where: {cookieKey: getCookie(req.headers.auth)}});
-    if (accountID?.length) {
+    let accountID = await User.findOne({where: {cookieKey: req.headers.auth}});
+    if (accountID?.dataValues) {
       req.uID = accountID.dataValues.id;
       return next();
     } else {

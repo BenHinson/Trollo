@@ -16,7 +16,6 @@ app.listen(2053, () => {console.log(`Server running on port: ${2053}`)});
 /////////////////////////////////////////////////////////
 
 app.get('/user', auth.middle, async(req, res) => {
-  console.log(req.uID)
   try {
     let userData = await User.findByPk(req.uID)
     res.json({
@@ -176,16 +175,16 @@ app.post('/project/:projectId/:boardId/column', auth.middle, async(req, res) => 
 })
 app.post('/project/:projectId/:boardId/:columnId/task', auth.middle, async(req, res) => { // Create Task
   const {projectId, boardId, columnId} = req.params;
-  const {name, description} = req.body;
+  const {name, description, assigned} = req.body;
   if (!checkUserIsMember(projectId, req.uID)) {return res.status(400).json({'error': 'You are not a member of this project'})}
 
   try {
     let column = await Column.findByPk(columnId);
-    let newTask = await column.createTask({name, description, creatorId: req.uId});
+    let newTask = await column.createTask({name, description, assigned, creatorId: req.uID});
 
     res.json({
       'message': 'success',
-      'data': {name, description},
+      'data': {name, description, assigned},
       'id': newTask.dataValues.id,
     })
   } catch(error) {
