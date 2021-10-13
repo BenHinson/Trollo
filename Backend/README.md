@@ -106,14 +106,14 @@ This creates three default starting columns: Ideas, ToDo & Done.
 ```javascript
 // SEND AUTH HEADER
 body: {
-  name: 'Test'
+  name: 'My Board'
 }
 
 // Returns
 {
     "message": "success",
     "data": {
-        "name": "Test"
+        "name": "My Board"
     },
     "id": 1
 }
