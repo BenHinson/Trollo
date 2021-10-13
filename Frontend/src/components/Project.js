@@ -1,102 +1,68 @@
-import React, {useState} from "react";
-// import Board from "./Board";
-// import User from "./User";
-import DummyBoard from "./DummyBoard";
-import DummyUser from "./DummyUser";
+const express = require('express');
+const router = express.Router();
 
-export default function Project() {
-  const dummyBoardsArr = [{id:1, name: "boardname1" }, {id:2, name: "boardname2" }];
-  const dummyMembers = [{ id: 1, name: "Susie" }, { id: 2, name: "Hugo" }];
-  
-  const [view, setView] = useState("board")
-  const [boardName, setBoardname] = useState("");
-  const [boardForm, setBoardForm] = useState(false);
-  const [dummyBoards, setDummyBoards] = useState(dummyBoardsArr);
+const { getAllCompanies, createCompanies, getACompany, updateCompany, deleteCompany } = require('../controllers/companies');
+const { getAllLocationsByCompanyId, createLocations, updateLocations, deleteLocations, getALocation } = require('../controllers/locations');
+const { getAllMenus, createMenus, deleteMenus } = require('../controllers/menus');
+const { companyValidationRules, companyUpdateValidationRules, locationValidationRules, menuValidationRules } = require('../validators');
 
-  let boardId = 3;
+// localhost:3000/companies/routerName
 
-  const showSidebar = event => {
-    // console.log("sidebar opens");
-  };
+/* COMPANIES */
+router.get('/', (req, res) => {
+    getAllCompanies(req, res);
+});
 
-  const showBoards = event => {
-    console.log("board open");
-    setView("board")
-  };
+router.get('/:id', (req, res) => {
+    getACompany(req, res);
+})
 
-  const showMembers = event => {
-    console.log("member open");
-    setView("member")
-  };
+router.post('/', companyValidationRules(), (req, res) => {
+    createCompanies(req, res);
+});
 
-  const showCreateForm = event => {
-    // if "boardForm" sets to true, render a form to create a board
-    setBoardForm(true);
-  }
-  
-  const boardform = () => {
-    /* a board creation form 
-      - changes are tracked by "onChangeBoardName" function
-      - value is tracked by "boardName"
-      - once button is clicked, it triggers "createBoard"
-    */
-    return (
-      <div>
-        <input placeholder="Add board title" value={boardName} onChange={onChangeBoardname} />
-        <button onClick={ createBoard } >Create Board</button>
-      </div>     
-    )
-  }
-  
-  const onChangeBoardname = event => {
-    setBoardname(event.target.value);
-  }
+router.patch('/:id', companyUpdateValidationRules(), (req, res) => {
+    updateCompany(req, res);
+})
 
-  const createBoard = event => {
-    // create a board object.
-    const board = { id: boardId, name: boardName };
-    dummyBoardsArr.push(board);
-    boardId++;
+router.delete('/:id',  (req, res) => {
+    deleteCompany(req, res);
+})
 
-    console.log('BOARD CREATED: ');
-    // console.log(dummyBoards)
-  }
+/* LOCATIONS */
+router.get('/:id/locations/:locationId', (req, res) => {
+    getALocation(req, res);
+})
 
-  const deleteBoard = event => {
-    // MIND THE TYPE
-    const boardId = parseInt(event.target.id);
+router.get('/:id/locations', (req, res) => {
+    getAllLocationsByCompanyId(req, res);
+})
 
-    const removeItem = dummyBoards.filter(board => board.id !== boardId);
-    setDummyBoards(removeItem);
- }
+router.post('/:id/locations', locationValidationRules(), (req, res) => {
+    createLocations(req, res);
+})
 
-  const listBoards = () => dummyBoards.map(board => {
-    return (
-      <div key={board.id}>
-        <DummyBoard name={board.name} />
-        <button onClick={deleteBoard} id={ board.id}>Delete</button>
-      </div>
-    )
-  });
-  const listMembers = () => dummyMembers.map(member => <DummyUser key={member.id} name={member.name} />);
+router.put('/:id/locations/:locationId', (req, res) => {
+    updateLocations(req, res);
+})
 
-  return (
-    <div>
-      <section onClick={showSidebar}>
-        <p>Placeholder: workspace Name</p>
-        <p onClick={showBoards}>Boards</p>
-        <div onClick={showCreateForm}>create new board</div>
-        <p onClick={showMembers}>Members</p>
-      </section>
+// localhost:3000/companies/:id/locations/:locationId
+router.delete('/:id/locations/:locationId', (req, res) => {
+    deleteLocations(req, res);
+})
 
-      <section>
-        {view === "board" && listBoards()}
-        {view === "member" && listMembers()}
-      </section>
-      
-      <section>
-        {boardForm && boardform()}
-      </section>
-    </div>
-  );
-}
+
+/* MENU */
+router.get('/:id/menus', (req, res) => {
+    getAllMenus(req, res);
+})
+
+router.post('/:id/menus', menuValidationRules(), (req, res) => {
+    createMenus(req, res);
+})
+
+router.delete('/:id/menus/:menuId', (req, res) => {
+    deleteMenus(req, res);
+})
+
+module.exports = router;
