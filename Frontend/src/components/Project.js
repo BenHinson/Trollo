@@ -1,9 +1,10 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useContext } from "react";
+
+import {UserContext} from '../UserContext';
 import {
   btnForOthers1,
   btnForOthers2,
   btnForDelete,
-  userInfo,
   sidebar,
   sideBarBtns,
   modal,
@@ -11,37 +12,35 @@ import {
 } from '../Stylesheet';
 // import Board from "./Board";
 // import User from "./User";
-import Avatar from "./Avatar";
 import DummyBoard from "./DummyBoard";
 import DummyUser from "./DummyUser";
-// FETCH USER to get avatar url to pass into Avatar
-export default function Project({ user }) {
-  console.log(user)
-  // console.log(user.id)
-  const avatar = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
-  const dummyMembers = [{ id: 1, name: "Susie", email:"susie@email.com", avatar},{ id: 2, name: "Hugo", email:"hugo@email.com", avatar}, { id: 3, name: "Chris", email:"chris@email.com", avatar }];
+import ProjectMembers from "./ProjectMembers";
 
-  
+// FETCH USER to get avatar url to pass into Avatar
+export default function Project() {
+
+  const { user, handleLogout } = useContext(UserContext);
+  // console.log(user.id)  
   const [view, setView] = useState("board")
 
   const [boardName, setBoardname] = useState("");
   const [projectName, setProjectName] = useState("");
-  const [memberEmail, setMemberEmail] = useState("");
+  // const [memberEmail, setMemberEmail] = useState("");
 
   const [boardForm, setBoardForm] = useState(false);
   const [projectForm, setProjectForm] = useState(false);
-  const [memberForm, setMemberForm] = useState(false);
+  // const [memberForm, setMemberForm] = useState(false);
 
   const [boards, setBoards] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [members, setMembers] = useState(dummyMembers);
 
   const [projectDropdown, setProjectDropdown] = useState(true);
   const [boardDropdown, setBoardDropdown] = useState(true);
-  const [currProject, setcurrProject] = useState(1);
+  const [currProject, setcurrProject] = useState(0);
 
 
   const url = "http://localhost:2053";
+  console.log(user)
 
   useEffect(async () => {
     await fetchAllProjects(); // as long as login, user fetches projects
@@ -56,7 +55,7 @@ export default function Project({ user }) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'auth': user.cookie,
+        'auth': localStorage.getItem('authCookie'),
       },
     });
     const boardsDatas = await data.json();
@@ -76,7 +75,7 @@ export default function Project({ user }) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'auth': user.cookie
+            'auth': localStorage.getItem('authCookie')
         }
     })
     const projectsDatas = await data.json();
@@ -84,7 +83,6 @@ export default function Project({ user }) {
     
     if (projectsDatas.data.length !== 0) {
       setcurrProject(projectsDatas.data[0].id);
-
     }
     console.log(`currProjectID: ${currProject}`);
     console.log("PROJECTS:")
@@ -101,7 +99,7 @@ export default function Project({ user }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'auth': user.cookie,
+        'auth': localStorage.getItem('authCookie'),
       },
       body: JSON.stringify({ name: boardName })
     });
@@ -115,7 +113,7 @@ export default function Project({ user }) {
 
       const board = { id: data.id, name: boardName }
       boardsCopy.push(board);
-      setProjects(boardsCopy);
+      setBoards(boardsCopy);
       setBoardForm(false)
     }
   }
@@ -130,7 +128,7 @@ export default function Project({ user }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'auth': user.cookie,
+        'auth': localStorage.getItem('authCookie'),
       },
       body: JSON.stringify({ name: projectName })
     });
@@ -149,9 +147,6 @@ export default function Project({ user }) {
     }
     
   };
-  
-  const createMember = async (event) => { // POST new member(NOT SUPPORTED YET)
-  }
 
   // DELETE FUNCTIONS
   const deleteBoard = async (event) => {
@@ -174,35 +169,18 @@ export default function Project({ user }) {
     setView("board")
   };
 
-  const showMembers = event => { // SHOW ASSIGNED MEMBERS TO PROJECT (NOT SUPPORTED YET)
-    console.log("member open");
-    setView("member")
-  };
-
   const dropdownProjects = async (event) => {
     if (projectDropdown) {
       setProjectDropdown(false);
     } else {
-      const fetchAllProjects = async () => {
-        const data = await fetch(`http://localhost:2053/projects`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'auth': user.cookie
-          }
-        });
-        const projects = await data.json();
-        setProjects(projects.data);
-        console.log("PROJECTS:")
-        console.log(projects);
+        setProjectDropdown(true);
       }
 
-      await fetchAllProjects();
-      setProjectDropdown(true);
+      console.log(`dropdown: ${projectDropdown}`)      
     }
 
-    console.log(`dropdown: ${projectDropdown}`)
-  }
+    
+  
 
   const dropdownBoards = async (event) => {
     // on true, fetch Columns
@@ -221,24 +199,7 @@ export default function Project({ user }) {
     setProjectForm(true);
   }
 
-  const showMemberForm = event => {
-     // render a form to create a member
-    setMemberForm(true);
-  }
-
-
-  
-  // forms to create PROJECT/BOARD/MEMBERS
-  const memberform = () => {
-    return (
-      <div style={modal}>
-        <input placeholder="type an email of member" value={memberEmail} onChange={onChangeMemberEmail} />
-        <button onClick={createMember} >+ Invite a member</button>
-        <span onClick={closeForm} id="member-form" style={modalCloseBtn}>X</span>
-      </div>   
-    )
-  }
-
+  // forms to create PROJECT/BOARD
   const projectform = () => {
     return (
       <div style={modal}>
@@ -269,9 +230,6 @@ export default function Project({ user }) {
     console.log(e.target.id)
   }
   
-  const onChangeMemberEmail = event => {
-    setMemberEmail(event.target.value);
-  }
   const onChangeBoardname = event => {
     setBoardname(event.target.value);
   }
@@ -282,23 +240,17 @@ export default function Project({ user }) {
 
 
   
-// LIST: BOARDS/MEMBERS/PROJECTS - showing nested elements
+// LIST: BOARDS/PROJECTS - showing nested elements
 // - Project -> show boards / Board -> show Columns
   const listBoards = () => boards.map(board => {
     return ( // showColumns should be added
       <li key={board.id} style={{...divideIn2, ...projectAndboardList}}>
-        <p>{board.name}</p>
+        <span>{board.name}</span>
         <button onClick={deleteBoard} id={board.id} style={btnForDelete}>Delete</button>
       </li>
     )
   });
-  const listMembers = () => dummyMembers.map(member => {
-    return (
-      <div key={member.id} style={{ display: "inline-block" }} >
-        <img src={avatar} style={ {height:"30px", width: "30px", display: "inline-block"}}></img>
-      </div>
-    )
-  });
+
   const listProjects = () => projects.map(project => {
     return (
       <li onClick={showBoards} key={project.id} style={{...divideIn2, ...projectAndboardList}}>
@@ -324,31 +276,34 @@ export default function Project({ user }) {
     position: "absolute",top: "50vh", left: "30vw" 
   }
 
-  const locatingUsers = {
-    position: "absolute",
-    top: "0",
-    right: "0",
-    padding: "1rem"
-  }
+  const userInfo = {
+    borderBottom: "2px solid #b1becc",
+    padding: "1rem",
+    display: "flex",
+    justifyContent: "space-between"
+}
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
       
       <section style={sidebar}>
-        <div style={ userInfo}>
-          {/* <Avatar userId={user.id} userData={user } /> */}
-          <span>{user.username}</span>
+        <div style={userInfo}>
+          <span>
+            {/* <Avatar userId={user.id} userData={user } /> */}
+            <span>{user.username}</span>
+          </span>     
+          <button onClick={handleLogout} style={btnForOthers1}>Logout</button>
         </div>
         
         <div style={ {padding:"1rem"}}>
         <p style={divideIn2}>
             <span>Projects</span>
-            <div>
+            <span>
               <span onClick={dropdownProjects} style={sideBarBtns}>
                 {projectDropdown ? `˄` : `˅`}
               </span>
               <span onClick={showProjectForm} style={sideBarBtns}>+</span>     
-            </div>
+            </span>
         </p>
 
         <ul className="li-projects">
@@ -358,12 +313,12 @@ export default function Project({ user }) {
           <p style={divideIn2}>
           {/* (should attach showColumn Fn onclick) */}
             <span>Boards </span> 
-            <div>
+            <span>
               <span onClick={dropdownBoards} style={sideBarBtns}>
               {boardDropdown ? `˄` : `˅`}
               </span>
               <span onClick={showBoardForm} style={sideBarBtns}>+</span>
-          </div>
+          </span>
         </p>
 
         <ul className="li-boards">
@@ -372,19 +327,11 @@ export default function Project({ user }) {
 
         </div>
         
-
       </section>
 
-      <section style={{ width: "70%", display: "inline-block", textAlign: "center" }}>
-        
-        {view  &&      
-          <div style={locatingUsers }>
-              {listMembers()}
-              <button onClick={showMemberForm} style={btnForOthers2}>Invite</button>
-            </div>      
-          }
-        
-      </section>
+    
+      {currProject !== 0 && <ProjectMembers currentProjId={currProject} />}
+      
 
       {boardForm &&
         <section style={locatingForm}>
@@ -395,12 +342,6 @@ export default function Project({ user }) {
       {projectForm &&
         <section style={locatingForm}>
           {projectform()}
-        </section>
-      }
-
-      {memberForm &&
-        <section style={locatingForm}>
-          {memberform()}
         </section>
       }
 

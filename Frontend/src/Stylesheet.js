@@ -55,11 +55,6 @@ const btnForDelete = {
 }
 
 /* SDIEBAR */
-const userInfo = {
-    borderBottom: "2px solid #b1becc",
-    padding: "1rem"
-}
-  
 const sidebar = {
     color: "#b1becc",
     width: "25%",
@@ -106,7 +101,6 @@ export {
     btnForOthers1,
     btnForOthers2,
     btnForDelete,
-    userInfo,
     sidebar,
     sideBarBtns,
     modal,
