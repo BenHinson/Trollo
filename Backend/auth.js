@@ -54,7 +54,7 @@ module.exports = {
 
   middle: async(req, res, next) => {
     // ! Dev Bypass.
-    if (req.headers?.auth === 'trollo' || req.headers?.auth === 1) { req.uID = 1; return next(); }
+    if (req.headers?.auth === 'trollo') { req.uID = 1; return next(); }
 
     // ! FOR DEV:
     if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
@@ -62,6 +62,8 @@ module.exports = {
     if (accountID?.length) {
       req.uID = accountID.dataValues.id;
       return next();
+    } else {
+      return res.status(400).json({'error': 'You are not logged in'})
     }
 
     // if (!req.cookies) { return res.status(400).json({'error': 'Not logged in'}) }
