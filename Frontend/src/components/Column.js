@@ -25,7 +25,7 @@ export default function Column({ id, columnName, deleteColumn }) {
       id: 1,
       name: "Ben",
       avatar:
-        "https://source.boringavatars.com/beam/1",
+        "",
     },
     2: {
       id: 2,
