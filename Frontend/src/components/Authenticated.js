@@ -2,21 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import DummyProject from "./DummyProject";
 import { UserContext } from "../UserContext";
 
-// const dummyProjects = [
-//   { name: "Dummy 1", id: 1 },
-//   { name: "Dummy 2", id: 2 },
-//   { name: "Dummy 3", id: 3 },
-// ];
-
 export default function Authenticated() {
   const { user, handleLogout } = useContext(UserContext);
-  const [view, setView] = useState("allProjects");
   const [projectsData, updateProjectsData] = useState([]);
-
-  const logout = () => {
-    console.log("logout");
-    handleLogout();
-  };
+  const [displayProjectId, setDisplayProjectId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -39,20 +28,19 @@ export default function Authenticated() {
     fetchData();
   }, []);
 
-  //   const projects = projectsData
-  //     ? projectsData.map((project) => (
-  //         <div key={project.id}>
-  //           <h3>{project.name}</h3>
-  //         </div>
-  //       ))
-  //       : "No projects to display";
+  const logout = () => {
+    console.log("logout");
+    handleLogout();
+  };
 
   const handleProjectClick = (id) => {
     console.log("You've clicked project: ", { id });
+    setDisplayProjectId(id);
   };
 
-  const allProjects = projectsData
-    ? projectsData.map((project) => {
+  const allProjects =
+    projectsData.length > 0 ? (
+      projectsData.map((project) => {
         return (
           <button
             onClick={() => handleProjectClick(project.id)}
@@ -62,23 +50,22 @@ export default function Authenticated() {
           </button>
         );
       })
-    : "You have no projects";
+    ) : (
+      <p>No own created projects</p>
+    );
 
-  //   const projectView = <Project id={null} />;
+  const displayProject =
+    projectsData.filter((project) => displayProjectId === project.id)[0] ||
+    DummyProject;
+
+  const mainView = <h1>{displayProject.name}</h1>;
 
   return (
     <div>
-      <div>
-        <p>{user.username}</p>
-        <button onClick={logout}>Log Out</button>
-      </div>
-      {
-        view === "allProjects" ? (
-          <div>{allProjects}</div>
-        ) : (
-          <DummyProject id={view}></DummyProject>
-        ) // Not sure exactly which props the project component will need
-      }
+      <p>{user.username}</p>
+      <button onClick={logout}>Log Out</button>
+      <div>{allProjects}</div>
+      <div>{mainView}</div>
     </div>
   );
 }
