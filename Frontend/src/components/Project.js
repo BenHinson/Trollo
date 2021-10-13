@@ -5,13 +5,10 @@ import Avatar from "./Avatar";
 import DummyBoard from "./DummyBoard";
 import DummyUser from "./DummyUser";
 
-export default function Project({ user, projectList }) {
-  console.log(user);
-
+export default function Project({ user}) {
   const avatar = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
-  const dummyBoardsArr = [{id:1, name: "boardname1" }, {id:2, name: "boardname2" }];
   const dummyMembers = [{ id: 1, name: "Susie", email:"susie@email.com", avatar},{ id: 2, name: "Hugo", email:"hugo@email.com", avatar}, { id: 3, name: "Chris", email:"chris@email.com", avatar }];
-  const dummyProjects = [{ id: 1, name: "project-1", members: [] }, { id: 2, name: "project-2", members:[] }];
+
   
   const [view, setView] = useState("board")
 
@@ -23,29 +20,59 @@ export default function Project({ user, projectList }) {
   const [projectForm, setProjectForm] = useState(false);
   const [memberForm, setMemberForm] = useState(false);
 
-  const [boards, setBoards] = useState(dummyBoardsArr);
-  const [projects, setProjects] = useState(projectList);
+  const [boards, setBoards] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [members, setMembers] = useState(dummyMembers);
 
-  const [dropdown, setDropdown] = useState(false);
+  const [projectDropdown, setProjectDropdown] = useState(true);
+  const [boardDropdown, setBoardDropdown] = useState(true);
   const [currProject, setcurrProject] = useState(1);
 
 
   let url = "http://localhost:2053";
 
+  useEffect(async () => {
+    await fetchAllProjects(); // as long as login, user fetches projects
+    await fetchBoards(currProject); // fetch board with first Project Id
+  }, [])
+
  // GET FUNCTIONS
   const fetchBoards = async (projectId) => { // GET boards associated with projectId
-    const data = await fetch(`${url}/project/${projectId}`);
-    const boards = await data.json();
-
-    if (boards.error) {
-      console.log(boards.error)
+    const data = await fetch(`${url}/project/${projectId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth': user.cookie,
+      },
+    });
+    const boardsDatas = await data.json();
+    console.log(`BOARDS:`)
+    console.log(boardsDatas)
+    // console.log(boardsDatas.data.boards)
+    if (boardsDatas.error) {
+      console.log(boardsDatas.error)
     } else {
-      setBoards(boards.data);
+      setBoards(boardsDatas.data.boards);
     }
     
-    console.log(boards);
   }
+
+  const fetchAllProjects = async () => {
+    const data = await fetch(`${url}/projects`, { // GET projects
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth': user.cookie
+        }
+    })
+    const projectsDatas = await data.json();
+    setProjects(projectsDatas.data);
+    setcurrProject(projectsDatas.data[0].id);
+    console.log(`currProjectID: ${currProject}`);
+    console.log("PROJECTS:")
+    console.log(projectsDatas);
+    
+}  
 
 
 // POST FUNCTIONS
@@ -75,16 +102,16 @@ export default function Project({ user, projectList }) {
   }
  
   const createProject = async (event) => { // POST new project
+    console.log(projects)
     const projectsCopy = [...projects];
-
-    console.log(projectName);
-    console.log(projectsCopy);
+    console.log(projectsCopy)
+    // console.log(projectName);
 
     const response = await fetch(`${url}/project`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'uid': user.cookie,
+        'auth': user.cookie,
       },
       body: JSON.stringify({ name: projectName })
     });
@@ -95,7 +122,7 @@ export default function Project({ user, projectList }) {
     if (data.error) {
       console.log(data.error)
     } else {
-
+      console.log(data.id)
       const project = { id: data.id, name: projectName }
       projectsCopy.push(project);
       setProjects(projectsCopy);
@@ -121,6 +148,7 @@ export default function Project({ user, projectList }) {
   const showBoards = async (event) => {
     console.log("board open");
     console.log(event.target.id);
+    console.log(event)
     setcurrProject(event.target.id);
     await fetchBoards(currProject);
     setView("board")
@@ -131,9 +159,35 @@ export default function Project({ user, projectList }) {
     setView("member")
   };
 
-  const dropdownProjects = (event) => {
-    dropdown ? setDropdown(false) : setDropdown(true);
-    console.log(`dropdown: ${dropdown}`)
+  const dropdownProjects = async (event) => {
+    if (projectDropdown) {
+      setProjectDropdown(false);
+    } else {
+      const fetchAllProjects = async () => {
+        const data = await fetch(`http://localhost:2053/projects`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth': user.cookie
+          }
+        });
+        const projects = await data.json();
+        setProjects(projects.data);
+        console.log("PROJECTS:")
+        console.log(projects);
+      }
+
+      await fetchAllProjects();
+      setProjectDropdown(true);
+    }
+
+    console.log(`dropdown: ${projectDropdown}`)
+  }
+
+  const dropdownBoards = async (event) => {
+    // on true, fetch Columns
+    boardDropdown ? setBoardDropdown(false) : setBoardDropdown(true);
+    console.log(`boardDropdown: ${boardDropdown}`)
   }
 
   // RENDERING MODAL FORM
@@ -227,8 +281,8 @@ export default function Project({ user, projectList }) {
   });
   const listProjects = () => projects.map(project => {
     return (
-      <li onClick={showBoards} key={project.id} id={project.id}>
-        <span>{project.name}</span>
+      <li onClick={showBoards} key={project.id} >
+        <span id={project.id}>{project.name}</span>
         <button onClick={deleteProject} id={ project.id}>Delete</button>
       </li>
     )
@@ -252,25 +306,32 @@ export default function Project({ user, projectList }) {
         </p>
 
         <ul className="li-projects">
-          { dropdown && listProjects() }  
+          { projectDropdown && listProjects() }  
         </ul>
-        
-        <p onClick={showMembers}>Boards</p>
-        <span onClick={showBoardForm}>+</span>
+
+        <p>
+          <span>Boards (should attach showColumn Fn onclick)</span>
+          <span onClick={showBoardForm}>+</span>
+          <span onClick={dropdownBoards}>dropdown</span>
+        </p>
+
+        <ul className="li-boards">
+          { boardDropdown && listBoards() }  
+        </ul>
+
       </section>
 
       <section style={{ width: "70%", display: "inline-block", textAlign: "center" }}>
         
-        {view === "board" &&
+        {view  &&
           
           <Fragment>
           
             <div>  
               {listMembers()}
               <button onClick={showMemberForm}>Invite</button>
-            </div>
+            </div>      
           
-            {listBoards()}
           </Fragment>}
         
       </section>
