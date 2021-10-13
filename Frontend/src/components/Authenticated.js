@@ -13,7 +13,7 @@ export default function Authenticated({user}) {
     }
     useEffect(() => {
         // fetch projects here
-        setProjects(dummyProjects)
+        setProjectsData(dummyProjects)
 
     }, [])
     const projects = projectsData ? projectsData.map(project => <div key={project.id}><h3>{project.name}</h3></div>) : "No projects to display"
