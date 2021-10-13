@@ -25,19 +25,19 @@ export default function Column({ id, columnName, deleteColumn }) {
       id: 1,
       name: "Ben",
       avatar:
-        "https://source.boringavatars.com/beam",
+        "https://source.boringavatars.com/beam/1",
     },
     2: {
       id: 2,
       name: "Jenny",
       avatar:
-        "https://source.boringavatars.com/beam",
+        "https://source.boringavatars.com/beam/20",
     },
     3: {
       id: 3,
       name: "Gabriel",
       avatar:
-        "https://source.boringavatars.com/beam",
+        "https://source.boringavatars.com/beam/3",
     },
   });
 
