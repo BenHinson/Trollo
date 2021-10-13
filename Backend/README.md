@@ -13,7 +13,7 @@ headers: {
 
 
 
-    ## User API Endpoints
+# User API Endpoints
 
 ### POST  /user/signup
 ```javascript
@@ -76,7 +76,7 @@ body: {
 }
 ```
 
-  ## Project API POST points
+# Project API POST points
 
 ### POST   /project
 Create a project with the name of 'Test'
@@ -161,7 +161,7 @@ body: {
 }
 ```
 
-  ## Project API GET points
+# Project API GET points
 
 ### GET   /projects
 Fetch all the projects that a user is a member or creator of.
