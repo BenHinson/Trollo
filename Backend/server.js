@@ -15,6 +15,25 @@ app.listen(2053, () => {console.log(`Server running on port: ${2053}`)});
 
 /////////////////////////////////////////////////////////
 
+app.get('/user', auth.middle, async(req, res) => {
+  console.log(req.uID)
+  try {
+    let userData = await User.findByPk(req.uID)
+    res.json({
+      'message': 'success',
+      'data': {
+        id: userData.dataValues.id,
+        username: userData.dataValues.username,
+        email: userData.dataValues.email,
+        avatar: userData.dataValues.avatar,
+      }
+    })
+  } catch(error) {
+    return res.status(400).json({error})
+  }
+})
+
+
 app.get('/projects', auth.middle, async(req, res) => { // Receives UID and returns names of projects and their id.
   let memberOfProjects = await ProjectMembers.findAll({where: { userId: req.uID }});
   memberOfProjects = memberOfProjects.map(e => e.dataValues.projectId);
@@ -27,16 +46,39 @@ app.get('/projects', auth.middle, async(req, res) => { // Receives UID and retur
   }).catch((err) => res.json({'message': 'failed', 'error': err}))
 })
 app.get('/project/:projectId', auth.middle, async(req, res) => { // Receives projectId. Returns Boards within.
-  const projectId = req.params.projectId;
+  const {projectId} = req.params;
 
   if (!checkUserIsMember(projectId, req.uID)) {return res.status(400).json({'error': 'You are not a member of this project'})}
 
-  Board.findAll({where: {projectId: projectId}}).then((e) => {
-    return res.json({
-      'message': 'success',
-      'data': e.map(e => e.dataValues)
-    });
-  }).catch((err) => res.json({'message': 'failed', 'error': err}))
+  try {
+    let data = {'members': [], 'boards': []};
+    
+    let members = (await ProjectMembers.findAll({where: {projectId: projectId}})).map(e => e.dataValues.userId);
+    data.members = (await User.findAll({where: {id: members}})).map(e => {return {
+      id: e.dataValues.id,
+      email: e.dataValues.email,
+      username: e.dataValues.username,
+      avatar: e.dataValues.avatar
+    }});
+
+    
+    data.boards = (await Board.findAll({where: {projectId: projectId}})).map(e => e.dataValues);
+
+    return res.json({'message': 'success', data})
+
+  } catch(error) {
+    return res.status(400).json({'message': 'failed', error})
+  }
+
+
+
+
+  // Board.findAll({where: {projectId: projectId}}).then((e) => {
+  //   return res.json({
+  //     'message': 'success',
+  //     'data': e.map(e => e.dataValues)
+  //   });
+  // }).catch((err) => res.json({'message': 'failed', 'error': err}))
 })
 app.get('/project/:projectId/board/:boardId', auth.middle, async(req, res) => { // Receives boardId. Returns columns. and their tasks.
   const {projectId, boardId} = req.params;
@@ -156,7 +198,7 @@ app.post('/project/:projectId/:boardId/:columnId/task', auth.middle, async(req, 
 
 app.post('/user/signup', async(req, res) => { // Create User
   if (!req.body.email || !req.body.password) { return res.status(400).json({'error': 'Please provide an email and password'}) }
-  await auth.createAccount({email, password, name, avatar, permissions} = req.body, req, res);
+  await auth.createAccount({email, password, avatar} = req.body, req, res);
 })
 app.post('/user/login', async(req, res) => {
   await auth.login({email, password} = req.body, req, res);
