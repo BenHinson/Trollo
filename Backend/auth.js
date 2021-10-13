@@ -58,8 +58,8 @@ module.exports = {
 
     // ! FOR DEV:
     if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
-    let accountID = await User.findOne({where: {cookieKey: getCookie(req.headers.auth)}});
-    if (accountID?.length) {
+    let accountID = await User.findOne({where: {cookieKey: req.headers.auth}});
+    if (accountID?.dataValues) {
       req.uID = accountID.dataValues.id;
       return next();
     } else {
