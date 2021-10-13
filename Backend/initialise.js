@@ -18,6 +18,6 @@ const {Project, Board, Column, Task, User, ProjectMembers} = require('./models')
   User.belongsToMany(Project, {through: ProjectMembers });
   Project.belongsToMany(User, {through: ProjectMembers });
 
-  await sequelize.sync({ force:true }); // force:true   (resets db each run)
-  // await sequelize.sync();
+  // await sequelize.sync({ force:true }); // force:true   (resets db each run)
+  await sequelize.sync();
 })()
