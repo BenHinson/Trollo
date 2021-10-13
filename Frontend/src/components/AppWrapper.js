@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Account from "./Account";
 import Authenticated from "./Authenticated";
 import { UserContext } from "../UserContext";
+import { ProjectMembersContext } from "../ProjectMembersContext";
 
 export default function AppWrapper() {
     const { user, updateState } = useContext(UserContext);
