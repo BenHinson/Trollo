@@ -1,27 +1,28 @@
 import React, { useContext } from "react";
-import {useState} from "react"
+import { useState } from "react"
 import { UserContext } from "../UserContext";
 
-export default function Login({loginUser, setMessage}) {
+export default function Login({ setMessage }) {
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
-    const [user] = useContext(UserContext)
+    const { handleLogin } = useContext(UserContext)
 
     const handleLogIn = async (e) => {
         e.preventDefault()
-        let login = await(await fetch(`http://localhost:2053/user/login`, {
+        let login = await (await fetch(`http://localhost:2053/user/login`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email: emailValue, password: passwordValue })}
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailValue, password: passwordValue })
+        }
         )).json();
 
-        if(login.error) {
+        if (login.error) {
             setMessage(login.error)
         } else {
-            loginUser(login.account)
+            handleLogin(login.account)
         }
     }
-   
+
     return (
         <div>
             <form>

@@ -9,25 +9,26 @@ const dummyProjects = [
 ];
 
 export default function Authenticated() {
-  const [user] = useContext(UserContext);
+  const { user, handleLogout } = useContext(UserContext);
   const [projectsData, setProjectsData] = useState(undefined);
   const [view, setView] = useState("allProjects");
 
   const logout = () => {
     console.log("logout");
+    handleLogout();
   };
 
   useEffect(() => {
     // fetch projects here
     setProjectsData(dummyProjects);
   }, []);
-  
+
   const projects = projectsData
     ? projectsData.map((project) => (
-        <div key={project.id}>
-          <h3>{project.name}</h3>
-        </div>
-      ))
+      <div key={project.id}>
+        <h3>{project.name}</h3>
+      </div>
+    ))
     : "No projects to display";
 
   return (

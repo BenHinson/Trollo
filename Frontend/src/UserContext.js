@@ -1,8 +1,8 @@
-import React, {createContext, useState} from "react"
+import React, { createContext, useState } from "react"
 
 export const UserContext = createContext([]);
 
-export function UserProvider(props){
+export function UserProvider(props) {
 
     const [user, setUser] = useState({})
 
@@ -10,12 +10,18 @@ export function UserProvider(props){
         setUser(data)
     }
 
-    const handleLogin = () => {
-        // do something
+    const handleLogin = (user) => {
+        localStorage.setItem("authCookie", user.cookie)
+        setUser(user);
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('authCookie')
+        setUser({})
     }
 
     return (
-        <UserContext.Provider value={[user, updateState]}>
+        <UserContext.Provider value={{ user, updateState, handleLogin, handleLogout }}>
             {props.children}
         </UserContext.Provider>
     )

@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Login from './Login'
 import SignUp from './SignUp'
 
-export default function Account({loginUser}) {
+export default function Account() {
     const [accountState, setAccountState] = useState("login")
     const [message, setMessage] = useState("")
 
@@ -14,9 +14,9 @@ export default function Account({loginUser}) {
                 <label htmlFor="signup">Sign Up</label>
                 <input type="radio" name="accountState" id="signup" value="signup" onChange={e => setAccountState(e.target.value)} checked={accountState === 'signup'}></input>
             </div>
-            {accountState === "login" ? 
-            <Login loginUser={loginUser} setMessage={setMessage}></Login> : 
-            <SignUp setAccountState={setAccountState} setMessage={setMessage}></SignUp>}
+            {accountState === "login" ?
+                <Login setMessage={setMessage}></Login> :
+                <SignUp setAccountState={setAccountState} setMessage={setMessage}></SignUp>}
             {message ? <p>{message}</p> : null}
         </div>
     )
