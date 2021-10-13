@@ -16,7 +16,6 @@ app.listen(2053, () => {console.log(`Server running on port: ${2053}`)});
 /////////////////////////////////////////////////////////
 
 app.get('/user', auth.middle, async(req, res) => {
-  console.log(req.uID)
   try {
     let userData = await User.findByPk(req.uID)
     res.json({

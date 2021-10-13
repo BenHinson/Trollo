@@ -24,7 +24,7 @@ module.exports = {
 
     User.create({email, password, username, password: hashedPassword, cookieKey}).then((e) => {
       console.log('Successful account creation.')
-      res.json({ 'message': 'Account Created' });
+      res.json({ 'message': 'success' });
     }).catch((err) => {res.json({'message': 'failed', 'error': err})})
   },
 
