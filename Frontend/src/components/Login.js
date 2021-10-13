@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import {useState} from "react"
+import { UserContext } from "../UserContext";
 
 export default function Login({loginUser, setMessage}) {
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
+    const [user] = useContext(UserContext)
 
     const handleLogIn = async (e) => {
         e.preventDefault()

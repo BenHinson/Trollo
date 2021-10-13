@@ -24,7 +24,7 @@ module.exports = {
 
     User.create({email, password, username, password: hashedPassword, cookieKey}).then((e) => {
       console.log('Successful account creation.')
-      res.json({ 'message': 'Account Created' });
+      res.json({ 'message': 'success' });
     }).catch((err) => {res.json({'message': 'failed', 'error': err})})
   },
 
@@ -54,14 +54,16 @@ module.exports = {
 
   middle: async(req, res, next) => {
     // ! Dev Bypass.
-    if (req.headers?.auth === 'trollo' || req.headers?.auth === 1) { req.uID = 1; return next(); }
+    if (req.headers?.auth === 'trollo') { req.uID = 1; return next(); }
 
     // ! FOR DEV:
     if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
-    let accountID = await User.findOne({where: {cookieKey: getCookie(req.headers.auth)}});
-    if (accountID?.length) {
+    let accountID = await User.findOne({where: {cookieKey: req.headers.auth}});
+    if (accountID?.dataValues) {
       req.uID = accountID.dataValues.id;
       return next();
+    } else {
+      return res.status(400).json({'error': 'You are not logged in'})
     }
 
     // if (!req.cookies) { return res.status(400).json({'error': 'Not logged in'}) }
