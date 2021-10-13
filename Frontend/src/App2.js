@@ -17,17 +17,13 @@ function App() {
 
   }
   useEffect(async () => {
-    // Setting cookie to true for testing purposes
     const cookie = localStorage.getItem("authCookie");
-    console.log(cookie)
-    // const cookie = true
     if (cookie) {
       const response = await fetch('http://localhost:2053/user', {
         method: 'GET',
-        // Just for testing purposes need to swap trollo out for the cookie in production  
+        // can swap {'auth':cookie} for {'auth':'trollo'} to skip authentication for development purposes
         headers: { 'auth': cookie },
       })
-      console.log(response)
       if (response.status === 200) {
         const responseJson = await response.json()
         const userData = responseJson.data
