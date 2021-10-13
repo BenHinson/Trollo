@@ -1,11 +1,23 @@
-import React, {useState, Fragment, useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import {
+  btnForOthers1,
+  btnForOthers2,
+  btnForDelete,
+  userInfo,
+  sidebar,
+  sideBarBtns,
+  modal,
+  modalCloseBtn
+} from '../Stylesheet';
 // import Board from "./Board";
 // import User from "./User";
 import Avatar from "./Avatar";
 import DummyBoard from "./DummyBoard";
 import DummyUser from "./DummyUser";
-
-export default function Project({ user}) {
+// FETCH USER to get avatar url to pass into Avatar
+export default function Project({ user }) {
+  console.log(user)
+  // console.log(user.id)
   const avatar = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
   const dummyMembers = [{ id: 1, name: "Susie", email:"susie@email.com", avatar},{ id: 2, name: "Hugo", email:"hugo@email.com", avatar}, { id: 3, name: "Chris", email:"chris@email.com", avatar }];
 
@@ -29,11 +41,13 @@ export default function Project({ user}) {
   const [currProject, setcurrProject] = useState(1);
 
 
-  let url = "http://localhost:2053";
+  const url = "http://localhost:2053";
 
   useEffect(async () => {
     await fetchAllProjects(); // as long as login, user fetches projects
-    await fetchBoards(currProject); // fetch board with first Project Id
+    if (projects.length !== 0) {
+      await fetchBoards(currProject); // fetch board with first Project Id
+    }
   }, [])
 
  // GET FUNCTIONS
@@ -67,7 +81,11 @@ export default function Project({ user}) {
     })
     const projectsDatas = await data.json();
     setProjects(projectsDatas.data);
-    setcurrProject(projectsDatas.data[0].id);
+    
+    if (projectsDatas.data.length !== 0) {
+      setcurrProject(projectsDatas.data[0].id);
+
+    }
     console.log(`currProjectID: ${currProject}`);
     console.log("PROJECTS:")
     console.log(projectsDatas);
@@ -98,6 +116,7 @@ export default function Project({ user}) {
       const board = { id: data.id, name: boardName }
       boardsCopy.push(board);
       setProjects(boardsCopy);
+      setBoardForm(false)
     }
   }
  
@@ -126,8 +145,9 @@ export default function Project({ user}) {
       const project = { id: data.id, name: projectName }
       projectsCopy.push(project);
       setProjects(projectsCopy);
+      setProjectForm(false);
     }
-  
+    
   };
   
   const createMember = async (event) => { // POST new member(NOT SUPPORTED YET)
@@ -211,30 +231,30 @@ export default function Project({ user}) {
   // forms to create PROJECT/BOARD/MEMBERS
   const memberform = () => {
     return (
-      <div>
+      <div style={modal}>
         <input placeholder="type an email of member" value={memberEmail} onChange={onChangeMemberEmail} />
         <button onClick={createMember} >+ Invite a member</button>
-        <span onClick={closeForm} id="member-form">X</span>
+        <span onClick={closeForm} id="member-form" style={modalCloseBtn}>X</span>
       </div>   
     )
   }
 
   const projectform = () => {
     return (
-      <div>
+      <div style={modal}>
         <input placeholder="type project name" value={projectName} onChange={onChangeProjectName} />
-        <button onClick={createProject} >+ Create a project</button>
-        <span onClick={closeForm} id="project-form">X</span>
+        <button onClick={createProject} style={btnForOthers2 }>+ Create Project</button>
+        <span onClick={closeForm} id="project-form" style={modalCloseBtn}>X</span>
       </div>   
     )
   }
   
   const boardform = () => {
     return (
-      <div>
+      <div style={modal}>
         <input placeholder="type board name" value={boardName} onChange={onChangeBoardname} />
-        <button onClick={createBoard} >+ Create a board</button>
-        <span onClick={closeForm} id="board-form">X</span>
+        <button onClick={createBoard} style={btnForOthers2 }>+ Create a board</button>
+        <span onClick={closeForm} id="board-form" style={modalCloseBtn}>X</span>
       </div>   
     )
   }
@@ -265,11 +285,11 @@ export default function Project({ user}) {
 // LIST: BOARDS/MEMBERS/PROJECTS - showing nested elements
 // - Project -> show boards / Board -> show Columns
   const listBoards = () => boards.map(board => {
-    return (
-      <div key={board.id}>
+    return ( // showColumns should be added
+      <li key={board.id} style={{...divideIn2, ...projectAndboardList}}>
         <p>{board.name}</p>
-        <button onClick={deleteBoard} id={ board.id}>Delete</button>
-      </div>
+        <button onClick={deleteBoard} id={board.id} style={btnForDelete}>Delete</button>
+      </li>
     )
   });
   const listMembers = () => dummyMembers.map(member => {
@@ -281,75 +301,105 @@ export default function Project({ user}) {
   });
   const listProjects = () => projects.map(project => {
     return (
-      <li onClick={showBoards} key={project.id} >
+      <li onClick={showBoards} key={project.id} style={{...divideIn2, ...projectAndboardList}}>
         <span id={project.id}>{project.name}</span>
-        <button onClick={deleteProject} id={ project.id}>Delete</button>
+        <button onClick={deleteProject} id={project.id} style={ btnForDelete}>Delete</button>
       </li>
     )
   })
 
  
 
+  const divideIn2 = {
+    display: "flex",
+    justifyContent: "space-between"
+  }
+
+  const projectAndboardList = {
+    fontWeight: "normal",
+    padding: "0.2rem"
+  }
+
+  const locatingForm = {
+    position: "absolute",top: "50vh", left: "30vw" 
+  }
+
+  const locatingUsers = {
+    position: "absolute",
+    top: "0",
+    right: "0",
+    padding: "1rem"
+  }
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
-
-      <section style={{ width: "20%", height: "100%", display: "inline-block", border: "1px solid grey", textAlign: "center" }}>
-        <div>
-          <span>avatar</span>
-          <span>My Username</span>
+      
+      <section style={sidebar}>
+        <div style={ userInfo}>
+          {/* <Avatar userId={user.id} userData={user } /> */}
+          <span>{user.username}</span>
         </div>
-
-        <p>
-          <span>Projects</span>
-          <span onClick={showProjectForm}>+</span>
-          <span onClick={dropdownProjects}>dropdown</span>
+        
+        <div style={ {padding:"1rem"}}>
+        <p style={divideIn2}>
+            <span>Projects</span>
+            <div>
+              <span onClick={dropdownProjects} style={sideBarBtns}>
+                {projectDropdown ? `˄` : `˅`}
+              </span>
+              <span onClick={showProjectForm} style={sideBarBtns}>+</span>     
+            </div>
         </p>
 
         <ul className="li-projects">
           { projectDropdown && listProjects() }  
         </ul>
 
-        <p>
-          <span>Boards (should attach showColumn Fn onclick)</span>
-          <span onClick={showBoardForm}>+</span>
-          <span onClick={dropdownBoards}>dropdown</span>
+          <p style={divideIn2}>
+          {/* (should attach showColumn Fn onclick) */}
+            <span>Boards </span> 
+            <div>
+              <span onClick={dropdownBoards} style={sideBarBtns}>
+              {boardDropdown ? `˄` : `˅`}
+              </span>
+              <span onClick={showBoardForm} style={sideBarBtns}>+</span>
+          </div>
         </p>
 
         <ul className="li-boards">
           { boardDropdown && listBoards() }  
         </ul>
 
+        </div>
+        
+
       </section>
 
       <section style={{ width: "70%", display: "inline-block", textAlign: "center" }}>
         
-        {view  &&
-          
-          <Fragment>
-          
-            <div>  
+        {view  &&      
+          <div style={locatingUsers }>
               {listMembers()}
-              <button onClick={showMemberForm}>Invite</button>
+              <button onClick={showMemberForm} style={btnForOthers2}>Invite</button>
             </div>      
-          
-          </Fragment>}
+          }
         
       </section>
 
       {boardForm &&
-        <section style={{ position: "absolute", border: "1px solid grey", top: "50vh", left: "50vw" }}>
+        <section style={locatingForm}>
           {boardform()}
         </section>
       }
 
       {projectForm &&
-        <section style={{ position: "absolute", border: "1px solid grey", top: "50vh", left: "50vw" }}>
+        <section style={locatingForm}>
           {projectform()}
         </section>
       }
 
       {memberForm &&
-        <section style={{ position: "absolute", border: "1px solid grey", top: "50vh", left: "50vw" }}>
+        <section style={locatingForm}>
           {memberform()}
         </section>
       }
