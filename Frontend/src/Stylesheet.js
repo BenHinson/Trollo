@@ -1,4 +1,4 @@
-/* Basic style */
+/* Basic styles */
 
 const column = {
     width: "25%",
@@ -35,12 +35,7 @@ const btnForOthers1 = {
     color: "#763bff",
     border: "solid 2px",
     borderRadius: "5px",
-    padding: "0.3rem 2rem 0.3rem 2rem"
-}
-
-const btnForOthers1Hover = {
-    background: "#763bff",
-    color: "white",
+    padding: "0.3rem 1rem 0.3rem 1rem"
 }
 
 const btnForOthers2 = {
@@ -48,7 +43,7 @@ const btnForOthers2 = {
     color: "white",
      backgroundColor: "#763bff",
     borderRadius: "5px",
-    padding: "0.3rem 2rem 0.3rem 2rem",
+    padding: "0.3rem 1rem 0.3rem 1rem",
 }
 
 const btnForDelete = {
@@ -56,8 +51,51 @@ const btnForDelete = {
     color: "#ed4832", 
   border: "solid 2px",
   borderRadius: "5px", 
-  padding: "0.3rem 2rem 0.3rem 2rem"
+  padding: "0.3rem 1rem 0.3rem 1rem"
 }
+
+/* SDIEBAR */
+const userInfo = {
+    borderBottom: "2px solid #b1becc",
+    padding: "1rem"
+}
+  
+const sidebar = {
+    color: "#b1becc",
+    width: "25%",
+    height: "100%",
+    display: "inline-block",
+    border: "2px solid #b1becc",
+    textAlign: "center",
+    fontWeight: "bold"
+
+}
+  
+
+const sideBarBtns = {
+    cursor: "pointer",
+    color: "#b1becc",
+    margin: "0.2rem",
+    fontWeight: "600",
+    padding: "0.5rem"
+}
+  
+const modal = {
+    position: "relative",
+    padding: "1rem",
+    color: "#b1becc",
+    border: "2px solid",
+    borderRadius: "10px"
+}
+
+const modalCloseBtn = {
+    cursor: "pointer",
+    position: "absolute",
+    right: "0",
+    top: "0",
+    padding: "0.5rem"
+}
+
 
 export {
     column,
@@ -66,7 +104,12 @@ export {
     taskHoverAndFocus,
     btnForColumn,
     btnForOthers1,
-    btnForOthers1Hover,
     btnForOthers2,
     btnForDelete,
+    userInfo,
+    sidebar,
+    sideBarBtns,
+    modal,
+    modalCloseBtn
+
 };
