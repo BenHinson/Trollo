@@ -1,42 +1,52 @@
-#root {
-  width: 100%;
-  height: 100%;
+:root {
+  --highlight: #6458f4;
+  --highlight-faded: #6458f4cc;
+
+  --background: #fafafa;
+  --component: #e8e9eb;
+  --feature: #ccc;
+  --selected: #aeaeae;
+  --border: #666;
+
+  --text-contrast: #f5f5f7;
+  --text-dull: #666;
+  --text-medium: #333;
+  --text-strong: #1d1d1f;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  font-family: 'Inter','Segoe UI';
 }
 
 html {
-  width: 100%;
   height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: var(--background);
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #374147;
-  width: 100%;
-  height: 100%;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
 }
+
+/* //////////////////////////////////////////////////////////////// */
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-/* REMOVE DEFAULT BUTTON STYLE */
-button {
-  background: transparent;
-  box-shadow: 0px 0px 0px transparent;
-  border: 0px solid transparent;
-  text-shadow: 0px 0px 0px transparent;
-}
 
-button:hover {
-  background: transparent;
-  box-shadow: 0px 0px 0px transparent;
-  border: 0px solid transparent;
-  text-shadow: 0px 0px 0px transparent;
+button {
+  border: none;
 }
 
 button:active {
@@ -68,7 +78,7 @@ input {
 }
 
 input:focus {
-  border: 2px solid #763bff;
+  border: 2px solid var(--highlight);
 }
 
 ul {
@@ -97,11 +107,11 @@ ul {
 }
 
 .task:hover {
-  border: 1px solid #763bff;
+  border: 1px solid var(--highlight);
 }
 
 .task:focus {
-  border: 1px solid #763bff;
+  border: 1px solid var(--highlight);
 }
 
 .btn-for-column {
@@ -113,28 +123,28 @@ ul {
 
 .btn-for-others1 {
   cursor: pointer;
-  color: #763bff;
+  color: var(--highlight);
   border: solid 2px;
   border-radius: 5px;
   padding: 0.3rem 2rem 0.3rem 2rem;
 }
 
 .btn-for-others1:hover {
-  background: #763bff;
+  background: var(--highlight);
   color: white;
 }
 
 .btn-for-others2 {
   cursor: pointer;
   color: white;
-  background-color: #763bff;
+  background-color: var(--highlight);
   border-radius: 5px;
   padding: 0.3rem 2rem 0.3rem 2rem;
 }
 
 .btn-for-others2:hover {
   cursor: pointer;
-  color: #763bff;
+  color: var(--highlight);
   background-color: white;
   border-radius: 5px;
   padding: 0.3rem 2rem 0.3rem 2rem;

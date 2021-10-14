@@ -24,4 +24,3 @@ const initDb = async () => {
 }
 
 module.exports = initDb
-

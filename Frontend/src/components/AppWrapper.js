@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import Account from "./Account";
+import React, { useContext, useEffect, useState } from "react";
+import Homepage from "./homepage/Homepage";
 import Authenticated from "./Authenticated";
 import { UserContext } from "../UserContext";
 
 export default function AppWrapper() {
   const { user, updateState } = useContext(UserContext);
+  const [pageView, setPageView] = useState('homepage');
 
   // Checks for cookie on load and requests user data if cookie exists
   useEffect(() => {
@@ -26,9 +27,5 @@ export default function AppWrapper() {
     fetchData();
   }, []);
 
-  if (user?.username) {
-    return <Authenticated />;
-  }
-
-  return <Account />;
+  return (pageView === 'app' && user?.username) ? <Authenticated /> : <Homepage setPageView={setPageView}/>;
 }
