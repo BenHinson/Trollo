@@ -1,6 +1,7 @@
 :root {
   --highlight: #6458f4;
   --highlight-faded: #6458f4cc;
+  --cancel: #ed4832;
 
   --background: #fafafa;
   --component: #e8e9eb;
@@ -40,13 +41,9 @@ body {
 /* //////////////////////////////////////////////////////////////// */
 
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 button {
   border: none;
+  cursor: pointer;
 }
 
 button:active {
@@ -65,16 +62,7 @@ input {
 /* GLOBAL STYLE */
 form {
   border-radius: 5px;
-  border: 1px solid #b1becc;
-  padding: 1rem;
-}
-
-input {
-  background-color: white;
-  border: 1px solid #b1becc;
-  border-radius: 4px;
-  padding: 0.4rem 1rem 0.4rem 1rem;
-  margin: 1rem;
+  padding: 0;
 }
 
 input:focus {

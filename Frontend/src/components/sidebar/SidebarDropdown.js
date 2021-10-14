@@ -3,13 +3,9 @@ import Form from "../Form";
 import {
   sidebar,
   btnForOthers1,
-  userInfo,
-  divideIn2,
-  sideBarBtns,
   selected,
-  projectAndboardList,
-  btnForDelete,
 } from "../../styling/Stylesheet";
+
 
 export default function SidebarDropdown({
   name,
@@ -39,29 +35,26 @@ export default function SidebarDropdown({
       key={el.id}
       id={el.id}
       onClick={() => handleSelect(el.id)}
-      style={{ ...divideIn2, ...projectAndboardList }}
     >
       <span id={el.id}>{el.name}</span>
-      <button id={el.id} style={btnForDelete}>
-        Delete
-      </button>
+      <button id={el.id} className='deleteBtn'>✕</button>
     </li>
   ));
 
   return (
     <Fragment>
-      <p style={divideIn2} className={name}>
-        <span>{name}</span>
+      <div className={`sideBarDropdown ${name}`}>
+        <p>{name}</p>
         <span className="sidebar-btns">
-          <button style={sideBarBtns}>
+          <button>
             ˅{/* {boardDropdown ? `˄` : `˅`} */}
           </button>
-          <button onClick={showForm} style={sideBarBtns} className="add">
+          <button onClick={showForm} className="add">
             +
           </button>
         </span>
-      </p>
-      <div className={`${name}-list`}>{components}</div>
+      </div>
+      <div className={`${name}-list pageList`}>{components}</div>
       {formComponent}
     </Fragment>
   );
