@@ -18,8 +18,10 @@ const initDb = async () => {
   User.belongsToMany(Project, { through: ProjectMembers });
   Project.belongsToMany(User, { through: ProjectMembers });
 
+
   await sequelize.sync({ force: true }); // force:true   (resets db each run)
   // await sequelize.sync();
 }
 
 module.exports = initDb
+

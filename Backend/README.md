@@ -3,7 +3,7 @@
 The data the API receives and returns.
 
 ## Authentication Cookie.
-Due to issues with localhost cookies (i think) it may be best to save the cookie returned from login to localstorage, this will let it persist between sessions. On the initial load of the program, make a request to /user providing that cookie, or not, and it will return either the account data or an error message. NOTE: ```javascript { "error": "You are not logged in" } ``` will be returned from all the API's if you are not logged in.
+Due to issues with localhost cookies (i think) it may be best to save the cookie returned from login to localstorage, this will let it persist between sessions. On the initial load of the program, make a request to /user providing that cookie, or not, and it will return either the account data or an error message. NOTE: ``` { "error": "You are not logged in" } ``` will be returned from all the API's if you are not logged in.
 
 ```javascript
 headers: {
@@ -119,7 +119,7 @@ body: {
 }
 ```
 
-### POST   /project/:projectId/:boardId/column
+### POST   /project/:projectId/board/:boardId/column
 Create a column with the name 'My Column' for a specific board within a project using their ids.
 
 ```javascript
@@ -138,7 +138,7 @@ body: {
 }
 ```
 
-### POST   /project/:projectId/:boardId/:columnId/task
+### POST   /project/:projectId/board/:boardId/column/:columnId/task
 Create a task with the name 'My Task' within a specific column for a board and project using their ids.
 
 ```javascript
@@ -158,6 +158,30 @@ body: {
         "assigned": 1
     },
     "id": 1
+}
+```
+
+### POST   /project/:projectId/member
+Add a member to a project
+
+```javascript
+// SEND AUTH HEADER
+body: {
+  email: 'test@example.com'
+}
+
+// Returns Either
+{
+    "message": "success"
+}
+{
+    'error': 'No Such User with that Email exists'
+}
+{
+    'error': 'Failed to add a new member'
+}
+{
+    'error': 'The user is already a member of the project'
 }
 ```
 
@@ -258,5 +282,60 @@ Fetch the board data, columns and tasks of a specified project and board, that t
             }
         }
     }
+}
+```
+
+# Project API DELETE points
+
+### DELETE   /project/:projectId/board/:boardId
+Delete the board of a project as long as the user is the ADMIN.
+
+```javascript
+// SEND AUTH HEADER
+
+// Returns Either:
+{
+    "message": "success"
+}
+{
+    "error": "You are not the admin of this project"
+}
+```
+
+### DELETE   /project/:projectId/board/:boardId/column/:columnId
+Delete the column of a board as long as the user is a MEMBER.
+
+```javascript
+// SEND AUTH HEADER
+
+// Returns Either:
+{
+    "message": "success"
+}
+{
+    "error": "You are not a member of this project"
+}
+```
+
+# Project API PATCH points
+
+### PATCH   /project/:projectId/board/:boardId/column/:columnId
+Change the name of a column by specifying the columnId
+
+```javascript
+// SEND AUTH HEADER
+body: {
+    name: 'New Column Name!'
+}
+
+// Returns Either:
+{
+    "message": "success",
+    "data": {
+        "name": "New Column Name!"
+    }
+}
+{
+    "error": "You are not a member of this project"
 }
 ```
