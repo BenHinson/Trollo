@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
 
 import AccountCreateLogin from "./AccountCreateLogin";
-// import UserAvatar from '../UserAvatar';
-// import '../../Styling/homepage.css'
+import '../../styling/homepage.css'
 
 export default function Homepage({ setPageView }) {
   const { user, updateState } = useContext(UserContext);

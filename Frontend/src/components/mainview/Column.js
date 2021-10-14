@@ -5,7 +5,7 @@ import {
   column as col,
   btnForDelete,
   btnForOthers1
-} from "../Stylesheet";
+} from "../../styling/Stylesheet";
 
 export default function Column({ id, columnName, deleteColumn }) {
   const [taskData, setTaskData] = useState([

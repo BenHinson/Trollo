@@ -3,7 +3,7 @@
 The data the API receives and returns.
 
 ## Authentication Cookie.
-Due to issues with localhost cookies (i think) it may be best to save the cookie returned from login to localstorage, this will let it persist between sessions. On the initial load of the program, make a request to /user providing that cookie, or not, and it will return either the account data or an error message. NOTE: ```javascript { "error": "You are not logged in" } ``` will be returned from all the API's if you are not logged in.
+Due to issues with localhost cookies (i think) it may be best to save the cookie returned from login to localstorage, this will let it persist between sessions. On the initial load of the program, make a request to /user providing that cookie, or not, and it will return either the account data or an error message. NOTE: ``` { "error": "You are not logged in" } ``` will be returned from all the API's if you are not logged in.
 
 ```javascript
 headers: {
