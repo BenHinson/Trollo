@@ -4,22 +4,27 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "@jest/types": "^27.2.5",
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.1",
     "cookie-signature": "^1.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^27.2.5",
     "nanoid": "^3.1.29",
     "nodemon": "^2.0.13",
     "sequelize": "^6.7.0",
-    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master"
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
+    "supertest": "^6.1.6"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --delay 10 server.js"
+    "test": "jest",
+    "start": "nodemon --delay 10 startApp.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.2"
+  }
 }
