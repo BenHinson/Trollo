@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
 
 import AccountPopup from "./AccountPopup";
-import "../../styling/homepage.css";
+import "../../Styling/homepage.css";
 
 export default function Homepage({ setPageView }) {
   const { user, updateState } = useContext(UserContext);

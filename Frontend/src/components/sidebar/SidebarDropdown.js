@@ -5,6 +5,9 @@ import {
   btnForOthers1,
   selected,
 } from "../../styling/Stylesheet";
+  projectAndboardList,
+  btnForDelete,
+} from "../../Styling/Stylesheet";
 
 
 export default function SidebarDropdown({
@@ -29,7 +32,6 @@ export default function SidebarDropdown({
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType={name} />
   );
 
-  console.log(arr);
   const components = arr.map((el) => (
     <li
       key={el.id}

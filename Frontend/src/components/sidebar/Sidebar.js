@@ -3,6 +3,7 @@ import { UserContext } from "../../UserContext";
 import { ProjectsContext } from "../../ProjectsContext";
 import SidebarDropdown from "./SidebarDropdown";
 import UserInfo from "./UserInfo";
+import { sidebar, btnForOthers1, userInfo } from "../../Styling/Stylesheet";
 
 export default function Sidebar({
   handleProjectSelect,
