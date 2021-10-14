@@ -8,7 +8,8 @@ export default function Form({ handleSubmit, hideForm, formType }) {
     setValue(e.target.value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     handleSubmit(value, formType);
   };
 

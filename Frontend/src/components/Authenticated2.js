@@ -8,15 +8,22 @@ export default function Authenticated2() {
   const { user } = useContext(UserContext);
   const [projects, updateProjects] = useContext(ProjectsContext);
   const [boards, setBoards] = useState([]);
+  const [currProjectId, setCurrProjectId] = useState(1);
+
+  // Artificial state variable to trigger refetch of boards on adding a new board via the form.
+  // It increments in handleSubmit and fetching the boards depends on the value change.
+  const [counter, setCounter] = useState(0);
+
   const updateBoards = (arr) => {
     setBoards(arr);
   };
-  // STEP 1
-  const [currProjectId, setCurrProjectId] = useState(1);
 
-  // STEP 2a
   const updateCurrProjectId = (id) => {
     setCurrProjectId(id);
+  };
+
+  const updateCounter = () => {
+    setCounter(counter + 1);
   };
 
   // FETCHING PROJECTS
@@ -41,38 +48,14 @@ export default function Authenticated2() {
     fetchData();
   }, []);
 
+  // FETCHING BOARDS
+  useEffect(() => {
+    fetchBoardsData(currProjectId, updateBoards, user);
+  }, [counter]);
+
   const handleProjectSelect = async (id) => {
-    // STEP 2b
     updateCurrProjectId(id);
-
-    const fetchData = async (projectId) => {
-      const cookie = localStorage.getItem("authCookie");
-
-      if (cookie && user?.username) {
-        const response = await fetch(
-          `http://localhost:2053/project/${projectId}`,
-          {
-            method: "GET",
-            headers: {
-              auth: cookie,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        console.log("This is the response: ", response);
-
-        if (response.status === 200) {
-          const responseJson = await response.json();
-          console.log("This is the responseJson: ", responseJson);
-          const boards = responseJson.data.boards;
-          updateBoards(boards);
-        }
-      }
-    };
-    console.log("Boards start: ", boards);
-    await fetchData(currProjectId);
-    console.log("Boards end: ", boards);
+    await fetchBoardsData(currProjectId, updateBoards, user);
   };
 
   const handleBoardSelect = (id) => {
@@ -107,11 +90,8 @@ export default function Authenticated2() {
   };
 
   const handleSubmit = (value, formType) => {
-    console.log("This is the value submitted: ", value);
-    console.log("This is the form type submitted: ", formType);
-    createRecord(value, formType);
-    console.log(value);
-    console.log(formType);
+    createRecord(value, formType, currProjectId);
+    updateCounter();
   };
 
   return (
@@ -127,6 +107,26 @@ export default function Authenticated2() {
       </div>
     </Fragment>
   );
+}
+
+async function fetchBoardsData(projectId, updateCB, user) {
+  const cookie = localStorage.getItem("authCookie");
+
+  if (cookie && user?.username) {
+    const response = await fetch(`http://localhost:2053/project/${projectId}`, {
+      method: "GET",
+      headers: {
+        auth: cookie,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const responseJson = await response.json();
+      const boards = responseJson.data.boards;
+      updateCB(boards);
+    }
+  }
 }
 
 const createRecord = async (value, formType, id) => {
