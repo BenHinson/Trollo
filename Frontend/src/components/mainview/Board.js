@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Column from "./Column";
+import Column from "../Column";
 
 export default function Board() {
   const [columnData, setColumnData] = useState([
