@@ -19,12 +19,12 @@ export default function Sidebar({ handleProjectClick, handleBoardClick }) {
       <SidebarDropdown
         name="Projects"
         arr={projects}
-        handleClick={handleProjectClick}
+        handleClick={handleProjectClick} // returns an array of boards
       />
       <SidebarDropdown
         name="Boards"
-        arr={boards}
-        handleClick={handleBoardClick}
+        arr={boards} // default 
+        handleClick={handleBoardClick} // returns a board id 
       />
       <button onClick={logout}>Log Out</button>
     </div>

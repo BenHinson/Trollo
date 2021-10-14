@@ -4,7 +4,7 @@ import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 import Sidebar from "./Sidebar";
 import MainView from "./MainView";
-
+// This is an empty comment for an empty commit
 export default function Authenticated() {
   const { user } = useContext(UserContext);
   const [projects, updateProjects] = useContext(ProjectsContext);
