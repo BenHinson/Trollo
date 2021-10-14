@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Task from "./Task";
+import Task from "../Task";
 import AddTaskModal from "./AddTaskModal";
 
 export default function Column({ id, columnName, deleteColumn }) {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { UserContext } from "../UserContext";
-import { ProjectsContext } from "../ProjectsContext";
+import { UserContext } from "../../UserContext";
+import { ProjectsContext } from "../../ProjectsContext";
 import SidebarDropdown from "./SidebarDropdown";
 
 export default function Sidebar({ handleProjectClick, handleBoardClick }) {

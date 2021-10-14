@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import DummyProject from "./DummyProject";
+import DummyProject from "./dummy/DummyProject";
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
-import Sidebar from "./Sidebar";
-import MainView from "./MainView";
+import Sidebar from "./sidebar/Sidebar";
+import MainView from "./projectview/MainView";
 
 export default function Authenticated() {
   const { user } = useContext(UserContext);

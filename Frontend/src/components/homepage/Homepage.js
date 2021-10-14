@@ -3,7 +3,7 @@ import { UserContext } from "../../UserContext";
 
 import AccountCreateLogin from './AccountCreateLogin';
 // import UserAvatar from '../UserAvatar';
-import homepageStyling from '../../Styling/homepage.css'
+import '../../Styling/homepage.css'
 
 
 export default function Homepage({setPageView}) {

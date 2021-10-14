@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SelectUser from "./SelectUser";
+import SelectUser from "../SelectUser";
 
 export default function AddTaskModal({
   hideModal,

@@ -1,5 +1,5 @@
 import React from "react";
-import Column from "./Column";
+import Column from "../Column";
 
 // THIS FILE WILL BE DELETED
 export default function DummyBoard({name}) {

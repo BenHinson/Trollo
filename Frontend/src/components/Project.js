@@ -12,8 +12,6 @@ import {
 // import Board from "./Board";
 // import User from "./User";
 import Avatar from "./Avatar";
-import DummyBoard from "./DummyBoard";
-import DummyUser from "./DummyUser";
 
 
 // FETCH USER to get avatar url to pass into Avatar
