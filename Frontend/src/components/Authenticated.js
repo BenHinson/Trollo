@@ -1,15 +1,22 @@
-import React, { useEffect, useState, useContext } from "react";
-import DummyProject from "./DummyProject";
-import { UserContext } from "../UserContext";
-import { ProjectsContext } from "../ProjectsContext";
+import React, { useState, useEffect, useContext, Fragment } from "react";
+import Project from "./Project"
 import Sidebar from "./Sidebar";
 import MainView from "./MainView";
-// This is an empty comment for an empty commit
-export default function Authenticated() {
-  const { user } = useContext(UserContext);
-  const [projects, updateProjects] = useContext(ProjectsContext);
-  //   const [displayProjectId, setDisplayProjectId] = useState(null);
 
+import { UserContext } from "../UserContext";
+import { ProjectsContext } from "../ProjectsContext";
+import 
+
+export default function Authenticated() {
+    const { user } = useContext(UserContext);
+    const [projects, updateProjects] = useContext(ProjectsContext);
+    const [boards, setBoards] = useState([]);
+    const [message, setMessage] = useState("");
+    //   const [displayProjectId, setDisplayProjectId] = useState(null);
+
+    const [currBoard, setcurrBoard] = useState(0);
+
+ // FETCHING PROJECTS
   useEffect(() => {
     async function fetchData() {
       const cookie = localStorage.getItem("authCookie");
@@ -31,37 +38,70 @@ export default function Authenticated() {
     fetchData();
   }, []);
 
-  const handleProjectClick = (id) => {
-    console.log("You've clicked project: ", { id });
-    // setDisplayProjectId(id);
+  const handleProjectClick = (projectId) => {
+      console.log("You've clicked project: ", { id });
+      // GET ALL THE BOARDS ASSOCIATED WITH USERID
+   
   };
 
-  const handleBoardClick = (id) => {
-    console.log("You've clicked board: ", { id });
+    // GET ALL BOARDS WITH PROJECTID
+  const handleBoardClick = (projectId) => {
+      console.log("You've clicked board: ", { id });
+
+      const fetchBoards = async (projectId) => { // GET boards associated with projectId
+        const data = await fetch(`${url}/project/${projectId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth': localStorage.getItem('authCookie'),
+          },
+        });
+        const boardsDatas = await data.json();
+        console.log(`BOARDS:`)
+        console.log(boardsDatas)
+        // console.log(boardsDatas.data.boards)
+        if (boardsDatas.error) {
+          setMessage(boardsDatas.error);
+    
+          console.log(boardsDatas.error)
+        } else {
+          setBoards(boardsDatas.data.boards); // error happend
+    
+          if (boardsDatas.data.boards.length > 0) {
+            setcurrBoard(boardsDatas.data.boards[0]);
+          }
+        }
+        
+    }
+      fetchBoards(projectId);
+      
   };
 
-  if (projects.length === 0) {
-    updateProjects([{ id: 1, name: "Your project" }]);
-  }
-
+//   if (projects.length === 0) {
+//     updateProjects([{ id: 1, name: "Your project" }]);
+//   }
+  
   //   const displayProject =
   //     projects.filter((project) => displayProjectId === project.id)[0] ||
   //     DummyProject;
 
   //   const mainView = <h1>{displayProject.name}</h1>;
 
-  return (
-    <div style={style}>
-      <Sidebar
-        handleProjectClick={handleProjectClick}
-        handleBoardClick={handleBoardClick}
-      />
-      <MainView />
-      {/* <div>{mainView}</div> */}
-    </div>
-  );
-}
 
-const style = {
-  display: "flex",
-};
+  const logout = () => {
+    console.log("logout");
+    handleLogout();
+  };
+
+  return (
+      <Fragment>        
+        <div>
+            <Sidebar
+                handleProjectClick={handleProjectClick}
+                handleBoardClick={handleBoardClick}
+              />
+      {/* <MainView /> */}
+       </div>
+        </Fragment>
+  )
+}
