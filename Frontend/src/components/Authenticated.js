@@ -1,49 +1,67 @@
 import React, { useEffect, useState, useContext } from "react";
 import DummyProject from "./DummyProject";
 import { UserContext } from "../UserContext";
-
-const dummyProjects = [
-  { name: "Dummy 1", id: 1 },
-  { name: "Dummy 2", id: 2 },
-  { name: "Dummy 3", id: 3 },
-];
+import { ProjectsContext } from "../ProjectsContext";
+import Sidebar from "./Sidebar";
+import MainView from "./MainView";
 
 export default function Authenticated() {
-  const { user, handleLogout } = useContext(UserContext);
-  const [projectsData, setProjectsData] = useState(undefined);
-  const [view, setView] = useState("allProjects");
-
-  const logout = () => {
-    console.log("logout");
-    handleLogout();
-  };
+  const { user } = useContext(UserContext);
+  const [projects, updateProjects] = useContext(ProjectsContext);
+  //   const [displayProjectId, setDisplayProjectId] = useState(null);
 
   useEffect(() => {
-    // fetch projects here
-    setProjectsData(dummyProjects);
+    async function fetchData() {
+      const cookie = localStorage.getItem("authCookie");
+      if (cookie && user?.username) {
+        const response = await fetch("http://localhost:2053/projects", {
+          method: "GET",
+          headers: {
+            auth: cookie,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 200) {
+          const responseJson = await response.json();
+          updateProjects(responseJson.data);
+        }
+      }
+    }
+    fetchData();
   }, []);
 
-  const projects = projectsData
-    ? projectsData.map((project) => (
-      <div key={project.id}>
-        <h3>{project.name}</h3>
-      </div>
-    ))
-    : "No projects to display";
+  const handleProjectClick = (id) => {
+    console.log("You've clicked project: ", { id });
+    // setDisplayProjectId(id);
+  };
+
+  const handleBoardClick = (id) => {
+    console.log("You've clicked board: ", { id });
+  };
+
+  if (projects.length === 0) {
+    updateProjects([{ id: 1, name: "Your project" }]);
+  }
+
+  //   const displayProject =
+  //     projects.filter((project) => displayProjectId === project.id)[0] ||
+  //     DummyProject;
+
+  //   const mainView = <h1>{displayProject.name}</h1>;
 
   return (
-    <div>
-      <div>
-        <p>{user.email}</p>
-        <button onClick={logout}>Log Out</button>
-      </div>
-      {
-        view === "allProjects" ? (
-          <div>{projects}</div>
-        ) : (
-          <DummyProject id={view}></DummyProject>
-        ) // Not sure exactly which props the project component will need
-      }
+    <div style={style}>
+      <Sidebar
+        handleProjectClick={handleProjectClick}
+        handleBoardClick={handleBoardClick}
+      />
+      <MainView />
+      {/* <div>{mainView}</div> */}
     </div>
   );
 }
+
+const style = {
+  display: "flex",
+};

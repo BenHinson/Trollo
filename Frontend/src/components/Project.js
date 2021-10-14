@@ -14,6 +14,8 @@ import {
 import Avatar from "./Avatar";
 import DummyBoard from "./DummyBoard";
 import DummyUser from "./DummyUser";
+
+
 // FETCH USER to get avatar url to pass into Avatar
 export default function Project({ user }) {
   console.log(user)
