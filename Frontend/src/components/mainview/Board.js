@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Column from "../Column";
+import Column from "./Column";
 
-export default function Board() {
+export default function Board({columnData2}) {
   const [columnData, setColumnData] = useState([
     { name: "To do", id: 1 },
     { name: "In progress", id: 2 },
@@ -38,9 +38,9 @@ export default function Board() {
   });
 
   return (
-    <div>
-      <h2>Project Name</h2>
-      <div>
+    <div className='board'>
+      {columns}
+      <div className='newColumn'>
         <input
           placeholder="add column"
           value={newColumnName}
@@ -48,7 +48,6 @@ export default function Board() {
         ></input>
         <button onClick={addColumn}>Add Column</button>
       </div>
-      {columns}
     </div>
   );
 }
