@@ -1,195 +1,106 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
-import Project from "./Project";
+import React, { useEffect, useContext, useState, Fragment } from "react";
 import Sidebar from "./Sidebar";
-import MainView from "./MainView";
 
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
-import ProjectMembers from "./ProjectMembers";
 
 export default function Authenticated() {
-    const { user, handleLogout } = useContext(UserContext);
-    const [projects, updateProjects] = useContext(ProjectsContext);
-    const [boards, setBoards] = useState([]);
-    const [members, setMembers] = useState([]);
-    const [displayBoard, setDisplayBoard] = useState([]);
-    const [message, setMessage] = useState("");
+  const { user } = useContext(UserContext);
+  const [projects, updateProjects] = useContext(ProjectsContext);
+  const [boards, setBoards] = useState([]);
+  const [currProjectId, setCurrProjectId] = useState(1);
 
-    console.log(boards);
-    //   const [displayProjectId, setDisplayProjectId] = useState(null);
+  // Artificial state variable to trigger refetch of boards on adding a new board via the form.
+  // It increments in handleSubmit and fetching the boards depends on the value change.
+  const [counter, setCounter] = useState(0);
 
-    const [currBoard, setcurrBoard] = useState(0);
+  const updateBoards = (arr) => {
+    setBoards(arr);
+  };
 
-    // FETCHING PROJECTS
-    useEffect(() => {
-        async function fetchData() {
-            const cookie = localStorage.getItem("authCookie");
-            if (cookie && user?.username) {
-                const response = await fetch("http://localhost:2053/projects", {
-                    method: "GET",
-                    headers: {
-                        auth: cookie,
-                        "Content-Type": "application/json",
-                    },
-                });
+  const updateCurrProjectId = (id) => {
+    setCurrProjectId(id);
+  };
 
-                if (response.status === 200) {
-                    const responseJson = await response.json();
-                    updateProjects(responseJson.data);
-                }
-            }
+  const updateCounter = () => {
+    setCounter(counter + 1);
+  };
+
+  // FETCHING PROJECTS
+  useEffect(() => {
+    async function fetchData() {
+      const cookie = localStorage.getItem("authCookie");
+      if (cookie && user?.username) {
+        const response = await fetch("http://localhost:2053/projects", {
+          method: "GET",
+          headers: {
+            auth: cookie,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 200) {
+          const responseJson = await response.json();
+          updateProjects(responseJson.data);
         }
-        fetchData();
-    }, []);
+      }
+    }
+    fetchData();
+  }, []);
 
-    const handleProjectSelect = (id) => {
-        console.log("You've clicked project: ", { id });
-        // GET ALL THE BOARDS ASSOCIATED WITH USERID
-        const fetchBoards = async (projectId) => {
-            // GET boards associated with projectId
-            const data = await fetch(`http://localhost:2053/project/${projectId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    auth: localStorage.getItem("authCookie"),
-                },
-            });
+  // FETCHING BOARDS
+  useEffect(() => {
+    fetchBoardsData(currProjectId, updateBoards, user);
+  }, [counter]);
 
-            const boardsDatas = await data.json();
-            console.log(`BOARDS:`);
-            console.log(boardsDatas);
-            // console.log(boardsDatas.data.boards)
-            if (boardsDatas.error) {
-                setMessage(boardsDatas.error);
+  const handleProjectSelect = async (id) => {
+    updateCurrProjectId(id);
+    await fetchBoardsData(currProjectId, updateBoards, user);
+  };
 
-                console.log(boardsDatas.error);
-            } else {
-                setBoards(boardsDatas.data.boards);
+  const handleBoardSelect = (id) => {
+    console.log("You've clicked board: ", { id });
+    //   const cookie = localStorage.getItem("authCookie");
 
-                // if (boardsDatas.data.boards.length > 0) {
-                //   setcurrBoard(boardsDatas.data.boards[0]);
-                // }
-            }
-        };
-        fetchBoards(id);
-        return boards;
-    };
+    //   const fetchBoard = async (boardId) => {
+    //     // GET boards associated with projectId
+    //     const data = await fetch(`http://localhost:2053/project/${boardId}`, {
+    //       method: "GET",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         auth: cookie,
+    //       },
+    //     });
 
-    const handleBoardSelect = (id) => {
-        console.log("You've clicked board: ", { id });
-        const cookie = localStorage.getItem("authCookie");
+    //     const boardResponse = await data.json();
 
-        const fetchBoard = async (boardId) => {
-            // GET boards associated with projectId
-            const data = await fetch(`http://localhost:2053/project/${boardId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    auth: cookie,
-                },
-            });
+    //     console.log(`Finished fetching board: ${id}`);
+    //     if (boardResponse.error) {
+    //       setMessage(boardResponse.error);
+    //       console.log(boardResponse.error);
+    //     } else {
+    //       setDisplayBoard(boardResponse.data);
+    //       // if (boardsDatas.data.boards.length > 0) {
+    //       //   setcurrBoard(boardsDatas.data.boards[0]);
+    //       // }
+    //     }
+    //   };
+    //   fetchBoard(id);
+    //   return displayBoard;
+  };
 
-            const boardResponse = await data.json();
-
-            console.log(`Finished fetching board: ${id}`);
-            if (boardResponse.error) {
-                setMessage(boardResponse.error);
-                console.log(boardResponse.error);
-            } else {
-                setDisplayBoard(boardResponse.data);
-                // if (boardsDatas.data.boards.length > 0) {
-                //   setcurrBoard(boardsDatas.data.boards[0]);
-                // }
-            }
-        };
-        fetchBoard(id);
-        return displayBoard;
-    };
-
-    const handleSubmit = (value, formType) => {
-        const projectId = 1;
-        let urlTail;
-        if (formType === "project") {
-            urlTail = "/project";
-        }
-        if (formType === "board") {
-            urlTail = `/project/${projectId}/board`;
-        }
-        if (formType === "member") {
-            urlTail = `/project/${projectId}/member`;
-        }
-        const url = `http:locahost:2053${urlTail}`;
-
-        const createRecord = async () => {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    auth: localStorage.getItem("authCookie"),
-                },
-                body: JSON.stringify({ name: value }),
-            });
-            const data = await response.json();
-
-            // setProjectName("");
-            // setProjectForm(false);
-            console.log("Logging response: ", data);
-
-            if (data.error) {
-                setMessage(data.error);
-                console.log(data.error);
-            } else {
-                console.log(data.id);
-                const record = { id: data.id, name: value };
-
-                if (formType === "project") {
-                    updateProjects([...projects, record]);
-                    return;
-                }
-
-                if (formType === "boards") {
-                    setBoards([...boards, record]);
-                    return;
-                }
-
-                // TODO: Will need adjusting because member only receives email
-                if (formType === "members") {
-                    setMembers([...members, record]);
-                    return;
-                }
-
-                return;
-                // setProjectForm(false);
-
-                // if (projects.length === 1) setcurrProject(data.id);
-            }
-        };
-    };
-
-    //   if (projects.length === 0) {
-    //     updateProjects([{ id: 1, name: "Your project" }]);
-    //   }
-
-    //   const displayProject =
-    //     projects.filter((project) => displayProjectId === project.id)[0] ||
-    //     DummyProject;
-
-    //   const mainView = <h1>{displayProject.name}</h1>;
-
-    const logout = () => {
-        console.log("logout");
-        handleLogout();
-    };
-
-
-    // STYLE
-    const sideLayout = { display: "flex", height: "100vh" }
+  const handleSubmit = (value, formType) => {
+    createRecord(value, formType, currProjectId);
+    updateCounter();
+  };
     
     return (
         <div style={sideLayout}>
         <Sidebar
           handleProjectSelect={handleProjectSelect}
           handleBoardSelect={handleBoardSelect}
+          handleSubmit={handleSubmit}
+          boards={boards}
         />
         <MainView />
     </div>
@@ -197,3 +108,46 @@ export default function Authenticated() {
     
     
 }
+
+const sideLayout = { display: "flex", height: "100vh" }
+
+async function fetchBoardsData(projectId, updateCB, user) {
+  const cookie = localStorage.getItem("authCookie");
+
+  if (cookie && user?.username) {
+    const response = await fetch(`http://localhost:2053/project/${projectId}`, {
+      method: "GET",
+      headers: {
+        auth: cookie,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const responseJson = await response.json();
+      const boards = responseJson.data.boards;
+      updateCB(boards);
+    }
+  }
+}
+
+async function createRecord(value, formType, id){
+  let url = "";
+
+  if (formType === "Projects") {
+    url = "http://localhost:2053/project";
+  }
+
+  if (formType === "Boards") {
+    url = `http://localhost:2053/project/${id}/board`;
+  }
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      auth: localStorage.getItem("authCookie"),
+    },
+    body: JSON.stringify({ name: value }),
+  });
+};

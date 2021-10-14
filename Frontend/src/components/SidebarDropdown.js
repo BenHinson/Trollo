@@ -11,7 +11,14 @@ import {
     btnForDelete
 
 } from "../Stylesheet";
-export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit }) {
+
+export default function SidebarDropdown({
+  name,
+  arr,
+  handleSelect,
+  handleSubmit,
+}) {
+
   const [formVisibility, setFormVisibility] = useState(false);
 
   const showForm = () => {
@@ -25,13 +32,10 @@ export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit 
   };
 
   const formComponent = formVisibility && (
-    <Form
-      handleSubmit={handleSubmit}
-      hideForm={hideForm}
-      formType={name}
-    />
+    <Form handleSubmit={handleSubmit} hideForm={hideForm} formType={name} />
   );
 
+  console.log(arr);
   const components = arr.map((el) => (
       <li
           key={el.id}
