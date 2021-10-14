@@ -9,7 +9,7 @@ import {
   selected,
   projectAndboardList,
   btnForDelete,
-} from "../../Styling/Stylesheet";
+} from "../../styling/Stylesheet";
 
 export default function SidebarDropdown({
   name,

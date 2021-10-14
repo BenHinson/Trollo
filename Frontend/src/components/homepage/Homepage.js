@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
 
-import AccountCreateLogin from "./AccountCreateLogin";
-import "../../Styling/homepage.css";
+import AccountPopup from "./AccountPopup";
+import "../../styling/homepage.css";
 
 export default function Homepage({ setPageView }) {
   const { user, updateState } = useContext(UserContext);
@@ -68,7 +68,7 @@ export default function Homepage({ setPageView }) {
       </div>
 
       {displayModal ? (
-        <AccountCreateLogin
+        <AccountPopup
           accountLogin={accountLogin}
           setAccountLogin={setAccountLogin}
           setDisplayModal={setDisplayModal}
