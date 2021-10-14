@@ -33,7 +33,6 @@ export default function SidebarDropdown({
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType={name} />
   );
 
-  console.log(arr);
   const components = arr.map((el) => (
     <li
       key={el.id}
