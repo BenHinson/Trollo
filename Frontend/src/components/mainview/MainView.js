@@ -1,6 +1,6 @@
 import React from "react"
 import Board from "./Board";
-import ProjectMembers from "./ProjectMembers";
+import ProjectMembers from "../ProjectMembers";
 
 export default function MainView({ boardId }) {
     const mainSection = {

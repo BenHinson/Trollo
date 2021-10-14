@@ -1,5 +1,5 @@
 import React, { useContext, Fragment, useState } from "react";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "./mainview/UserAvatar";
 
 import { UserContext } from "../UserContext";
 

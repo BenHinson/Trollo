@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, Fragment } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
@@ -93,23 +93,20 @@ export default function Authenticated() {
     createRecord(value, formType, currProjectId);
     updateCounter();
   };
-    
-    return (
-        <div style={sideLayout}>
-        <Sidebar
-          handleProjectSelect={handleProjectSelect}
-          handleBoardSelect={handleBoardSelect}
-          handleSubmit={handleSubmit}
-          boards={boards}
-        />
-        <MainView />
+
+  return (
+    <div style={sideLayout}>
+      <Sidebar
+        handleProjectSelect={handleProjectSelect}
+        handleBoardSelect={handleBoardSelect}
+        handleSubmit={handleSubmit}
+        boards={boards}
+      />
     </div>
-    );
-    
-    
+  );
 }
 
-const sideLayout = { display: "flex", height: "100vh" }
+const sideLayout = { display: "flex", height: "100vh" };
 
 async function fetchBoardsData(projectId, updateCB, user) {
   const cookie = localStorage.getItem("authCookie");
@@ -131,7 +128,7 @@ async function fetchBoardsData(projectId, updateCB, user) {
   }
 }
 
-async function createRecord(value, formType, id){
+async function createRecord(value, formType, id) {
   let url = "";
 
   if (formType === "Projects") {
@@ -150,4 +147,4 @@ async function createRecord(value, formType, id){
     },
     body: JSON.stringify({ name: value }),
   });
-};
+}

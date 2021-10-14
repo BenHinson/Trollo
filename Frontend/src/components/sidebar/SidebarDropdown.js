@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import Form from "./Form";
+import Form from "../Form";
 import {
     sidebar,
     btnForOthers1,
@@ -10,7 +10,7 @@ import {
     projectAndboardList,
     btnForDelete
 
-} from "../Stylesheet";
+} from "../../Stylesheet";
 
 export default function SidebarDropdown({
   name,
