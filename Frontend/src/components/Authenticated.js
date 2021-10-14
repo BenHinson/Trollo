@@ -93,21 +93,23 @@ export default function Authenticated() {
     createRecord(value, formType, currProjectId);
     updateCounter();
   };
-
-  return (
-    <Fragment>
-      <div>
+    
+    return (
+        <div style={sideLayout}>
         <Sidebar
           handleProjectSelect={handleProjectSelect}
           handleBoardSelect={handleBoardSelect}
           handleSubmit={handleSubmit}
           boards={boards}
         />
-        {/* <MainView /> */}
-      </div>
-    </Fragment>
-  );
+        <MainView />
+    </div>
+    );
+    
+    
 }
+
+const sideLayout = { display: "flex", height: "100vh" }
 
 async function fetchBoardsData(projectId, updateCB, user) {
   const cookie = localStorage.getItem("authCookie");

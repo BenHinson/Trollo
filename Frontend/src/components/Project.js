@@ -364,7 +364,8 @@
 //     padding: "1rem",
 //     display: "flex",
 //     justifyContent: "space-between"
-// }
+//   }
+  
 
 //   return (
 //     <div style={{ width: "100%", height: "100%" }}>

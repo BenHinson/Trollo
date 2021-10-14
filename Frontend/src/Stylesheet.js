@@ -59,6 +59,7 @@ const btnForDelete = {
 /* SDIEBAR */
 const sidebar = {
     color: "#b1becc",
+    minWidth: "250px",
     width: "25%",
     height: "100%",
     display: "inline-block",
@@ -66,7 +67,6 @@ const sidebar = {
     borderRadius: "5px",
     textAlign: "center",
     fontWeight: "bold"
-
 }
   
 
@@ -94,6 +94,32 @@ const modalCloseBtn = {
     padding: "0.5rem"
 }
 
+const userInfo = {
+    borderBottom: "2px solid #b1becc",
+    padding: "1rem",
+    display: "flex",
+    justifyContent: "space-between"
+}
+
+const divideIn2 = {
+    display: "flex",
+    justifyContent: "space-between"
+}
+  
+const selected = {
+    color: "#4d5d66",
+    border: "2px solid",
+    borderRadius: "5px"
+}
+  
+
+const projectAndboardList = {
+    fontWeight: "normal",
+    padding: "0.4rem",
+}
+  
+/* LAYOUT */
+
 
 export {
     column,
@@ -108,4 +134,8 @@ export {
     sideBarBtns,
     modal,
     modalCloseBtn,
+    userInfo,
+    divideIn2,
+    selected,
+    projectAndboardList
 };

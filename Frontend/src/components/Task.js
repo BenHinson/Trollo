@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
+import {
+  task,
+} from "../Stylesheet";
 
 export default function Task({ name, description, userId, userData }) {
   const [assignedUserId, setAssignedUserId] = useState(userId);
@@ -19,7 +22,7 @@ export default function Task({ name, description, userId, userData }) {
   );
 
   return (
-    <div style={style}>
+    <div style={task}>
       <h3>{name}</h3>
       <p>{description}</p>
       {userComponent}
