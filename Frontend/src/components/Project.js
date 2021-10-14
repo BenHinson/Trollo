@@ -11,7 +11,6 @@ import {
   modalCloseBtn
 } from '../Stylesheet';
 
-
 import ProjectMembers from "./ProjectMembers";
 import Board from "./Board";
 

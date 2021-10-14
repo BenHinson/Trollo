@@ -1,14 +1,18 @@
-import React, { useContext, Fragment } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import Project from "./Project"
+import Sidebar from "./Sidebar";
+import MainView from "./MainView";
 
 import { UserContext } from "../UserContext";
-import SidebarDropdown from "./SidebarDropdown";
+import { ProjectsContext } from "../ProjectsContext";
+import 
 
 export default function Authenticated() {
     const { user } = useContext(UserContext);
     const [projects, updateProjects] = useContext(ProjectsContext);
     const [boards, setBoards] = useState([]);
     const [message, setMessage] = useState("");
+    //   const [displayProjectId, setDisplayProjectId] = useState(null);
 
     const [currBoard, setcurrBoard] = useState(0);
 
@@ -76,6 +80,12 @@ export default function Authenticated() {
 //   if (projects.length === 0) {
 //     updateProjects([{ id: 1, name: "Your project" }]);
 //   }
+  
+  //   const displayProject =
+  //     projects.filter((project) => displayProjectId === project.id)[0] ||
+  //     DummyProject;
+
+  //   const mainView = <h1>{displayProject.name}</h1>;
 
 
   const logout = () => {
@@ -85,15 +95,13 @@ export default function Authenticated() {
 
   return (
       <Fragment>        
-        <div >
+        <div>
             <Sidebar
                 handleProjectClick={handleProjectClick}
                 handleBoardClick={handleBoardClick}
               />
       {/* <MainView /> */}
-      {/* <div>{mainView}</div> */}
-    </div>
-          {/* <Project/> */}
-    </Fragment>
-  );
+       </div>
+        </Fragment>
+  )
 }

@@ -9,7 +9,7 @@ export default function SidebarDropdown({ name, arr, handleClick }) {
   ));
     
   return (
-      <div>
+    <div>
       <div>{name}</div>
       <div>{components}</div>
     </div>
