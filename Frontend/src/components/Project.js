@@ -20,24 +20,26 @@ export default function Project() {
 
   const { user, handleLogout } = useContext(UserContext);
 
+  // Input Values for board/project
   const [boardName, setBoardname] = useState("");
   const [projectName, setProjectName] = useState("");
   // const [memberEmail, setMemberEmail] = useState("");
 
+  // Form controller 
   const [boardForm, setBoardForm] = useState(false);
   const [projectForm, setProjectForm] = useState(false);
   // const [memberForm, setMemberForm] = useState(false);
 
-  const [boards, setBoards] = useState([]);
-  const [projects, setProjects] = useState([]);
+  // const [boards, setBoards] = useState([]);
+  // const [projects, setProjects] = useState([]);
 
   const [projectDropdown, setProjectDropdown] = useState(true);
   const [boardDropdown, setBoardDropdown] = useState(true);
 
   const [currProject, setcurrProject] = useState(0);
-  const [currBoard, setcurrBoard] = useState(0);
+  // const [currBoard, setcurrBoard] = useState(0);
   
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
 
 
@@ -65,51 +67,51 @@ export default function Project() {
   
 
  // GET FUNCTIONS
-  const fetchBoards = async (projectId) => { // GET boards associated with projectId
-    const data = await fetch(`${url}/project/${projectId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth': localStorage.getItem('authCookie'),
-      },
-    });
-    const boardsDatas = await data.json();
-    console.log(`BOARDS:`)
-    console.log(boardsDatas)
-    // console.log(boardsDatas.data.boards)
-    if (boardsDatas.error) {
-      setMessage(boardsDatas.error);
+  // const fetchBoards = async (projectId) => { // GET boards associated with projectId
+  //   const data = await fetch(`${url}/project/${projectId}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'auth': localStorage.getItem('authCookie'),
+  //     },
+  //   });
+  //   const boardsDatas = await data.json();
+  //   console.log(`BOARDS:`)
+  //   console.log(boardsDatas)
+  //   // console.log(boardsDatas.data.boards)
+  //   if (boardsDatas.error) {
+  //     setMessage(boardsDatas.error);
 
-      console.log(boardsDatas.error)
-    } else {
-      setBoards(boardsDatas.data.boards); // error happend
+  //     console.log(boardsDatas.error)
+  //   } else {
+  //     setBoards(boardsDatas.data.boards); // error happend
 
-      if (boardsDatas.data.boards.length > 0) {
-        setcurrBoard(boardsDatas.data.boards[0]);
-      }
-    }
+  //     if (boardsDatas.data.boards.length > 0) {
+  //       setcurrBoard(boardsDatas.data.boards[0]);
+  //     }
+  //   }
     
-  }
+  // }
 
-  const fetchAllProjects = async () => {
-    const data = await fetch(`${url}/projects`, { // GET projects
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'auth': localStorage.getItem('authCookie')
-        }
-    })
-    const projectsDatas = await data.json();
-    setProjects(projectsDatas.data);
+//   const fetchAllProjects = async () => {
+//     const data = await fetch(`${url}/projects`, { // GET projects
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'auth': localStorage.getItem('authCookie')
+//         }
+//     })
+//     const projectsDatas = await data.json();
+//     setProjects(projectsDatas.data);
     
-    if (projectsDatas.data.length > 0) {
-      setcurrProject(projectsDatas.data[0].id);
-    }
-    console.log(`currProjectID: ${currProject}`);
-    console.log("PROJECTS:")
-    console.log(projectsDatas);
+//     if (projectsDatas.data.length > 0) {
+//       setcurrProject(projectsDatas.data[0].id);
+//     }
+//     console.log(`currProjectID: ${currProject}`);
+//     console.log("PROJECTS:")
+//     console.log(projectsDatas);
     
-}  
+// }  
 
 
 // POST FUNCTIONS
