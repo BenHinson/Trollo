@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Task from "./Task";
 import AddTaskModal from "./AddTaskModal";
 import {
-  column as col,
-  btnForDelete,
-  btnForOthers1
-} from "../../styling/Stylesheet";
+  btnForDelete
+} from "../../Styling/Stylesheet";
 
 export default function Column({ id, columnName, deleteColumn }) {
   const [taskData, setTaskData] = useState([
@@ -80,10 +78,10 @@ export default function Column({ id, columnName, deleteColumn }) {
   };
 
   return (
-    <article style={col}>
+    <div className='column'>
       <h5>{columnName}</h5>
       <button onClick={() => deleteColumn(columnName)} style={btnForDelete}>−</button>
-      <button onClick={addTaskButtonClick} style={btnForOthers1}>+</button>
+      <button onClick={addTaskButtonClick}>+</button>
       {tasks}
    
       {addTaskModalVisible && (
@@ -94,6 +92,6 @@ export default function Column({ id, columnName, deleteColumn }) {
           columnId={id}
         />
       )}
-    </article>
+    </div>
   );
 }

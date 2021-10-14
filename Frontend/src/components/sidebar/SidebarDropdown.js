@@ -1,13 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Form from "../Form";
-import {
-  sidebar,
-  btnForOthers1,
-  selected,
-} from "../../styling/Stylesheet";
-  projectAndboardList,
-  btnForDelete,
-} from "../../Styling/Stylesheet";
+import { sidebar } from "../../Styling/Stylesheet";
 
 
 export default function SidebarDropdown({

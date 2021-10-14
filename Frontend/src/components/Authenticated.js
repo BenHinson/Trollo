@@ -5,7 +5,7 @@ import MainView from "./mainview/MainView";
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 
-import '../styling/main.css';
+import '../Styling/main.css';
 
 
 export default function Authenticated() {

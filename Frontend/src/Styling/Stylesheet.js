@@ -1,6 +1,5 @@
 /* Basic styles */
 
-
 export const column = {
     width: "25%",
     padding: "1rem",

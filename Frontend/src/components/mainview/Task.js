@@ -3,7 +3,7 @@ import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
 import {
   task,
-} from "../../styling/Stylesheet";
+} from "../../Styling/Stylesheet";
 
 export default function Task({ name, description, userId, userData }) {
   const [assignedUserId, setAssignedUserId] = useState(userId);
