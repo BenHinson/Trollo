@@ -5,6 +5,9 @@ import MainView from "./mainview/MainView";
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 
+import '../styling/main.css';
+
+
 export default function Authenticated() {
   const { user } = useContext(UserContext);
   const [projects, updateProjects] = useContext(ProjectsContext);
@@ -85,7 +88,7 @@ export default function Authenticated() {
   };
 
   return (
-    <div style={sideLayout}>
+    <div className='main'>
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
@@ -97,7 +100,6 @@ export default function Authenticated() {
   );
 }
 
-const sideLayout = { display: "flex", height: "100vh" };
 
 async function fetchBoardsData(projectId, updateCB, user) {
   const cookie = localStorage.getItem("authCookie");

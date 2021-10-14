@@ -16,14 +16,12 @@ export default function Form({ handleSubmit, hideForm, formType }) {
   return (
     <form onSubmit={onSubmit}>
       <input
-        placeholder={`Type ${formType}`}
+        placeholder={`${formType} Name...`}
         value={value}
         onChange={updateValue}
       />
-      <button>+ Create Project</button>
-      <span onClick={hideForm} id={`${formType}-form`}>
-        X
-      </span>
+      <button className='acceptBtn'>✓</button>
+      <button className='cancelBtn' onClick={hideForm} id={`${formType}-form`}>✕</button>
     </form>
   );
 }

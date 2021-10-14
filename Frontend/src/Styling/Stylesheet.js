@@ -1,6 +1,7 @@
 /* Basic styles */
 
-const column = {
+
+export const column = {
     width: "25%",
     padding: "1rem",
     margin: "2rem",
@@ -8,37 +9,29 @@ const column = {
     borderRadius: "10px"
 }
 
-const columnTitle = {
+export const columnTitle = {
     color: "#4d5d66",
     fontWeight: "bold"
 }
 
-const task = {
+export const task = {
     backgroundColor: "#f5f5f5",
     boarderRadius: "10px",
     padding: "1rem"
 }
 
-const taskHoverAndFocus = {
+export const taskHoverAndFocus = {
     border: "1px solid #763bff"
 }
 
-const btnForColumn = {
+export const btnForColumn = {
     cursor: "pointer",
     color: "#4d5d66",
     fontWeight: "bold",
     textDecoration: "underline"
 }
 
-const btnForOthers1 = {
-    cursor: "pointer",
-    color: "#763bff",
-    border: "solid 2px",
-    borderRadius: "5px",
-    padding: "0.3rem 1rem 0.3rem 1rem"
-}
-
-const btnForOthers2 = {
+export const btnForOthers2 = {
     cursor: "pointer",
     color: "white",
      backgroundColor: "#763bff",
@@ -46,7 +39,7 @@ const btnForOthers2 = {
     padding: "0.3rem 1rem 0.3rem 1rem",
 }
 
-const btnForDelete = {
+export const btnForDelete = {
     cursor: "pointer",
     // backgroundColor:"white", 
     color: "#ed4832", 
@@ -56,29 +49,15 @@ const btnForDelete = {
   
 }
 
-/* SDIEBAR */
-const sidebar = {
+/* SIDEBAR */
+export const sidebar = {
     color: "#b1becc",
-    minWidth: "250px",
-    width: "25%",
-    height: "100%",
-    display: "inline-block",
     border: "2px solid #b1becc",
-    borderRadius: "5px",
     textAlign: "center",
     fontWeight: "bold"
 }
   
-
-const sideBarBtns = {
-    cursor: "pointer",
-    color: "#b1becc",
-    margin: "0.2rem",
-    fontWeight: "600",
-    padding: "0.5rem"
-}
-  
-const modal = {
+export const modal = {
     position: "relative",
     padding: "1rem",
     color: "#b1becc",
@@ -86,7 +65,7 @@ const modal = {
     borderRadius: "10px"
 }
 
-const modalCloseBtn = {
+export const modalCloseBtn = {
     cursor: "pointer",
     position: "absolute",
     right: "0",
@@ -94,48 +73,20 @@ const modalCloseBtn = {
     padding: "0.5rem"
 }
 
-const userInfo = {
-    borderBottom: "2px solid #b1becc",
-    padding: "1rem",
-    display: "flex",
-    justifyContent: "space-between"
-}
 
-const divideIn2 = {
+export const divideIn2 = {
     display: "flex",
     justifyContent: "space-between"
 }
   
-const selected = {
+export const selected = {
     color: "#4d5d66",
     border: "2px solid",
     borderRadius: "5px"
 }
   
 
-const projectAndboardList = {
+export const projectAndboardList = {
     fontWeight: "normal",
     padding: "0.4rem",
 }
-  
-/* LAYOUT */
-
-
-export {
-    column,
-    columnTitle,
-    task,
-    taskHoverAndFocus,
-    btnForColumn,
-    btnForOthers1,
-    btnForOthers2,
-    btnForDelete,
-    sidebar,
-    sideBarBtns,
-    modal,
-    modalCloseBtn,
-    userInfo,
-    divideIn2,
-    selected,
-    projectAndboardList
-};
