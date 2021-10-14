@@ -66,19 +66,20 @@ describe('tests POST routes', () => {
         expect(q[0]).toEqual(expect.objectContaining(testBoard))
     })
 
-    test('POST /project/:projectId/:boardId/column create a new column', async () => {
+    test('POST /project/:projectId/board/:boardId/column create a new column', async () => {
         const {tu, tp} = await createUserWithProject({testUser, testProject})
         const tb = await tp.createBoard(testBoard)
-        const res = await request.post(`/project/${tp.dataValues.id}/${tb.dataValues.id}/column`).set('auth','trollo').send(testColumn)
+        const res = await request.post(`/project/${tp.dataValues.id}/board/${tb.dataValues.id}/column`).set('auth','trollo').send(testColumn)
         const q = await models.Column.findAll()
+        console.log(res.body)
         expect(q[0]).toEqual(objectContaining(testColumn))
     })
 
-    test('POST /project/:projectId/:boardId/:columnId/task creates a new task', async () => {
+    test('POST /project/:projectId/board/:boardId/column/:columnId/task creates a new task', async () => {
         const {tu, tp} = await createUserWithProject({testUser, testProject})
         const tb = await tp.createBoard(testBoard)
         const tc = await tb.createColumn(testColumn)
-        const res = await request.post(`/project/${tp.dataValues.id}/${tb.dataValues.id}/${tc.dataValues.id}/task`).set('auth', 'trollo').send(testTask)
+        const res = await request.post(`/project/${tp.dataValues.id}/board/${tb.dataValues.id}/column/${tc.dataValues.id}/task`).set('auth', 'trollo').send(testTask)
         const q = await models.Task.findAll()
         expect(q[0]).toEqual(objectContaining(testTask))
 
@@ -94,8 +95,40 @@ describe('tests POST routes', () => {
         // Should not be using a request to create user in a test but currently the only way to do it.
         const tu = await request.post('/user/signup').send(testUser)
         const req = await request.post('/user/login').send(testUser);
-        console.log(req.body);
+        // console.log(req.body);
         expect(req.body.account).toEqual(expect.objectContaining({email: testUser.email}))
+    })
+})
+
+describe('tests DELETE routes', () => {
+    // Need to find out how admin is assigned for this test to work
+    xtest('DELETE /project/:projectId/board/:boardId deletes a board', async () => {
+        const {tu, tp} = await createUserWithProject({testUser, testProject})
+        const tb = await tp.createBoard(testBoard)
+        const res = await request.delete(`/project/${tp.dataValues.id}/board/${tb.dataValues.id}`).set('auth', 'trollo')
+        const q = await models.Board.findAll()
+
+    })
+
+    test('DELETE /project/:projectId/board/:boardId/column/:columnId deletes column', async () => {
+        const {tu, tp} = await createUserWithProject({testUser,testProject})
+        const tb = await tp.createBoard(testBoard)
+        const tc = await tb.createColumn(testColumn)
+        const res = await request.delete(`/project/${tp.dataValues.id}/board/${tb.dataValues.id}/column/${tc.dataValues.id}`).set('auth', 'trollo')
+        const q = await models.Column.findAll()
+        expect(q.length).toEqual(0);
+    })
+})
+
+describe('tests PATCH routes', () => {
+    test('PATCH /project/:projectId/board/:boardId/column/:columnId', async () => {
+        const {tu, tp} = await createUserWithProject({testUser,testProject})
+        const tb = await tp.createBoard(testBoard)
+        const tc = await tb.createColumn(testColumn)
+        const res = await request.patch(`/project/${tp.dataValues.id}/board/${tb.dataValues.id}/column/${tc.dataValues.id}`).set('auth','trollo')
+        .send({name:'Patched Test Column'})
+        const q = await models.Column.findAll();
+        expect(q[0].dataValues.name).toBe("Patched Test Column")
     })
 })
 
