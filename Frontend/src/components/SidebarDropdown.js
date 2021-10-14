@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Form from "./Form";
 
-export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit }) {
+export default function SidebarDropdown({
+  name,
+  arr,
+  handleSelect,
+  handleSubmit,
+}) {
   const [formVisibility, setFormVisibility] = useState(false);
 
   const showForm = () => {
@@ -15,13 +20,10 @@ export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit 
   };
 
   const formComponent = formVisibility && (
-    <Form
-      handleSubmit={handleSubmit}
-      hideForm={hideForm}
-      formType={name}
-    />
+    <Form handleSubmit={handleSubmit} hideForm={hideForm} formType={name} />
   );
 
+  console.log(arr);
   const components = arr.map((el) => (
     <button key={el.id} id={el.id} onClick={() => handleSelect(el.id)}>
       {el.name}

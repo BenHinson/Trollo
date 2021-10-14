@@ -3,10 +3,10 @@ import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 import SidebarDropdown from "./SidebarDropdown";
 
-export default function Sidebar({ handleProjectSelect, handleBoardSelect, handleSubmit }) {
+export default function Sidebar({ handleProjectSelect, handleBoardSelect, handleSubmit, boards }) {
   const { user, handleLogout } = useContext(UserContext);
   const [projects] = useContext(ProjectsContext);
-  const boards = [{ id: 1, name: "First Board" }];
+  // const boards = [{ id: 1, name: "First Board" }];
 
   const logout = () => {
     console.log("logout");

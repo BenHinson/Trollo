@@ -107,7 +107,10 @@ export default function Authenticated() {
   };
 
   const handleSubmit = (value, formType) => {
+    console.log("This is the value submitted: ", value);
+    console.log("This is the form type submitted: ", formType);
     const projectId = 1;
+
     let urlTail;
     if (formType === "project") {
       urlTail = "/project";
@@ -121,6 +124,7 @@ export default function Authenticated() {
     const url = `http:locahost:2053${urlTail}`;
 
     const createRecord = async () => {
+      console.log("CreateRecord is being called");
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -187,6 +191,7 @@ export default function Authenticated() {
         <Sidebar
           handleProjectSelect={handleProjectSelect}
           handleBoardSelect={handleBoardSelect}
+          handleSubmit={handleSubmit}
         />
         {/* <MainView /> */}
       </div>

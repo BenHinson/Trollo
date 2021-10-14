@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Account from "./Account";
-import Authenticated from "./Authenticated";
+import Authenticated2 from "./Authenticated2";
 import { UserContext } from "../UserContext";
 
 export default function AppWrapper() {
@@ -27,7 +27,7 @@ export default function AppWrapper() {
   }, []);
 
   if (user?.username) {
-    return <Authenticated />;
+    return <Authenticated2 />;
   }
 
   return <Account />;
