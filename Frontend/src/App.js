@@ -1,14 +1,14 @@
 import "./App.css";
 import AppWrapper from "./components/AppWrapper";
 import { UserProvider } from "./UserContext";
-import { ProjectMembersProvider } from "./ProjectMembersContext";
+import { ProjectsProvider } from "./ProjectsContext";
 
 function App() {
   return (
     <UserProvider>
-      <ProjectMembersProvider>
+      <ProjectsProvider>
         <AppWrapper />
-      </ProjectMembersProvider>
+      </ProjectsProvider>
     </UserProvider>
   );
 }

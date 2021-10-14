@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import DummyProject from "./DummyProject";
 import { UserContext } from "../UserContext";
+import { ProjectsContext } from "../ProjectsContext";
+import Sidebar from "./Sidebar";
+import MainView from "./MainView";
 
 export default function Authenticated() {
-  const { user, handleLogout } = useContext(UserContext);
-  const [projectsData, updateProjectsData] = useState([]);
-  const [displayProjectId, setDisplayProjectId] = useState(null);
+  const { user } = useContext(UserContext);
+  const [projects, updateProjects] = useContext(ProjectsContext);
+  //   const [displayProjectId, setDisplayProjectId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -21,51 +24,44 @@ export default function Authenticated() {
 
         if (response.status === 200) {
           const responseJson = await response.json();
-          updateProjectsData(responseJson.data);
+          updateProjects(responseJson.data);
         }
       }
     }
     fetchData();
   }, []);
 
-  const logout = () => {
-    console.log("logout");
-    handleLogout();
-  };
-
   const handleProjectClick = (id) => {
     console.log("You've clicked project: ", { id });
-    setDisplayProjectId(id);
+    // setDisplayProjectId(id);
   };
 
-  const allProjects =
-    projectsData.length > 0 ? (
-      projectsData.map((project) => {
-        return (
-          <button
-            onClick={() => handleProjectClick(project.id)}
-            key={project.id}
-          >
-            {project.name}
-          </button>
-        );
-      })
-    ) : (
-      <p>No own created projects</p>
-    );
+  const handleBoardClick = (id) => {
+    console.log("You've clicked board: ", { id });
+  };
 
-  const displayProject =
-    projectsData.filter((project) => displayProjectId === project.id)[0] ||
-    DummyProject;
+  if (projects.length === 0) {
+    updateProjects([{ id: 1, name: "Your project" }]);
+  }
 
-  const mainView = <h1>{displayProject.name}</h1>;
+  //   const displayProject =
+  //     projects.filter((project) => displayProjectId === project.id)[0] ||
+  //     DummyProject;
+
+  //   const mainView = <h1>{displayProject.name}</h1>;
 
   return (
-    <div>
-      <p>{user.username}</p>
-      <button onClick={logout}>Log Out</button>
-      <div>{allProjects}</div>
-      <div>{mainView}</div>
+    <div style={style}>
+      <Sidebar
+        handleProjectClick={handleProjectClick}
+        handleBoardClick={handleBoardClick}
+      />
+      <MainView />
+      {/* <div>{mainView}</div> */}
     </div>
   );
 }
+
+const style = {
+  display: "flex",
+};
