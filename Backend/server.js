@@ -178,6 +178,7 @@ app.post('/project/:projectId/board/:boardId/column/:columnId/task', auth.middle
 
 
 
+
 app.post('/user/signup', async(req, res) => { // Create User
   if (!req.body.email || !req.body.password) { return res.status(400).json({'error': 'Please provide an email and password'}) }
   await auth.createAccount({email, password, avatar} = req.body, req, res);
@@ -206,6 +207,8 @@ app.post('/project/:projectId/member', auth.middle, checkUserIsMember, async(req
 })
 
 
+
+
 app.delete('/project/:projectId/board/:boardId', auth.middle, checkUserIsAdmin, async(req, res) => { // Delete a specific board. Only if admin
   const {projectId, boardId} = req.params;
   Board.destroy({where: {id: boardId}}).then((e) => {
@@ -222,6 +225,7 @@ app.delete('/project/:projectId/board/:boardId/column/:columnId', auth.middle, c
     })
   }).catch((err) => res.json({'error': 'Failed to delete column'}));
 })
+
 
 
 app.patch('/project/:projectId/board/:boardId/column/:columnId', auth.middle, checkUserIsMember, async(req, res) => { // Edit the name of a column
