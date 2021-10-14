@@ -47,11 +47,13 @@ const btnForOthers2 = {
 }
 
 const btnForDelete = {
-    cursor: "pointer", 
+    cursor: "pointer",
+    // backgroundColor:"white", 
     color: "#ed4832", 
   border: "solid 2px",
   borderRadius: "5px", 
-  padding: "0.3rem 1rem 0.3rem 1rem"
+    padding: "0.3rem 1rem 0.3rem 1rem",
+  
 }
 
 /* SDIEBAR */
@@ -61,6 +63,7 @@ const sidebar = {
     height: "100%",
     display: "inline-block",
     border: "2px solid #b1becc",
+    borderRadius: "5px",
     textAlign: "center",
     fontWeight: "bold"
 
@@ -104,6 +107,5 @@ export {
     sidebar,
     sideBarBtns,
     modal,
-    modalCloseBtn
-
+    modalCloseBtn,
 };

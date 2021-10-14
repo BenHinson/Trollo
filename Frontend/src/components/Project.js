@@ -10,18 +10,15 @@ import {
   modal,
   modalCloseBtn
 } from '../Stylesheet';
-// import Board from "./Board";
-// import User from "./User";
-import DummyBoard from "./DummyBoard";
-import DummyUser from "./DummyUser";
+
+
 import ProjectMembers from "./ProjectMembers";
+import Board from "./Board";
 
 // FETCH USER to get avatar url to pass into Avatar
 export default function Project() {
 
   const { user, handleLogout } = useContext(UserContext);
-  // console.log(user.id)  
-  const [view, setView] = useState("board")
 
   const [boardName, setBoardname] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -36,18 +33,36 @@ export default function Project() {
 
   const [projectDropdown, setProjectDropdown] = useState(true);
   const [boardDropdown, setBoardDropdown] = useState(true);
+
   const [currProject, setcurrProject] = useState(0);
+  const [currBoard, setcurrBoard] = useState(0);
+  
+  const [message, setMessage] = useState("");
+
 
 
   const url = "http://localhost:2053";
-  console.log(user)
+  // console.log(user)
 
-  useEffect(async () => {
-    await fetchAllProjects(); // as long as login, user fetches projects
+  useEffect(() => {
+    fetchAllProjects(); // as long as login, user fetches projects
     if (projects.length !== 0) {
-      await fetchBoards(currProject); // fetch board with first Project Id
+      fetchBoards(currProject); // fetch board with first Project Id
     }
   }, [])
+
+  /* AVOID MEMORY LEAK:
+    Whenever currProject changed, fetch boards and run listBoards
+    How it works: once the subscription element in second argument(arr),
+    The functions inside of callback body will trigger.
+  */
+  useEffect(() => {
+    if (currProject !== 0) {
+      fetchBoards(currProject);
+      listBoards();
+      }   
+    }, [currProject])
+  
 
  // GET FUNCTIONS
   const fetchBoards = async (projectId) => { // GET boards associated with projectId
@@ -63,9 +78,15 @@ export default function Project() {
     console.log(boardsDatas)
     // console.log(boardsDatas.data.boards)
     if (boardsDatas.error) {
+      setMessage(boardsDatas.error);
+
       console.log(boardsDatas.error)
     } else {
-      setBoards(boardsDatas.data.boards);
+      setBoards(boardsDatas.data.boards); // error happend
+
+      if (boardsDatas.data.boards.length > 0) {
+        setcurrBoard(boardsDatas.data.boards[0]);
+      }
     }
     
   }
@@ -81,7 +102,7 @@ export default function Project() {
     const projectsDatas = await data.json();
     setProjects(projectsDatas.data);
     
-    if (projectsDatas.data.length !== 0) {
+    if (projectsDatas.data.length > 0) {
       setcurrProject(projectsDatas.data[0].id);
     }
     console.log(`currProjectID: ${currProject}`);
@@ -105,24 +126,26 @@ export default function Project() {
     });
     const data = await response.json();
     
+    setBoardname("");
+    setBoardForm(false);
     console.log(data)
 
     if (data.error) {
+      setMessage(data.error)
       console.log(data.error)
     } else {
 
-      const board = { id: data.id, name: boardName }
+      const board = { id: data.id, name: boardName, backgroud: data.background }
       boardsCopy.push(board);
       setBoards(boardsCopy);
-      setBoardForm(false)
+      setBoardForm(false);
+      
+      if (boards.length === 1) setcurrBoard(data.id);
     }
   }
  
   const createProject = async (event) => { // POST new project
-    console.log(projects)
     const projectsCopy = [...projects];
-    console.log(projectsCopy)
-    // console.log(projectName);
 
     const response = await fetch(`${url}/project`, {
       method: 'POST',
@@ -133,40 +156,73 @@ export default function Project() {
       body: JSON.stringify({ name: projectName })
     });
     const data = await response.json();
-    
+
+    setProjectName("");
+    setProjectForm(false);
     console.log(data)
 
     if (data.error) {
+      setMessage(data.error);
       console.log(data.error)
     } else {
+
       console.log(data.id)
       const project = { id: data.id, name: projectName }
       projectsCopy.push(project);
       setProjects(projectsCopy);
       setProjectForm(false);
+
+      if (projects.length === 1) setcurrProject(data.id);
     }
     
   };
 
   // DELETE FUNCTIONS
   const deleteBoard = async (event) => {
-    // MIND THE TYPE
     const boardId = parseInt(event.target.id);
+    // copy board 
+    const boardsCopy = [...boards];
 
-    const removeItem = boards.filter(board => board.id !== boardId);
-    setBoards(removeItem);
+
+    const response = await fetch(`${url}/project/${currProject}/board/${boardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth': localStorage.getItem('authCookie'),
+      },
+      body: JSON.stringify({ name: boardName })
+    });
+
+    const data = await response.json();
+    
+    console.log(data)
+
+    if (data.error) {
+      setMessage(data.error)
+      console.log(data.error)
+    } else {
+
+      const board = { id: data.id, name: boardName }
+      const removeItem = boardsCopy.filter(board => board.id !== boardId);
+      setBoards(removeItem);
+
+    }
   }
-  const deleteProject = event => {}
+
+  const deleteProject = event => {} // NOT SURPPORTED YET
 
 
   // Showing actual datas - onClick attached in each LIST variables e.g listSomething()
-  const showBoards = async (event) => {
+  const getBoardId = event => {
+    const boardId = parseInt(event.target.id);
+    setcurrBoard(boardId)
+  }
+
+  const getProjectId = (event) => {
     console.log("board open");
-    console.log(event.target.id);
-    console.log(event)
-    setcurrProject(event.target.id);
-    await fetchBoards(currProject);
-    setView("board")
+    const projectId = parseInt(event.target.id);
+    setcurrProject(projectId);
+    
   };
 
   const dropdownProjects = async (event) => {
@@ -211,10 +267,12 @@ export default function Project() {
   }
   
   const boardform = () => {
+    const projectId = projects.findIndex(project => project.id === currProject);
     return (
       <div style={modal}>
+        <div style={{textAlign:"center"}}>Create a board for <b>{projects[projectId].name}</b></div>
         <input placeholder="type board name" value={boardName} onChange={onChangeBoardname} />
-        <button onClick={createBoard} style={btnForOthers2 }>+ Create a board</button>
+        <button onClick={createBoard} style={btnForOthers2}>+ Create a board</button>
         <span onClick={closeForm} id="board-form" style={modalCloseBtn}>X</span>
       </div>   
     )
@@ -224,10 +282,24 @@ export default function Project() {
     switch (e.target.id) {
       case "board-form":
         setBoardForm(false);
+        setBoardname("");
       case "project-form":
         setProjectForm(false);
+        setProjectName("");
     }
     console.log(e.target.id)
+  }
+
+  const errorMessage = () => {
+    return (
+        <div style={modal}>
+          <div id="message">{message}</div>
+          <button onClick={messageCleanup} style={btnForOthers2}>OK</button>
+        </div>   
+    )
+  }
+  const messageCleanup = () => {
+    setMessage("");
   }
   
   const onChangeBoardname = event => {
@@ -238,29 +310,50 @@ export default function Project() {
     setProjectName(event.target.value);
   }
 
-
   
 // LIST: BOARDS/PROJECTS - showing nested elements
 // - Project -> show boards / Board -> show Columns
   const listBoards = () => boards.map(board => {
     return ( // showColumns should be added
-      <li key={board.id} style={{...divideIn2, ...projectAndboardList}}>
-        <span>{board.name}</span>
+      <li
+      onClick={getBoardId}
+        key={board.id}
+        id={board.id}
+        style={
+        currProject === board.id ?
+          { ...divideIn2, ...projectAndboardList, ...selected } :
+          { ...divideIn2, ...projectAndboardList }
+      }>
+        <span id={board.id}>{board.name}</span>
         <button onClick={deleteBoard} id={board.id} style={btnForDelete}>Delete</button>
       </li>
     )
   });
 
   const listProjects = () => projects.map(project => {
+   
     return (
-      <li onClick={showBoards} key={project.id} style={{...divideIn2, ...projectAndboardList}}>
+      <li
+        onClick={getProjectId}
+        key={project.id}
+        id={project.id}
+        style={
+          currProject === project.id ?
+            { ...divideIn2, ...projectAndboardList, ...selected } :
+            { ...divideIn2, ...projectAndboardList }
+        }
+      >
         <span id={project.id}>{project.name}</span>
         <button onClick={deleteProject} id={project.id} style={ btnForDelete}>Delete</button>
       </li>
     )
   })
 
- 
+  const selected = {
+    color: "#4d5d66",
+    border: "2px solid",
+    borderRadius: "5px"
+  }
 
   const divideIn2 = {
     display: "flex",
@@ -269,7 +362,7 @@ export default function Project() {
 
   const projectAndboardList = {
     fontWeight: "normal",
-    padding: "0.2rem"
+    padding: "0.4rem",
   }
 
   const locatingForm = {
@@ -328,11 +421,10 @@ export default function Project() {
         </div>
         
       </section>
-
     
-      {currProject !== 0 && <ProjectMembers currentProjId={currProject} />}
+      {currProject !== 0 && <ProjectMembers currentProjId={currProject} />}    
+      {/* {currBoard !== 0 && <Board currentBoardId={currBoard} />} */}
       
-
       {boardForm &&
         <section style={locatingForm}>
           {boardform()}
@@ -344,6 +436,8 @@ export default function Project() {
           {projectform()}
         </section>
       }
+
+      {message && errorMessage()}
 
     </div>
   );
