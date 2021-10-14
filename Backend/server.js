@@ -186,17 +186,16 @@ app.post('/project/:projectId/board/:boardId/column/:columnId/task', auth.middle
 
 })
 
-
-
-
 app.post('/user/signup', async (req, res) => { // Create User
   if (!req.body.email || !req.body.password) { return res.status(400).json({ 'error': 'Please provide an email and password' }) }
   await auth.createAccount({ email, password, avatar } = req.body, req, res);
 
 })
+
 app.post('/user/login', async (req, res) => {
   await auth.login({ email, password } = req.body, req, res);
 })
+
 app.post('/project/:projectId/member', auth.middle, checkUserIsMember, async(req, res) => {
   const{projectId} = req.params;
   const {email} = req.body;
@@ -274,3 +273,5 @@ async function checkUserIsAdmin(req, res, next) {
 // Current API to make POST a task:  /project/1/1/1/task       (Add a task to project 1, board 1, column 1)
 // 1) - /project/1/board/1/column/1/task  (Adding intermediate names)
 // 2) - /task?project=1&board=1&column=1  (Moving the ids to the query parameter)
+
+module.exports = app
