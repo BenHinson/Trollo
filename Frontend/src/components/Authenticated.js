@@ -45,8 +45,9 @@ export default function Authenticated() {
         }
       }
     }
+    console.log("Fetching data");
     fetchData();
-  }, []);
+  }, [counter]);
 
   // FETCHING BOARDS
   useEffect(() => {
@@ -89,8 +90,8 @@ export default function Authenticated() {
     //   return displayBoard;
   };
 
-  const handleSubmit = (value, formType) => {
-    createRecord(value, formType, currProjectId);
+  const handleSubmit = async (value, formType) => {
+    await createRecord(value, formType, currProjectId);
     updateCounter();
   };
 
