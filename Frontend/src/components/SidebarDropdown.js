@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Form from "./Form";
+import {
+    sidebar,
+    btnForOthers1,
+    userInfo,
+    divideIn2,
+    sideBarBtns,
+    selected,
+    projectAndboardList,
+    btnForDelete
 
+} from "../Stylesheet";
 export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit }) {
   const [formVisibility, setFormVisibility] = useState(false);
 
@@ -23,17 +33,32 @@ export default function SidebarDropdown({ name, arr, handleSelect, handleSubmit 
   );
 
   const components = arr.map((el) => (
-    <button key={el.id} id={el.id} onClick={() => handleSelect(el.id)}>
-      {el.name}
-    </button>
+      <li
+          key={el.id}
+          id={el.id}
+          onClick={() => handleSelect(el.id)}
+          style={{ ...divideIn2, ...projectAndboardList}}>
+           <span id={el.id}>{el.name}</span>
+           <button id={el.id} style={ btnForDelete}>Delete</button>
+    </li>
   ));
 
-  return (
-    <div>
-      <div>{name}</div>
-      <div>{components}</div>
-      <button onClick={showForm}>+</button>
-      {formComponent}
-    </div>
+    return (
+        <Fragment>
+        <p style={divideIn2} className={name}>
+
+            <span>{name}</span>
+            <span className="sidebar-btns">
+                <button style={sideBarBtns}>
+                ˅
+                {/* {boardDropdown ? `˄` : `˅`} */}
+                </button>   
+                <button onClick={showForm} style={sideBarBtns} className="add">+</button>               
+            </span>
+                
+        </p>
+            <div className={`${name}-list`}>{components}</div>
+            {formComponent}
+        </Fragment>
   );
 }

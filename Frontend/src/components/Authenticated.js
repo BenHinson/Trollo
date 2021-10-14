@@ -183,13 +183,11 @@ export default function Authenticated() {
 
   return (
     <Fragment>
-      <div>
         <Sidebar
           handleProjectSelect={handleProjectSelect}
           handleBoardSelect={handleBoardSelect}
         />
         {/* <MainView /> */}
-      </div>
     </Fragment>
   );
 }
