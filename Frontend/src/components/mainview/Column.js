@@ -14,22 +14,8 @@ export default function Column({
   tasks,
   projectId,
   boardId,
+  refetchBoard,
 }) {
-  const [taskData, setTaskData] = useState([
-    {
-      columnId: 1,
-      name: "Take out the trash",
-      description: "Quickly!",
-      userId: 1,
-    },
-    { columnId: 2, name: "Brush teeth", description: "Properly!", userId: 2 },
-    {
-      columnId: 3,
-      name: "Do the dishes",
-      description: "Sparkling clean!",
-      userId: 3,
-    },
-  ]);
 
   //TODO: Prop drilling userData for now, nasty practice, but it'll get solved with API calls
   const [userData] = useState({
@@ -77,7 +63,6 @@ export default function Column({
 
   const createNewTask = async (task) => {
     // TODO: This is where API call happens to create a new task in the database
-
     const url = `http://localhost:2053/project/${projectId}/board/${boardId}/column/${id}/task`;
     const response = await fetch(url, {
       method: "POST",
@@ -94,6 +79,7 @@ export default function Column({
 
     console.log("New task record has been created", await response.json());
     console.log(task);
+    await refetchBoard()
   };
 
   return (

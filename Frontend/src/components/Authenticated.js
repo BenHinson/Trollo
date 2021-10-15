@@ -20,7 +20,7 @@ export default function Authenticated() {
   const [counter, setCounter] = useState(0);
 
   const updateColumns = (obj) => {
-    const cols = Object.values(obj)
+    const cols = Object.values(obj);
     console.log("Columns being updated with this data: ", cols);
     setColumns(cols);
   };
@@ -96,7 +96,11 @@ export default function Authenticated() {
         handleSubmit={handleSubmit}
         boards={boards}
       />
-      <MainView columns={columns} projectId={currProjectId} />
+      <MainView
+        columns={columns}
+        projectId={currProjectId}
+        refetchBoard={() => updateCounter()}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Column from "./Column";
 
-export default function Board({ columnData, projectId }) {
+export default function Board({ columnData, projectId, refetchBoard }) {
 
   const [newColumnName, setNewColumnName] = useState("");
 
@@ -32,6 +32,7 @@ export default function Board({ columnData, projectId }) {
         tasks={column.tasks}
         projectId={projectId}
         boardId={column.boardId}
+        refetchBoard={refetchBoard}
       />
     );
   });
