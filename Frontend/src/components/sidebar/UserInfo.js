@@ -1,3 +1,5 @@
+import Avatar from "boring-avatars"
+
 export default function UserInfo({ handleLogout, user }) {
   const capFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -6,8 +8,7 @@ export default function UserInfo({ handleLogout, user }) {
   return (
     <div className='userInfo'>
       <span>
-        <img src="https://img.icons8.com/ios/50/000000/user--v1.png"/>
-        {/* <Avatar userId={user.id} userData={user } /> */}
+        <Avatar size='44' variant="beam" title={user.username}/>
         <p>{capFirstLetter(user.username)}</p>
       </span>
       <button onClick={handleLogout}>
