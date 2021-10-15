@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Column from "./Column";
 
 export default function Board({ columnData, projectId }) {
-  const cols = Object.values(columnData);
-  console.log("This is cols value: ", cols);
 
   const [newColumnName, setNewColumnName] = useState("");
 
@@ -24,7 +22,7 @@ export default function Board({ columnData, projectId }) {
     // setColumnData(columnData.filter((col) => col !== name));
   };
 
-  const columns = cols.map((column) => {
+  const columns = columnData.map((column) => {
     return (
       <Column
         key={column.id}

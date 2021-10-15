@@ -105,7 +105,7 @@ export default function Column({
       <button onClick={addTaskButtonClick} style={btnForOthers1}>
         +
       </button>
-      {tasks}
+      {taskComponents}
 
       {addTaskModalVisible && (
         <AddTaskModal
