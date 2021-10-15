@@ -1,14 +1,14 @@
-import React, {useContext} from "react";
-
-// import ProjectMembers from "../ProjectMembers";
+import React, { useContext } from "react";
 
 import Header from './Header';
 import Board from "./Board";
 
 
 export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
+  // const [members, updateMembers] = useContext(ProjectMembersContext)
+  console.log(members);
   console.log("rendering main view", columns);
-  const members = [{"id": 1,"email": "example@example.com","username": "example","avatar": null}]
+  let members = [{"id": 1,"email": "example@example.com","username": "example","avatar": null}]
 
 
   return (

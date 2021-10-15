@@ -192,6 +192,19 @@
 
     >.column {
       width: 270px;
+
+      .columnHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--component);
+
+        >h5 {
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+
     }
   }
 }

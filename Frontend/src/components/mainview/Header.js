@@ -1,7 +1,6 @@
 import Avatar from "boring-avatars"
 
-export default function Header({ projectName, boardName, membersArray }) {
-  console.log(membersArray);
+export default function Header({ projectName, boardName, membersArray=[] }) {
 
   return (
     <div className='boardHeader'>
