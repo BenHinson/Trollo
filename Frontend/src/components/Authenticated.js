@@ -19,7 +19,8 @@ export default function Authenticated() {
   // Artificial state variable to trigger refetch of boards on adding a new board via the form.
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
-
+  console.log('CURR PROJECT ID')
+  console.log(currProjectId)
   const updateColumns = (arr) => {
     setColumns(arr);
   };
@@ -95,7 +96,10 @@ export default function Authenticated() {
         handleSubmit={handleSubmit}
         boards={boards}
       />
-      <MainView columns={columns} />
+      <MainView
+        currProjectId={currProjectId}
+        columns={columns}
+      />
     </div>
   );
 }
