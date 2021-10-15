@@ -12,7 +12,6 @@ export default function MainView({ columns, projectId, refetchBoard, currProject
   console.log(members)
   const handleSubmit = async (value, formType) => {
     await addMember(value, currProjectId);
-    console.log(value)
     refetchBoard();
   };
 
