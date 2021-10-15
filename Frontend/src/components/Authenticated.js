@@ -93,6 +93,12 @@ export default function Authenticated() {
 
   const handleDeleteBoard = async (id) => {
     console.log("delete board", id)
+    console.log(currProjectId, id)
+    const res = await fetch(`http://localhost:2053/project/${currProjectId}/board/${id}`, {
+      method: 'DELETE',
+      headers: { "auth": localStorage.getItem('authCookie') }
+    })
+    setBoards([...boards].filter(b => b.id !== id))
   }
 
   return (
