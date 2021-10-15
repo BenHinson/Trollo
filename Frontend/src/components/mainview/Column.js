@@ -7,22 +7,15 @@ import {
   btnForOthers1,
 } from "../../Styling/Stylesheet";
 
-export default function Column({ id, columnName, deleteColumn }) {
-  const [taskData, setTaskData] = useState([
-    {
-      columnId: 1,
-      name: "Take out the trash",
-      description: "Quickly!",
-      userId: 1,
-    },
-    { columnId: 2, name: "Brush teeth", description: "Properly!", userId: 2 },
-    {
-      columnId: 3,
-      name: "Do the dishes",
-      description: "Sparkling clean!",
-      userId: 3,
-    },
-  ]);
+export default function Column({
+  id,
+  columnName,
+  deleteColumn,
+  tasks,
+  projectId,
+  boardId,
+  refetchBoard,
+}) {
 
   //TODO: Prop drilling userData for now, nasty practice, but it'll get solved with API calls
   const [userData] = useState({
@@ -47,21 +40,18 @@ export default function Column({ id, columnName, deleteColumn }) {
   const [addTaskModalVisible, setAddTaskModalVisible] = useState(false);
 
   // find tasks of this colum
-  const tasks = taskData
-    .filter((task) => {
-      return task.columnId === id;
-    })
-    .map((task) => {
-      return (
-        <Task
-          key={task.userId}
-          name={task.name}
-          description={task.description}
-          userData={userData}
-          userId={task.userId}
-        />
-      );
-    });
+  const taskComponents = tasks.map((task) => {
+    return (
+      <Task
+        // This key is not right, it'll be duplicate
+        key={task.assigned}
+        name={task.name}
+        description={task.description}
+        userData={userData}
+        userId={task.assigned}
+      />
+    );
+  });
 
   const addTaskButtonClick = () => {
     setAddTaskModalVisible(true);
@@ -71,9 +61,25 @@ export default function Column({ id, columnName, deleteColumn }) {
     setAddTaskModalVisible(false);
   };
 
-  const createNewTask = (task) => {
+  const createNewTask = async (task) => {
     // TODO: This is where API call happens to create a new task in the database
-    setTaskData([...taskData, task]);
+    const url = `http://localhost:2053/project/${projectId}/board/${boardId}/column/${id}/task`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: localStorage.getItem("authCookie"),
+      },
+      body: JSON.stringify({
+        name: task.name,
+        description: task.description,
+        assigned: task.assigned,
+      }),
+    });
+
+    console.log("New task record has been created", await response.json());
+    console.log(task);
+    await refetchBoard()
   };
 
   return (
@@ -85,7 +91,7 @@ export default function Column({ id, columnName, deleteColumn }) {
       <button onClick={addTaskButtonClick} style={btnForOthers1}>
         +
       </button>
-      {tasks}
+      {taskComponents}
 
       {addTaskModalVisible && (
         <AddTaskModal

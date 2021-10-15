@@ -3,7 +3,7 @@ import React from "react";
 import Header from './Header';
 import Board from "./Board";
 
-export default function MainView({ columns }) {
+export default function MainView({ columns, projectId, refetchBoard }) {
   console.log("rendering main view", columns);
 
   // ! This was a duplicate of the one in 'Board.js'
@@ -20,7 +20,7 @@ export default function MainView({ columns }) {
   return (
     <section className="mainView">
       <Header projectName={'Project'} boardName={'Board'} members={['Greg']} />
-      <Board columnData={columns}/>
+          <Board columnData={columns} projectId={projectId} refetchBoard={refetchBoard}/>
     </section>
   );
 }

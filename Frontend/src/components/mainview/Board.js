@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Column from "./Column";
 
-export default function Board({ columnData }) {
-  const cols = Object.values(columnData);
+export default function Board({ columnData, projectId, refetchBoard }) {
 
   const [newColumnName, setNewColumnName] = useState("");
 
@@ -23,12 +22,17 @@ export default function Board({ columnData }) {
     // setColumnData(columnData.filter((col) => col !== name));
   };
 
-  const columns = cols.map((column) => {
+  const columns = columnData.map((column) => {
     return (
       <Column
+        key={column.id}
         columnName={column.name}
         deleteColumn={deleteColumn}
         id={column.id}
+        tasks={column.tasks}
+        projectId={projectId}
+        boardId={column.boardId}
+        refetchBoard={refetchBoard}
       />
     );
   });
