@@ -5,8 +5,6 @@ import Board from "./Board";
 
 export default function MainView({ columns }) {
   console.log("rendering main view", columns);
-  // On a click on board, retrieve columns for given board
-
 
   // ! This was a duplicate of the one in 'Board.js'
   // const cols = Object.values(columns).map((column) => {
@@ -22,7 +20,7 @@ export default function MainView({ columns }) {
   return (
     <section className="mainView">
       <Header projectName={'Project'} boardName={'Board'} members={['Greg']} />
-      <Board columnData2={columns}/>
+      <Board columnData={columns}/>
     </section>
   );
 }

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Task from "./Task";
 import AddTaskModal from "./AddTaskModal";
 import {
-  btnForDelete
+  column as col,
+  btnForDelete,
+  btnForOthers1,
 } from "../../Styling/Stylesheet";
 
 export default function Column({ id, columnName, deleteColumn }) {
@@ -27,20 +29,17 @@ export default function Column({ id, columnName, deleteColumn }) {
     1: {
       id: 1,
       name: "Ben",
-      avatar:
-        "",
+      avatar: "",
     },
     2: {
       id: 2,
       name: "Jenny",
-      avatar:
-        "https://source.boringavatars.com/beam/20",
+      avatar: "https://source.boringavatars.com/beam/20",
     },
     3: {
       id: 3,
       name: "Gabriel",
-      avatar:
-        "https://source.boringavatars.com/beam/3",
+      avatar: "https://source.boringavatars.com/beam/3",
     },
   });
 
@@ -78,12 +77,16 @@ export default function Column({ id, columnName, deleteColumn }) {
   };
 
   return (
-    <div className='column'>
+    <article style={col}>
       <h5>{columnName}</h5>
-      <button onClick={() => deleteColumn(columnName)} style={btnForDelete}>−</button>
-      <button onClick={addTaskButtonClick}>+</button>
+      <button onClick={() => deleteColumn(columnName)} style={btnForDelete}>
+        −
+      </button>
+      <button onClick={addTaskButtonClick} style={btnForOthers1}>
+        +
+      </button>
       {tasks}
-   
+
       {addTaskModalVisible && (
         <AddTaskModal
           userData={userData}
@@ -92,6 +95,6 @@ export default function Column({ id, columnName, deleteColumn }) {
           columnId={id}
         />
       )}
-    </div>
+    </article>
   );
 }
