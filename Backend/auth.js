@@ -1,4 +1,4 @@
-const {nanoid} = require('nanoid');
+const { nanoid } = require('nanoid');
 const cookie = require('cookie');
 const cookie_signature = require('cookie-signature');
 
@@ -12,29 +12,43 @@ const cookie_auth_key = '7jWl4UOO1Mcv4bPfR3BDqDwCCm4PEPHrwuYQY9mbzJzQFlLFSE'; //
 // ====================
 
 module.exports = {
-  createAccount: async({email, password}, req, res) => {
-    const existingUser = await User.findAll({where: {email: email}});
+
+  //Creates an account without requiring a re / res object, used to seed data
+  seedAccount: async ({ email, password }) => {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const cookieKey = nanoid();
+    const username = email.split('@')[0].replace(/[^a-zA-Z +]/g, ' ').replace(/  +/g, ' ');
+
+    const newUser = await User.create({ email, password, username, password: hashedPassword, cookieKey }).then((u) => {
+      console.log('Successful account creation.')
+      return u
+    })
+    return newUser
+  },
+
+  createAccount: async ({ email, password }, req, res) => {
+    const existingUser = await User.findAll({ where: { email: email } });
     if (existingUser.length) { // ! return error message if user already exists
-      return res.status(400).json({'error': 'An account already exists for this email'})
+      return res.status(400).json({ 'error': 'An account already exists for this email' })
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const cookieKey = nanoid();
     const username = email.split('@')[0].replace(/[^a-zA-Z +]/g, ' ').replace(/  +/g, ' ');
 
-    User.create({email, password, username, password: hashedPassword, cookieKey}).then((e) => {
+    User.create({ email, password, username, password: hashedPassword, cookieKey }).then((e) => {
       console.log('Successful account creation.')
       res.json({ 'message': 'success' });
-    }).catch((err) => {res.json({'message': 'failed', 'error': err})})
+    }).catch((err) => { res.json({ 'message': 'failed', 'error': err }) })
   },
 
-  login: async({email, password}, req, res) => {
-    const accountData = await User.findOne({where: {email: email}});
-    if (!accountData) { return res.status(400).json({'error': 'Incorrect email or password'}) }
+  login: async ({ email, password }, req, res) => {
+    const accountData = await User.findOne({ where: { email: email } });
+    if (!accountData) { return res.status(400).json({ 'error': 'Incorrect email or password' }) }
 
-    bcrypt.compare(password, accountData.dataValues.password, async(err, result) => {
+    bcrypt.compare(password, accountData.dataValues.password, async (err, result) => {
       if (!result) {
-        return res.status(400).json({'error': 'Incorrect email or password'})
+        return res.status(400).json({ 'error': 'Incorrect email or password' })
       } else {
         console.log('Successful account login.');
 
@@ -52,18 +66,18 @@ module.exports = {
     })
   },
 
-  middle: async(req, res, next) => {
+  middle: async (req, res, next) => {
     // ! Dev Bypass.
     if (req.headers?.auth === 'trollo') { req.uID = 1; return next(); }
 
     // ! FOR DEV:
-    if (!req.headers.auth) { return res.status(400).json({'error': 'Not logged in'}) }
-    let accountID = await User.findOne({where: {cookieKey: req.headers.auth}});
+    if (!req.headers.auth) { return res.status(400).json({ 'error': 'Not logged in' }) }
+    let accountID = await User.findOne({ where: { cookieKey: req.headers.auth } });
     if (accountID?.dataValues) {
       req.uID = accountID.dataValues.id;
       return next();
     } else {
-      return res.status(400).json({'error': 'You are not logged in'})
+      return res.status(400).json({ 'error': 'You are not logged in' })
     }
 
     // if (!req.cookies) { return res.status(400).json({'error': 'Not logged in'}) }
@@ -75,7 +89,7 @@ module.exports = {
 }
 
 const setCookie = (response, cookieKey) => {
-  return response.cookie('auth', cookie_signature.sign(cookieKey, cookie_auth_key), {httpOnly: true, secure: true});
+  return response.cookie('auth', cookie_signature.sign(cookieKey, cookie_auth_key), { httpOnly: true, secure: true });
 }
 const getCookie = (authCookie) => {
   return cookie_signature.unsign(authCookie, cookie_auth_key);

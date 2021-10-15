@@ -5,8 +5,7 @@ import MainView from "./mainview/MainView";
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 
-import '../Styling/main.css';
-
+import "../Styling/main.css";
 
 export default function Authenticated() {
   const { user } = useContext(UserContext);
@@ -20,8 +19,10 @@ export default function Authenticated() {
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
 
-  const updateColumns = (arr) => {
-    setColumns(arr);
+  const updateColumns = (obj) => {
+    const cols = Object.values(obj);
+    console.log("Columns being updated with this data: ", cols);
+    setColumns(cols);
   };
 
   const updateBoards = (arr) => {
@@ -89,18 +90,23 @@ export default function Authenticated() {
   };
 
   return (
-    <div className='main'>
+    <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
         boards={boards}
       />
-      <MainView columns={columns} currProjectId={currProjectId}/>
+
+      <MainView
+        columns={columns}
+        projectId={currProjectId}
+        refetchBoard={() => updateCounter()}
+       currProjectId={currProjectId}
+      />
     </div>
   );
 }
-
 
 async function fetchBoardsData(projectId, updateCB, user) {
   const cookie = localStorage.getItem("authCookie");
