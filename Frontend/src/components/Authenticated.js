@@ -101,6 +101,22 @@ export default function Authenticated() {
     setBoards([...boards].filter(b => b.id !== id))
   }
 
+  const handleAddColumn = async (name) => {
+    console.log("addcolumn: ", name)
+    const res = await fetch(`http://localhost:2053/project/${currProjectId}/board/${currBoardId}/column`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json',
+        'auth': localStorage.getItem('authCookie')
+      },
+      body: JSON.stringify({ name })
+    })
+    const resJson = await res.json()
+    const newCol = resJson.data
+    newCol.tasks = []
+    setColumns([...columns, newCol])
+  }
+
   return (
     <div className="main">
       <Sidebar
@@ -113,6 +129,7 @@ export default function Authenticated() {
 
       <MainView
         columns={columns}
+        handleAddColumn={handleAddColumn}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
         currProjectId={currProjectId}
