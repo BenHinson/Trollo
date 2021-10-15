@@ -7,10 +7,12 @@ import Board from "./Board";
 export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
 
   const [members, updateMembers] = useContext(ProjectMembersContext);
-
+  console.log("YOUR MEMBERS");
+  console.log(members)
   const handleSubmit = async (value, formType) => {
     await addMember(value, currProjectId);
     refetchBoard();
+    console.log(value)
   };
 
   // POST /project/:projectId/member
