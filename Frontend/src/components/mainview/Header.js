@@ -3,6 +3,7 @@ import { ProjectsContext } from '../../ProjectsContext';
 import Form from '../Form'
 import Avatar from "boring-avatars"
 
+
 export default function Header({ projectName, boardName, currProjectId, handleSubmit, membersArray=[]}) {
   // console.log(members);
   // const [members, setMembers] = useState([]);
@@ -38,7 +39,7 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
 
       <div className='members'>
         <span className='membersList'>
-          {membersArray.map((member) => {
+          {membersArray && membersArray.map((member) => {
             return <Avatar size='30' variant="beam" title={member.username}/>
           })}
         </span>

@@ -21,11 +21,10 @@ export default function Authenticated() {
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
 
-  console.log('CURR PROJECT ID')
-  console.log(currProjectId)
-  const updateColumns = (arr) => {
-    setColumns(arr);
 
+  const updateColumns = (obj) => {
+    const cols = Object.values(obj);
+    setColumns(cols);
   };
 
   const updateBoards = (arr) => {
@@ -57,14 +56,12 @@ export default function Authenticated() {
           },
         });
 
-
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
         }
       }
     }
-    console.log("Fetching data");
     fetchData();
   }, [counter]);
 
@@ -80,6 +77,7 @@ export default function Authenticated() {
   const handleProjectSelect = async (id) => {
     updateCurrProjectId(id);
     await fetchBoardsData(id, updateBoards, user, updateMembers);
+    updateCounter();
   };
 
   const handleBoardSelect = async (id) => {
@@ -132,8 +130,9 @@ async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
       const members = responseJson.data.members;
-      updateBoards(boards);
+      console.log("Fetched members", members);
       updateMembers(members);
+      updateBoards(boards);
     }
   }
 }

@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import {ProjectMembersContext} from '../../ProjectsMembersContext';
 
-import Header from './Header';
+import Header from "./Header";
 import Board from "./Board";
-
-// ===================
 
 export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
   const [members, updateMembers] = useContext(ProjectMembersContext)
