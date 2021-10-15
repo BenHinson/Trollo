@@ -6,21 +6,15 @@ Trollo is a task manager that bears absolutely no resemblence to [Trello](http:/
 
 ## Creating an Account
 
-/SCREENSHOT OF SIGN UP COMPONENT/
-
 When you visit Trollo for the first time you will be prompted to log in with a existing account or create a new one.
 
-Clicking the sign up toggle will display a form to input the new accounts information. All accounts must have an email address and a password. Optionally you can also provide an avatar URL for an image that will displayed alongside your name when using the app.
+Clicking the sign up button will display a form to input the new accounts information. All accounts must have an email address and a password. Optionally you can also provide an avatar URL for an image that will displayed alongside your name when using the app.
 
 ## Logging In
-
-/SCREENSHOT OF LOGIN COMPONENT/
 
 Once you have created an account you can log in with your users details. Trollo uses a cookie based authentication system so you should only have to do this once per device, after which you will remain logged into the app until you choose to log out.
 
 ## Organization
-
-/DIAGRAM SHOWING TROLLO ORGANIZATION HIERARCHY/
 
 Trollo is organized hierarchically into Projects > Boards > Columns > Tasks.
 
@@ -33,8 +27,6 @@ A Board is a collection of columns that are related to eachother. E.g. You could
 A Project is a collection of Boards and is the highest level of organization available in Trollo. E.g. You may have one project for each product team in your company. A User must be invited before they can view and contribute to a project, this way you can control who has access to the information contained in each project.
 
 ## The Dashboard
-
-/SCREENSHOT OF TROLLO DASHBOARD/
 
 Once logged in your dashboard will be displayed. From here you can see all of the projects that your account is part of.
 
@@ -50,5 +42,6 @@ Assigning a task to a user marks it as their responsibility. Multiple users can 
 
 Trello was built using React on the fronted and a REST api built with Node.js/Express serving from a SQLite database on the backend.
 
-/UML DIAGRAM OF DATABASE STRUCTURE/
+![UML Diagram](./img/uml_diagram.png)
 
+Below is UML diagram of our databse structure.

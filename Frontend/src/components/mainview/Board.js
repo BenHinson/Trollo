@@ -1,33 +1,28 @@
 import React, { useState } from "react";
 import Column from "./Column";
 
-export default function Board({ columnData, projectId, refetchBoard }) {
+export default function Board({ columnData, projectId, refetchBoard, handleAddColumn, handleDeleteColumn }) {
 
   const [newColumnName, setNewColumnName] = useState("");
 
   const addColumn = () => {
-    console.log(`Adding new clomun: ${newColumnName}`);
     // TODO: API request goes here
     // TODO: The columnData.length + 1 is a hack, this reassign duplicate ids the second we delete a column
     // setColumnData([
     //   ...columnData,
     //   { name: newColumnName, id: columnData.length + 1 },
     // ]);
+    handleAddColumn(newColumnName)
+    setNewColumnName("")
   };
 
-  const deleteColumn = (name) => {
-    console.log(`delete column`);
-    // TODO: API request goes here
-    // TODO: Code below is a placholder and will need to be refactored once API is ready
-    // setColumnData(columnData.filter((col) => col !== name));
-  };
 
   const columns = columnData.map((column) => {
     return (
       <Column
         key={column.id}
         columnName={column.name}
-        deleteColumn={deleteColumn}
+        handleDeleteColumn={handleDeleteColumn}
         id={column.id}
         tasks={column.tasks}
         projectId={projectId}

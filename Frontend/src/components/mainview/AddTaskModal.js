@@ -26,7 +26,7 @@ export default function AddTaskModal({ hideModal, createNewTask, columnId }) {
       columnId,
       name,
       description,
-      userId: assignedUserId,
+      assigned: assignedUserId,
     };
 
     e.preventDefault();
@@ -39,7 +39,7 @@ export default function AddTaskModal({ hideModal, createNewTask, columnId }) {
   };
 
   return (
-    <div className='createTask'>
+    <div className="createTask">
       <form onSubmit={handleSubmit}>
         <input
           value={name}

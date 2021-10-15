@@ -11,11 +11,14 @@ export default function Task({ name, description, userId }) {
     setAssignedUserId(userId);
   };
 
-  const userComponent = assignedUserId ? (
-    <UserAvatar userData={members} userId={assignedUserId} />
-  ) : (
-    <SelectUser handleSelect={handleUserChange} userData={members} selectDefault={'Assign Task To:'} />
+
+  const userComponent = assignedUserId && (
+    <UserAvatar userId={assignedUserId} />
+
   );
+  // ) : (
+  //   <SelectUser handleSelect={handleUserChange} />
+  // );
 
   return (
     <div className="columnTask">
