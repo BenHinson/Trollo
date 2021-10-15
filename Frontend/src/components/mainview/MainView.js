@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
+import {ProjectMembersContext} from '../../ProjectsMembersContext';
 
 import Header from './Header';
 import Board from "./Board";
 
+// ===================
+
 export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
-  console.log("rendering main view", columns);
-  const members = [{ "id": 1, "email": "example@example.com", "username": "example", "avatar": null }]
-  console.log("rendering main view", columns);
-  console.log(currProjectId)
+  const [members, updateMembers] = useContext(ProjectMembersContext)
 
   const handleSubmit = async (value, formType) => {
     await addMember(value, currProjectId);
@@ -16,9 +16,7 @@ export default function MainView({ columns, projectId, refetchBoard, currProject
 
   // POST /project/:projectId/member
   async function addMember(value, id) {
-    let url = `http://localhost:2053/project/${id}/member`;
-
-    const response = await fetch(url, {
+    const response = await fetch(`http://localhost:2053/project/${id}/member`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,19 +27,15 @@ export default function MainView({ columns, projectId, refetchBoard, currProject
     console.log(response)
     if (response.status === 200) {
        // Add member to members
-      
     }
   }
 
-
-
-  // Retrieve tasks for columns
   return (
     <section className="mainView">
       <Header
         projectName={'Project'}
         boardName={'Board'}
-        members={members}
+        membersArray={members}
         handleSubmit={handleSubmit}
         currProjectId={currProjectId}
       />

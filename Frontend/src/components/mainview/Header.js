@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import { ProjectsContext } from '../../ProjectsContext';
-import UserAvatar from './UserAvatar'
 import Form from '../Form'
 import Avatar from "boring-avatars"
 
-export default function Header({ projectName, boardName, currProjectId, handleSubmit}) {
+export default function Header({ projectName, boardName, currProjectId, handleSubmit, membersArray=[]}) {
   // console.log(members);
   // const [members, setMembers] = useState([]);
   const [projects, updateProjects] = useContext(ProjectsContext);
@@ -29,7 +28,6 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
   console.log(projectName);
   console.log(boardName);
 
-
   return (
     <div className='boardHeader'>
       <span className='boardLocation'>
@@ -40,9 +38,9 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
 
       <div className='members'>
         <span className='membersList'>
-          {/* {members.map((member) => {
-            return <Avatar size='30' variant="beam" title={member.username} />
-          })} */}
+          {membersArray.map((member) => {
+            return <Avatar size='30' variant="beam" title={member.username}/>
+          })}
         </span>
         <button className='memberInviteBtn' onClick={showForm}>Invite</button>
       </div>

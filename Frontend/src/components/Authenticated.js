@@ -4,25 +4,28 @@ import MainView from "./mainview/MainView";
 
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
+import { ProjectMembersContext } from "../ProjectsMembersContext";
 
-import '../Styling/main.css';
-
+import "../Styling/main.css";
 
 export default function Authenticated() {
   const { user } = useContext(UserContext);
   const [projects, updateProjects] = useContext(ProjectsContext);
   const [boards, setBoards] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [members, updateMembers] = useContext(ProjectMembersContext);
   const [currProjectId, setCurrProjectId] = useState(null);
   const [currBoardId, setCurrBoardId] = useState(null);
 
   // Artificial state variable to trigger refetch of boards on adding a new board via the form.
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
+
   console.log('CURR PROJECT ID')
   console.log(currProjectId)
   const updateColumns = (arr) => {
     setColumns(arr);
+
   };
 
   const updateBoards = (arr) => {
@@ -54,6 +57,7 @@ export default function Authenticated() {
           },
         });
 
+        
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
@@ -66,7 +70,7 @@ export default function Authenticated() {
 
   // FETCHING BOARDS
   useEffect(() => {
-    fetchBoardsData(currProjectId, updateBoards, user);
+    fetchBoardsData(currProjectId, updateBoards, user, updateMembers);
   }, [counter]);
 
   useEffect(() => {
@@ -75,7 +79,7 @@ export default function Authenticated() {
 
   const handleProjectSelect = async (id) => {
     updateCurrProjectId(id);
-    await fetchBoardsData(id, updateBoards, user);
+    await fetchBoardsData(id, updateBoards, user, updateMembers);
   };
 
   const handleBoardSelect = async (id) => {
@@ -89,23 +93,25 @@ export default function Authenticated() {
   };
 
   return (
-    <div className='main'>
+    <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
         boards={boards}
       />
+
       <MainView
-        currProjectId={currProjectId}
         columns={columns}
+        projectId={currProjectId}
+        refetchBoard={() => updateCounter()}
+       currProjectId={currProjectId}
       />
     </div>
   );
 }
 
-
-async function fetchBoardsData(projectId, updateCB, user) {
+async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
   const cookie = localStorage.getItem("authCookie");
 
   if (cookie && user?.username && projectId) {
@@ -120,7 +126,9 @@ async function fetchBoardsData(projectId, updateCB, user) {
     if (response.status === 200) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
-      updateCB(boards);
+      const members = responseJson.data.members;
+      updateBoards(boards);
+      updateMembers(members);
     }
   }
 }

@@ -133,8 +133,10 @@
 
 .main .mainView {
   display: grid;
-  grid-template-rows: 91px auto;
+  grid-template-rows: 85px auto;
   background: var(--text-contrast);
+  overflow-y: hidden;
+  margin-bottom: 0.5em;
 
   .boardHeader {
     display: flex;
@@ -185,12 +187,24 @@
   .board {
     display: flex;
     flex-direction: row;
-    overflow-y: hidden;
-    overflow-x: scroll;
+    overflow: hidden;
     width: fit-content;
 
     >.column {
       width: 270px;
+
+      .columnHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--component);
+
+        >h5 {
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+
     }
   }
 }
@@ -219,3 +233,8 @@
 .cancelBtn {
   background: var(--cancel);
 }
+
+
+::-webkit-scrollbar { height: 12px; }
+::-webkit-scrollbar-thumb { background: var(--feature); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--selected) }
