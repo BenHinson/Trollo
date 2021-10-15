@@ -6,6 +6,7 @@ export function ProjectMembersProvider(props) {
   const [members, setMembers] = useState([]);
 
   const updateMembers = (data) => {
+    console.log("Updating members context", members);
     setMembers(data);
   };
 

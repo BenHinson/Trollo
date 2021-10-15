@@ -8,6 +8,7 @@ export default function SidebarDropdown({
   arr,
   handleSelect,
   handleSubmit,
+  handleDelete,
 }) {
   const [formVisibility, setFormVisibility] = useState(false);
 
@@ -32,7 +33,7 @@ export default function SidebarDropdown({
       onClick={() => handleSelect(el.id)}
     >
       <span id={el.id}>{el.name}</span>
-      <button id={el.id} className='deleteBtn'>✕</button>
+      <button id={el.id} className='deleteBtn' onClick={() => handleDelete(el.id)}>✕</button>
     </li>
   ));
 

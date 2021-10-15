@@ -4,7 +4,6 @@ export default function Form({ handleSubmit, hideForm, formType }) {
   const [value, setValue] = useState("");
 
   const updateValue = (e) => {
-    console.log("This is form type: ", formType);
     setValue(e.target.value);
   };
 
@@ -16,12 +15,14 @@ export default function Form({ handleSubmit, hideForm, formType }) {
   return (
     <form onSubmit={onSubmit}>
       <input
-        placeholder={`${formType} Name...`}
+        placeholder={formType === "Members" ? `${formType} Email...` : `${formType} Email...`}
         value={value}
         onChange={updateValue}
       />
-      <button className='acceptBtn'>✓</button>
-      <button className='cancelBtn' onClick={hideForm} id={`${formType}-form`}>✕</button>
+      <button className="acceptBtn">✓</button>
+      <button className="cancelBtn" onClick={hideForm} id={`${formType}-form`}>
+        ✕
+      </button>
     </form>
   );
 }
