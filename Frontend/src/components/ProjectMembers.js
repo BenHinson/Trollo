@@ -19,20 +19,12 @@ export default function ProjectMembers({currentProjId}) {
     const [memberForm, setMemberForm] = useState(false);
     const [memberEmail, setMemberEmail] = useState("");
     const [message, setMessage] = useState("");
-
-    const url = "http://localhost:2053";
     
-    // GET FUNCTION
-    const showMembers = event => { // SHOW ASSIGNED MEMBERS TO PROJECT (NOT SUPPORTED YET)
-            // fetch members
-        console.log("member open");
-
-    };
     
     // POST FUNCTION
     const addMember = async (event) => { // POST new member(NOT SUPPORTED YET)
         const memberToAdd = {email: memberEmail}
-        const response = await fetch(`${url}/project/${currentProjId}/member`, {
+        const response = await fetch(`http://localhost:2053/project/${currentProjId}/member`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,10 +40,8 @@ export default function ProjectMembers({currentProjId}) {
         console.log(data);
 
         if (data.error) {
-
             setMessage(data.error)
             console.log(message)
-         
         } else {
              // Logic on front-end layer
             const membersCopy = [...members];
@@ -98,51 +88,45 @@ export default function ProjectMembers({currentProjId}) {
     const listMembers = () => members.map(member => {
         return (
             <div key={member.id} style={{ display: "inline-block" }} >
-                <userAvatar userId={user.id} userData={user} />
-            {/* <img src={avatar} style={ {height:"30px", width: "30px", display: "inline-block"}}></img> */}
-        </div>
+                <UserAvatar userId={user.id} userData={user} />
+                {/* <img src={avatar} style={ {height:"30px", width: "30px", display: "inline-block"}}></img> */}
+            </div>
         )
     });
     
-    // STYLES
-
-    const locatingUsers = {
-        position: "absolute",
-        top: "0",
-        right: "0",
-        padding: "1rem"
-    }
-
-    const locatingForm = {
-        position: "absolute",top: "50vh", left: "30vw" 
-    }
-    const ErrorM = {
-        top: "-50vh",
-        right: "-30vw",
-        width: "400px",
-        textAlign: "center"
-    }
-
+    console.log(members);
+    
     return (
-      <Fragment>
-        <section style={{ width: "70%", display: "inline-block", textAlign: "center" }}>
-        
-            {currentProjId !== 0 &&      
-            <div style={locatingUsers}>
-                {listMembers()}
-                <button onClick={showMemberForm} style={btnForOthers2}>Invite</button>
-                </div>      
-            }
-            
-            </section>
-            
-            {memberForm &&
-                <section style={locatingForm}>
-                    {memberform()}
-                </section>
-            }
+        <Fragment>
+        <span className='membersList'>
+            {listMembers()}
+        </span>
 
-            {message.length > 0 && errorMessage()}
-        </Fragment>
+            
+        {memberForm &&
+            <section style={locatingForm}>
+                {memberform()}
+            </section>
+        }
+        {message.length > 0 && errorMessage()}
+    </Fragment>
   );
+  // STYLES
+
+  const locatingUsers = {
+      position: "absolute",
+      top: "0",
+      right: "0",
+      padding: "1rem"
+  }
+
+  const locatingForm = {
+      position: "absolute",top: "50vh", left: "30vw" 
+  }
+  const ErrorM = {
+      top: "-50vh",
+      right: "-30vw",
+      width: "400px",
+      textAlign: "center"
+  }
 }

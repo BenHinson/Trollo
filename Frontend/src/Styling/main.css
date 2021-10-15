@@ -187,9 +187,11 @@
 .main .mainView {
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: 91px auto;
-      grid-template-rows: 91px auto;
+  -ms-grid-rows: 85px auto;
+      grid-template-rows: 85px auto;
   background: var(--text-contrast);
+  overflow-y: hidden;
+  margin-bottom: 0.5em;
 }
 
 .main .mainView .boardHeader {
@@ -265,8 +267,7 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  overflow-y: hidden;
-  overflow-x: scroll;
+  overflow: hidden;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -298,5 +299,18 @@
 
 .cancelBtn {
   background: var(--cancel);
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--feature);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--selected);
 }
 /*# sourceMappingURL=main.css.map */

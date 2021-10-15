@@ -53,6 +53,7 @@ export default function Authenticated() {
           },
         });
 
+        
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
@@ -95,7 +96,7 @@ export default function Authenticated() {
         handleSubmit={handleSubmit}
         boards={boards}
       />
-      <MainView columns={columns} />
+      <MainView columns={columns} currProjectId={currProjectId}/>
     </div>
   );
 }

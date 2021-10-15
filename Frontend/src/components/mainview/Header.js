@@ -1,4 +1,7 @@
-export default function Header({projectName, boardName, members}) {
+import Avatar from "boring-avatars"
+
+export default function Header({ projectName, boardName, membersArray }) {
+  console.log(membersArray);
 
   return (
     <div className='boardHeader'>
@@ -10,8 +13,9 @@ export default function Header({projectName, boardName, members}) {
 
       <div className='members'>
         <span className='membersList'>
-          {/* List of members icons here */}
-          {/* <img src=''> */}
+          {membersArray.map((member) => {
+            return <Avatar size='30' variant="beam" title={member.username}/>
+          })}
         </span>
         <button className='memberInviteBtn'>Invite</button>
       </div>

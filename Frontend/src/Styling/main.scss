@@ -133,8 +133,10 @@
 
 .main .mainView {
   display: grid;
-  grid-template-rows: 91px auto;
+  grid-template-rows: 85px auto;
   background: var(--text-contrast);
+  overflow-y: hidden;
+  margin-bottom: 0.5em;
 
   .boardHeader {
     display: flex;
@@ -185,8 +187,7 @@
   .board {
     display: flex;
     flex-direction: row;
-    overflow-y: hidden;
-    overflow-x: scroll;
+    overflow: hidden;
     width: fit-content;
 
     >.column {
@@ -219,3 +220,8 @@
 .cancelBtn {
   background: var(--cancel);
 }
+
+
+::-webkit-scrollbar { height: 12px; }
+::-webkit-scrollbar-thumb { background: var(--feature); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--selected) }
