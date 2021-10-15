@@ -37,7 +37,7 @@ export default function SidebarDropdown({
     </li>
   ));
 
-  console.log(name);
+  // console.log(name);
 
   return (
     <Fragment>
