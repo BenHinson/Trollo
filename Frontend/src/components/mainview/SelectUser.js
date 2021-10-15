@@ -10,9 +10,11 @@ export default function SelectUser({ handleSelect, userData }) {
     handleSelect(userId);
   };
 
+  // Do not ask me why you need two options to display the default info...
   return (
     <select onChange={handleChange}>
-      <option value="" selected disabled hidden></option>
+      <option value='' selected disabled hidden>Set Task For</option>
+      <option value='' selected disabled hidden>Set Task For</option>
       {options}
     </select>
   );

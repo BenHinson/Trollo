@@ -181,7 +181,7 @@
 }
 
 .main .sidebar .pageList li:hover {
-  background: var(--feature);
+  background: var(--component);
 }
 
 .main .mainView {
@@ -190,7 +190,7 @@
   -ms-grid-rows: 85px auto;
       grid-template-rows: 85px auto;
   background: var(--text-contrast);
-  overflow-y: hidden;
+  padding-bottom: 0.5em;
   margin-bottom: 0.5em;
 }
 
@@ -267,14 +267,18 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  overflow: hidden;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  gap: 1.5em;
+  padding: 0 0 1em;
+  margin: 0 2em;
 }
 
 .main .mainView .board > .column {
-  width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+  background: var(--component);
+  border-radius: 10px;
 }
 
 .main .mainView .board > .column .columnHeader {
@@ -288,18 +292,140 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-bottom: 1px solid var(--component);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid var(--highlight-faded);
+  padding: 1em;
+  margin-bottom: 1em;
 }
 
 .main .mainView .board > .column .columnHeader > h5 {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.main .mainView .board > .column .columnHeader > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5em;
+}
+
+.main .mainView .board > .column .columnHeader button {
+  height: 1.5em;
+  width: 1.5em;
+  border-radius: 1em;
+  font-size: 18px;
+  cursor: pointer;
+  background: var(--feature);
+}
+
+.main .mainView .board > .column .columnHeader button:nth-child(1):hover {
+  background: var(--highlight);
+  color: var(--text-contrast);
+}
+
+.main .mainView .board > .column .columnHeader button:nth-child(n+2):hover {
+  background: var(--cancel);
+  color: var(--text-contrast);
+}
+
+.main .mainView .board > .column .columnTasks {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+.main .mainView .board > .column .columnTasks .columnTask {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  background-color: var(--text-contrast);
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  gap: 0.5em;
+}
+
+.main .mainView .board > .column .columnTasks .columnTask:hover, .main .mainView .board > .column .columnTasks .columnTask :focus {
+  -webkit-box-shadow: 0 0 0 1px var(--highlight);
+          box-shadow: 0 0 0 1px var(--highlight);
+  background: white;
+}
+
+.main .mainView .board > .column .columnTasks .columnTask h3 {
+  width: 100%;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
+  border-bottom: 1px solid var(--feature);
+  padding-bottom: 0.25em;
+}
+
+.main .mainView .board > .column .columnTasks .columnTask p {
+  font-size: 15px;
+}
+
+.main .mainView .board > .column .columnTasks .columnTask select {
+  margin: 0.5em 0;
+  width: 100%;
+  padding: 0.25em;
+  border-radius: 5px;
+  border: 1px solid var(--highlight);
+}
+
+.main .mainView .board > .column .columnTasks .columnTask img {
+  height: 30px;
+  width: 30px;
+  place-self: end;
+}
+
+.main .mainView .board > .column .columnTasks .createTask {
+  background: var(--background);
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.main .mainView .board > .newColumn {
+  display: -ms-grid;
+  display: grid;
+  place-content: center;
+  gap: 0.5em;
+  padding: 2em;
+  border-radius: 10px;
+  border: 1px dashed var(--feature);
+  background: transparent;
+}
+
+.main .mainView .board > .newColumn > input {
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.main .mainView .board > .newColumn > button {
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 0.25em 0.1em;
+  border: 1px solid var(--highlight-faded);
+  color: var(--highlight);
+  background: transparent;
 }
 
 .deleteBtn {
   height: 1.5em;
   width: 1.5em;
-  padding: 0.25em;
   border-radius: 1em;
   font-style: normal;
   font-size: 18px;
@@ -309,7 +435,8 @@
 }
 
 .deleteBtn:hover {
-  background: var(--component);
+  background: var(--cancel);
+  color: var(--text-contrast);
 }
 
 .acceptBtn {
@@ -324,8 +451,12 @@
   height: 12px;
 }
 
+::-webkit-scrollbar-track {
+  background: var(--component);
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--feature);
+  background: var(--highlight-faded);
   border-radius: 6px;
 }
 

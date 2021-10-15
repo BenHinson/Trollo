@@ -42,7 +42,7 @@ export default function AddTaskModal({
   };
 
   return (
-    <div>
+    <div className='createTask'>
       <form onSubmit={handleSubmit}>
         <label>
           Name:

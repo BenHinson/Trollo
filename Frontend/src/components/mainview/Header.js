@@ -13,7 +13,7 @@ export default function Header({ projectName, boardName, membersArray=[] }) {
       <div className='members'>
         <span className='membersList'>
           {membersArray.map((member) => {
-            return <Avatar size='30' variant="beam" title={member.username}/>
+            return <Avatar size='30' variant="beam"/>
           })}
         </span>
         <button className='memberInviteBtn'>Invite</button>

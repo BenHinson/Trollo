@@ -42,7 +42,7 @@ export default function Board({ columnData, projectId, refetchBoard }) {
       {columns}
       <div className="newColumn">
         <input
-          placeholder="add column"
+          placeholder="Column Name..."
           value={newColumnName}
           onChange={(e) => setNewColumnName(e.target.value)}
         ></input>

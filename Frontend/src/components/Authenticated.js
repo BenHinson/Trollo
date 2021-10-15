@@ -16,6 +16,7 @@ export default function Authenticated() {
   const [members, updateMembers] = useContext(ProjectMembersContext);
   const [currProjectId, setCurrProjectId] = useState(null);
   const [currBoardId, setCurrBoardId] = useState(null);
+  const [currProjectData, setCurrProjectData] = useState(null);
 
   // Artificial state variable to trigger refetch of boards on adding a new board via the form.
   // It increments in handleSubmit and fetching the boards depends on the value change.
@@ -104,7 +105,7 @@ export default function Authenticated() {
         columns={columns}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
-       currProjectId={currProjectId}
+        currProjectId={currProjectId}
       />
     </div>
   );

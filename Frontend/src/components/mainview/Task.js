@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
-import {
-  task,
-} from "../../Styling/Stylesheet";
 
 export default function Task({ name, description, userId, userData }) {
   const [assignedUserId, setAssignedUserId] = useState(userId);
@@ -15,22 +12,14 @@ export default function Task({ name, description, userId, userData }) {
   const userComponent = assignedUserId ? (
     <UserAvatar userData={userData} userId={assignedUserId} />
   ) : (
-    <label>
-      Assign user
-      <SelectUser handleSelect={handleUserChange} userData={userData} />
-    </label>
+    <SelectUser handleSelect={handleUserChange} userData={userData} />
   );
 
   return (
-    <div style={task}>
+    <div className='columnTask'>
       <h3>{name}</h3>
       <p>{description}</p>
       {userComponent}
     </div>
   );
 }
-
-// style for development
-const style = {
-  backgroundColor: "aqua",
-};
