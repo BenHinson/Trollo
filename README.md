@@ -51,3 +51,4 @@ Assigning a task to a user marks it as their responsibility. Multiple users can 
 Trello was built using React on the fronted and a REST api built with Node.js/Express serving from a SQLite database on the backend.
 
 /UML DIAGRAM OF DATABASE STRUCTURE/
+

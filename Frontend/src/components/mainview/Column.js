@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Task from "./Task";
 import AddTaskModal from "./AddTaskModal";
+import {
+  column as col,
+  btnForDelete,
+  btnForOthers1,
+} from "../../Styling/Stylesheet";
 
 export default function Column({ id, columnName, deleteColumn }) {
   const [taskData, setTaskData] = useState([
@@ -24,20 +29,17 @@ export default function Column({ id, columnName, deleteColumn }) {
     1: {
       id: 1,
       name: "Ben",
-      avatar:
-        "",
+      avatar: "",
     },
     2: {
       id: 2,
       name: "Jenny",
-      avatar:
-        "https://source.boringavatars.com/beam/20",
+      avatar: "https://source.boringavatars.com/beam/20",
     },
     3: {
       id: 3,
       name: "Gabriel",
-      avatar:
-        "https://source.boringavatars.com/beam/3",
+      avatar: "https://source.boringavatars.com/beam/3",
     },
   });
 
@@ -75,11 +77,16 @@ export default function Column({ id, columnName, deleteColumn }) {
   };
 
   return (
-    <div style={style}>
-      <h3>{columnName}</h3>
-      <button onClick={() => deleteColumn(columnName)}>➖ Delete column</button>
+    <article style={col}>
+      <h5>{columnName}</h5>
+      <button onClick={() => deleteColumn(columnName)} style={btnForDelete}>
+        −
+      </button>
+      <button onClick={addTaskButtonClick} style={btnForOthers1}>
+        +
+      </button>
       {tasks}
-      <button onClick={addTaskButtonClick}>➕ Add task</button>
+
       {addTaskModalVisible && (
         <AddTaskModal
           userData={userData}
@@ -88,16 +95,6 @@ export default function Column({ id, columnName, deleteColumn }) {
           columnId={id}
         />
       )}
-    </div>
+    </article>
   );
 }
-
-// style for development
-const style = {
-  width: "25%",
-  padding: 20,
-  margin: 10,
-  borderStyle: "solid",
-  borderWidth: 2,
-  borderColor: "red",
-};

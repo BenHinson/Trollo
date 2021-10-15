@@ -1,0 +1,221 @@
+.main {
+  display: grid;
+  grid-template-columns: 340px auto;
+  grid-template-rows: 100vh;
+}
+
+.main .sidebar {
+  text-align: center;
+  font-weight: bold;
+  color: var(--text-medium);
+  border-right: 1px solid var(--feature);
+
+  .userInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--feature);
+    padding: 1.25em 1em;
+
+    >span {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      >img {
+        height: 50px;
+        padding: 0.5em;
+        border-radius: 2em;
+        background: var(--component);
+      }
+      >p {
+        font-size: 18px;
+      }
+    }
+
+    button {
+      padding: 0.75em 1.25em;
+      border-radius: 5px;
+      
+      background: transparent;
+      box-shadow: inset 0 0 0 2px var(--highlight-faded);
+      color: var(--highlight);
+  
+      transition: all 300ms;
+  
+      &:hover {
+        background: var(--highlight);
+        color: var(--text-contrast);
+      }
+    }
+
+    // Collapse Button? 
+  }
+
+  .projectBoardDropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 3em 2em;
+
+    .sideBarDropdown {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &:nth-child(n+2) {
+        margin-top: 2em;
+      }
+
+      p {
+        font-weight: 500;
+        color: var(--text-dull);
+      }
+      .sidebar-btns {
+        display: flex;
+        gap: 1em;
+
+        button {
+          height: 34px;
+          width: 34px;
+          font-size: 22px;
+          border-radius: 2em;
+          background: var(--component);
+          &:hover {
+            background: var(--feature);
+          }
+        }
+      } 
+    }
+
+    form {
+      display: flex;
+      gap: 0.5em;
+      input {
+        width: calc(100% - 100px);
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        &::placeholder {
+          font-weight: 400;
+        }
+      }
+      button {
+        width: 40px;
+        border-radius: 5px;
+        font-size: 18px;
+        color: var(--text-contrast);
+      }
+    }
+  }
+
+  .pageList {
+    margin-left: 1em;
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 2.5em;
+      padding: 0.25em 0.25em 0.25em 1em;
+      border-radius: 5px;
+      font-size: 17px;
+      font-weight: 500;
+      cursor: pointer;
+
+      &.selected {
+        border: 1px solid var(--highlight);
+      }
+      &:hover {
+        background: var(--feature);
+      }
+    }
+  }
+}
+
+
+.main .mainView {
+  display: grid;
+  grid-template-rows: 91px auto;
+  background: var(--text-contrast);
+
+  .boardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2em;
+  
+    >.boardLocation {
+      display: flex;
+      gap: 1em;
+      font-weight: 600;
+      font-size: 20px;
+      >:nth-child(2) {
+        color: var(--text-dull);
+      }
+    }
+  
+    >.members {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+  
+      .membersList {
+        display: flex;
+        align-items: center;
+        gap: 0.25em;
+        >img {
+          height: 34px;
+          width: 34px;
+          border-radius: 18px;
+        }
+      }
+  
+      .memberInviteBtn {
+        padding: 0.75em 1.5em;
+        border-radius: 5px;
+        background: var(--highlight);
+        color: var(--text-contrast);
+        transition: all 200ms;
+        &:hover {
+          background: var(--highlight-dark);
+        }
+      }
+    }
+  
+  }
+
+  .board {
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    width: fit-content;
+
+    >.column {
+      width: 270px;
+    }
+  }
+}
+
+
+
+// ========================================
+
+.deleteBtn {
+  height: 1.5em;
+  width: 1.5em;
+  padding: 0.25em;
+  border-radius: 1em;
+  font-style: normal;
+  font-size: 18px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--cancel);
+  &:hover {
+    background: var(--component);
+  }
+}
+.acceptBtn {
+  background: var(--highlight-faded);
+}
+.cancelBtn {
+  background: var(--cancel);
+}

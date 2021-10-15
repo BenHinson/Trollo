@@ -247,11 +247,11 @@ app.patch('/project/:projectId/board/:boardId/column/:columnId', auth.middle, ch
       'message': 'success',
       'data': {name}
     })
-  }).catch((err) => res.json({'error': 'Failed to delete column'}))
+  }).catch((err) => res.json({'error': 'Failed to patch column'}))
 })
 
 
-app.use((req, res) => { return res.json({ 'Status': 'The API is working' }) })
+app.use((req, res) => { return res.json({ 'Status': 'The API is working but you have not hit an endpoint' }) })
 
 
 /////////////////////////////////////////////////////////
