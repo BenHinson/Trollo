@@ -226,7 +226,7 @@ app.delete('/project/:projectId', auth.middle, async (req, res) => {
   }).catch((err) => res.json({ 'error': 'Failed to delete Project' }))
 })
 
-app.delete('/project/:projectId/board/:boardId', auth.middle, checkUserIsAdmin, async (req, res) => { // Delete a specific board. Only if admin
+app.delete('/project/:projectId/board/:boardId', auth.middle, async (req, res) => { // Delete a specific board. Only if admin
   const { projectId, boardId } = req.params;
   Board.destroy({ where: { id: boardId } }).then((e) => {
     return res.json({
