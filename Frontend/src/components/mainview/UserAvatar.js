@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 import Avatar from "boring-avatars";
 import { ProjectMembersContext } from "../../ProjectsMembersContext";
 
-export default function UserAvatar({ userId }) {
-  const [members] = useContext(ProjectMembersContext);
-  let avatarComponent = <Avatar size="30" variant="beam" />;
-
-  if (members[userId]?.avatar) {
-    const avatarImgSrc = members[userId].avatar;
-    const str = members[userId].username;
-    avatarComponent = <img src={avatarImgSrc} alt={str} />;
+export default function UserAvatar({ userId, size }) {
+  console.log("Rendering avatar", userId, size);
+  if (!size) {
+    size = 30;
   }
-
-  return <>{avatarComponent}</>;
+  return (
+    <Avatar
+      size={size}
+      variant="beam"
+      colors={["#763bff", "#C4FF3B", "#d83bff", "#FAE3E3", "#B4D4EE"]}
+      name={userId.toString(16)}
+    />
+  );
 }
