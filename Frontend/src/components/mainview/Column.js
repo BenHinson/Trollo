@@ -15,6 +15,7 @@ export default function Column({
   projectId,
   boardId,
   refetchBoard,
+  handleDeleteColumn
 }) {
   //TODO: Prop drilling userData for now, nasty practice, but it'll get solved with API calls
   const [userData] = useState({
@@ -88,7 +89,7 @@ export default function Column({
         <h5>{columnName}</h5>
         <span>
           <button onClick={addTaskButtonClick}>＋</button>
-          <button onClick={() => deleteColumn(columnName)}>✕</button>
+          <button onClick={() => handleDeleteColumn(id)}>✕</button>
         </span>
       </div>
 
@@ -103,7 +104,7 @@ export default function Column({
             columnId={id}
           />
         )}
-        
+
       </div>
 
     </div>

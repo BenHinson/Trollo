@@ -119,6 +119,16 @@ export default function Authenticated() {
     setColumns([...columns, newCol])
   }
 
+  const handleDeleteColumn = async (id) => {
+    console.log('delete column', id)
+    const res = await fetch(`http://localhost:2053/project/${currProjectId}/board/${currBoardId}/column/${id}`, {
+      method: "DELETE",
+      headers: { "auth": localStorage.getItem('authCookie') }
+    })
+    const resJson = await res.json()
+    setColumns([...columns].filter(c => c.id !== id))
+  }
+
   return (
     <div className="main">
       <Sidebar
@@ -135,6 +145,7 @@ export default function Authenticated() {
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
         currProjectId={currProjectId}
+        handleDeleteColumn={handleDeleteColumn}
       />
     </div>
   );
