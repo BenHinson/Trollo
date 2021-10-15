@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Column from "./Column";
 
-export default function Board({ columnData }) {
+export default function Board({ columnData, projectId }) {
   const cols = Object.values(columnData);
+  console.log("This is cols value: ", cols);
 
   const [newColumnName, setNewColumnName] = useState("");
 
@@ -26,9 +27,13 @@ export default function Board({ columnData }) {
   const columns = cols.map((column) => {
     return (
       <Column
+        key={column.id}
         columnName={column.name}
         deleteColumn={deleteColumn}
         id={column.id}
+        tasks={column.tasks}
+        projectId={projectId}
+        boardId={column.boardId}
       />
     );
   });

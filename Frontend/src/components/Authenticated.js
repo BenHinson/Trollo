@@ -5,8 +5,7 @@ import MainView from "./mainview/MainView";
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
 
-import '../Styling/main.css';
-
+import "../Styling/main.css";
 
 export default function Authenticated() {
   const { user } = useContext(UserContext);
@@ -21,6 +20,7 @@ export default function Authenticated() {
   const [counter, setCounter] = useState(0);
 
   const updateColumns = (arr) => {
+    console.log("Update columns is being called", arr);
     setColumns(arr);
   };
 
@@ -88,18 +88,17 @@ export default function Authenticated() {
   };
 
   return (
-    <div className='main'>
+    <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
         boards={boards}
       />
-      <MainView columns={columns} />
+      <MainView columns={columns} projectId={currProjectId} />
     </div>
   );
 }
-
 
 async function fetchBoardsData(projectId, updateCB, user) {
   const cookie = localStorage.getItem("authCookie");
