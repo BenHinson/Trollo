@@ -57,7 +57,7 @@ export default function Authenticated() {
           },
         });
 
-        
+
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
@@ -92,12 +92,17 @@ export default function Authenticated() {
     updateCounter();
   };
 
+  const handleDeleteBoard = async (id) => {
+    console.log("delete board", id)
+  }
+
   return (
     <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
+        handleDeleteBoard={handleDeleteBoard}
         boards={boards}
       />
 
@@ -105,7 +110,7 @@ export default function Authenticated() {
         columns={columns}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
-       currProjectId={currProjectId}
+        currProjectId={currProjectId}
       />
     </div>
   );
@@ -151,6 +156,8 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
     if (response.status === 200) {
       const responseJson = await response.json();
       const columns = responseJson.data.columns;
+      // columns comes in like this {1: {column}, 2: {column}} and needs to be an array [{column, {column}}]
+      const formattedColumns = Object.values(columns)
       console.log(
         "Fetched columns for board id",
         boardId,
@@ -158,7 +165,7 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
         projectId,
         columns
       );
-      updateCB(columns);
+      updateCB(formattedColumns);
     }
   }
 }

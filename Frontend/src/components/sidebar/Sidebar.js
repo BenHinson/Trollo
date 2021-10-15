@@ -10,8 +10,10 @@ export default function Sidebar({
   handleBoardSelect,
   handleSubmit,
   boards,
+  handleDeleteBoard
 }) {
   const { user, handleLogout } = useContext(UserContext);
+  // should refactor ProjectContext to return an object rather than an array at some point.
   const [projects, _, deleteProject] = useContext(ProjectsContext);
 
   return (
@@ -31,7 +33,7 @@ export default function Sidebar({
           arr={boards} // default
           handleSelect={handleBoardSelect} // returns a board id
           handleSubmit={handleSubmit}
-          handleDelete={() => console.log("delete board")}
+          handleDelete={handleDeleteBoard}
         />
       </div>
     </section>
