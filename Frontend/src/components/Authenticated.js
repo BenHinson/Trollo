@@ -21,10 +21,11 @@ export default function Authenticated() {
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
 
-  const updateColumns = (obj) => {
-    const cols = Object.values(obj);
-    console.log("Columns being updated with this data: ", cols);
-    setColumns(cols);
+  console.log('CURR PROJECT ID')
+  console.log(currProjectId)
+  const updateColumns = (arr) => {
+    setColumns(arr);
+
   };
 
   const updateBoards = (arr) => {
