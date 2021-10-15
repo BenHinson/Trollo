@@ -137,7 +137,6 @@ async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
       const members = responseJson.data.members;
-      console.log("Fetched members", members);
       updateMembers(members);
       updateBoards(boards);
     }
@@ -164,13 +163,6 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
       const columns = responseJson.data.columns;
       // columns comes in like this {1: {column}, 2: {column}} and needs to be an array [{column, {column}}]
       const formattedColumns = Object.values(columns)
-      console.log(
-        "Fetched columns for board id",
-        boardId,
-        "Project id:",
-        projectId,
-        columns
-      );
       updateCB(formattedColumns);
     }
   }

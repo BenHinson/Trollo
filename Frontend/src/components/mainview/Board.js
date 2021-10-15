@@ -36,18 +36,26 @@ export default function Board({ columnData, projectId, refetchBoard }) {
       />
     );
   });
-
+  console.log(columns);
   return (
     <div className="board">
       {columns}
-      <div className="newColumn">
-        <input
-          placeholder="Column Name..."
-          value={newColumnName}
-          onChange={(e) => setNewColumnName(e.target.value)}
-        ></input>
-        <button onClick={addColumn}>Add Column</button>
-      </div>
+
+      {columns.length
+        ? (
+          <div className="newColumn">
+            <input
+              placeholder="Column Name..."
+              value={newColumnName}
+              onChange={(e) => setNewColumnName(e.target.value)}
+            ></input>
+            <button onClick={addColumn}>Add Column</button>
+          </div>
+        ) : (
+          <p className='boardMessage'>Select a Project and a board to see your tasks!</p>
+        )
+      }
+
     </div>
   );
 }

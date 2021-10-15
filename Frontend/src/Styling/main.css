@@ -227,7 +227,7 @@
   top: 78px;
   right: 2em;
   padding: 0.5em 1em;
-  background: var(--component);
+  background: var(--background);
   border: 1px solid var(--feature);
 }
 
@@ -246,8 +246,7 @@
   overflow-y: hidden;
   overflow-x: scroll;
   gap: 1.5em;
-  padding: 0 0 1em;
-  margin: 0 2em;
+  padding: 0 2em 1em;
 }
 
 .main .mainView .board > .column {
@@ -395,13 +394,25 @@
   font-size: 16px;
   padding: 0.25em 0.1em;
   border: 1px solid var(--highlight-faded);
-  color: var(--highlight);
+  color: var(--highlight-faded);
   background: transparent;
 }
 
 .main .mainView .board > .newColumn > button:hover {
   background: var(--highlight);
   color: var(--text-contrast);
+}
+
+.main .mainView .board > .boardMessage {
+  position: relative;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  left: calc(50% - 180px);
+  font-style: italic;
+  color: var(--text-dull);
 }
 
 form {
