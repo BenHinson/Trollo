@@ -73,8 +73,8 @@ app.get('/project/:projectId', auth.middle, checkUserIsMember, async (req, res) 
   }
 })
 
-app.get('/project/:projectId/board/:boardId', auth.middle, checkUserIsMember, async(req, res) => { // Receives boardId. Returns columns. and their tasks.
-  const {projectId, boardId} = req.params;
+app.get('/project/:projectId/board/:boardId', auth.middle, checkUserIsMember, async (req, res) => { // Receives boardId. Returns columns. and their tasks.
+  const { projectId, boardId } = req.params;
 
   let returnData = {
     board: {},
@@ -82,7 +82,7 @@ app.get('/project/:projectId/board/:boardId', auth.middle, checkUserIsMember, as
   };
 
   returnData.board = (await Board.findByPk(boardId))?.dataValues;
-  if (!returnData.board) { return res.status(400).json({'error': `No such board with id: ${boardId}`}) }
+  if (!returnData.board) { return res.status(400).json({ 'error': `No such board with id: ${boardId}` }) }
 
   let columnIds = [];
   (await Column.findAll({ where: { boardId: boardId } })).forEach(board => {
@@ -123,10 +123,10 @@ app.post('/project', auth.middle, async (req, res) => { // Create Project. Takes
   }
 })
 
-app.post('/project/:projectId/board', auth.middle, checkUserIsMember, async(req, res) => { // Create Board for the assigned projectID.
-  const {projectId} = req.params;
-  const {name} = req.body;
-  if (!name) { return res.status(400).json({'error': 'Please provide a name for the board'}) };
+app.post('/project/:projectId/board', auth.middle, checkUserIsMember, async (req, res) => { // Create Board for the assigned projectID.
+  const { projectId } = req.params;
+  const { name } = req.body;
+  if (!name) { return res.status(400).json({ 'error': 'Please provide a name for the board' }) };
 
   const background = ['#fafaeb', '#f3e4f1', '#d5ebda', '#f4cacd', '#ead3d4'][Math.round(Math.random() * 4)];
 
@@ -150,9 +150,9 @@ app.post('/project/:projectId/board', auth.middle, checkUserIsMember, async(req,
   }
 })
 
-app.post('/project/:projectId/board/:boardId/column', auth.middle, checkUserIsMember, async(req, res) => { // Create Column from a name
-  const {projectId, boardId} = req.params;
-  const {name} = req.body;
+app.post('/project/:projectId/board/:boardId/column', auth.middle, checkUserIsMember, async (req, res) => { // Create Column from a name
+  const { projectId, boardId } = req.params;
+  const { name } = req.body;
 
   try {
     let board = await Board.findByPk(boardId);
@@ -167,9 +167,9 @@ app.post('/project/:projectId/board/:boardId/column', auth.middle, checkUserIsMe
   }
 })
 
-app.post('/project/:projectId/board/:boardId/column/:columnId/task', auth.middle, checkUserIsMember, async(req, res) => { // Create Task
-  const {projectId, boardId, columnId} = req.params;
-  const {name, description, assigned} = req.body;
+app.post('/project/:projectId/board/:boardId/column/:columnId/task', auth.middle, checkUserIsMember, async (req, res) => { // Create Task
+  const { projectId, boardId, columnId } = req.params;
+  const { name, description, assigned } = req.body;
 
   try {
     let column = await Column.findByPk(columnId);
@@ -196,58 +196,65 @@ app.post('/user/login', async (req, res) => {
   await auth.login({ email, password } = req.body, req, res);
 })
 
-app.post('/project/:projectId/member', auth.middle, checkUserIsMember, async(req, res) => {
-  const{projectId} = req.params;
-  const {email} = req.body;
+app.post('/project/:projectId/member', auth.middle, checkUserIsMember, async (req, res) => {
+  const { projectId } = req.params;
+  const { email } = req.body;
   try {
-    let newUser = (await User.findOne({where: {email}}))?.dataValues?.id;
-    if (!newUser) { return res.status(400).json({'error': 'No Such User with that Email exists'}) }
-    if ((await ProjectMembers.findOne({where: {projectId, userId: req.uID}}))?.dataValues) {
-      return res.status(400).json({'error': 'The user is already a member of the project'})
+    let newUser = (await User.findOne({ where: { email } }))?.dataValues?.id;
+    if (!newUser) { return res.status(400).json({ 'error': 'No Such User with that Email exists' }) }
+    if ((await ProjectMembers.findOne({ where: { projectId, userId: req.uID } }))?.dataValues) {
+      return res.status(400).json({ 'error': 'The user is already a member of the project' })
     }
 
-    await ProjectMembers.create({userId: newUser, projectId});
+    await ProjectMembers.create({ userId: newUser, projectId });
     res.json({
       'message': 'success',
     });
 
-  } catch(error) {
-    return res.status(400).json({'error': 'Failed to add a new member'})
+  } catch (error) {
+    return res.status(400).json({ 'error': 'Failed to add a new member' })
   }
 })
 
 
+app.delete('/project/:projectId', auth.middle, async (req, res) => {
+  const { projectId } = req.params
+  Project.destroy({ where: { id: projectId } }).then((e) => {
+    return res.json({
+      message: 'success'
+    })
+  }).catch((err) => res.json({ 'error': 'Failed to delete Project' }))
+})
 
-
-app.delete('/project/:projectId/board/:boardId', auth.middle, checkUserIsAdmin, async(req, res) => { // Delete a specific board. Only if admin
-  const {projectId, boardId} = req.params;
-  Board.destroy({where: {id: boardId}}).then((e) => {
+app.delete('/project/:projectId/board/:boardId', auth.middle, checkUserIsAdmin, async (req, res) => { // Delete a specific board. Only if admin
+  const { projectId, boardId } = req.params;
+  Board.destroy({ where: { id: boardId } }).then((e) => {
     return res.json({
       'message': 'success'
     })
-  }).catch((err) => res.json({'error': 'Failed to delete board'}));
+  }).catch((err) => res.json({ 'error': 'Failed to delete board' }));
 })
-app.delete('/project/:projectId/board/:boardId/column/:columnId', auth.middle, checkUserIsMember, async(req, res) => { // Delete a specific column
-  const {projectId, boardId, columnId} = req.params;
-  Column.destroy({where: {id: columnId}}).then((e) => {
+app.delete('/project/:projectId/board/:boardId/column/:columnId', auth.middle, checkUserIsMember, async (req, res) => { // Delete a specific column
+  const { projectId, boardId, columnId } = req.params;
+  Column.destroy({ where: { id: columnId } }).then((e) => {
     return res.json({
       'message': 'success'
     })
-  }).catch((err) => res.json({'error': 'Failed to delete column'}));
+  }).catch((err) => res.json({ 'error': 'Failed to delete column' }));
 })
 
 
 
-app.patch('/project/:projectId/board/:boardId/column/:columnId', auth.middle, checkUserIsMember, async(req, res) => { // Edit the name of a column
-  const {projectId, boardId, columnId} = req.params;
-  const {name} = req.body;
+app.patch('/project/:projectId/board/:boardId/column/:columnId', auth.middle, checkUserIsMember, async (req, res) => { // Edit the name of a column
+  const { projectId, boardId, columnId } = req.params;
+  const { name } = req.body;
 
-  Column.update({name}, {where: {id: columnId}}).then((e) => {
+  Column.update({ name }, { where: { id: columnId } }).then((e) => {
     res.json({
       'message': 'success',
-      'data': {name}
+      'data': { name }
     })
-  }).catch((err) => res.json({'error': 'Failed to patch column'}))
+  }).catch((err) => res.json({ 'error': 'Failed to patch column' }))
 })
 
 
@@ -258,14 +265,14 @@ app.use((req, res) => { return res.json({ 'Status': 'The API is working but you 
 
 
 async function checkUserIsMember(req, res, next) {
-  return (await ProjectMembers.findOne({where: { projectId: req.params.projectId, userId: req.uID }}))?.dataValues
+  return (await ProjectMembers.findOne({ where: { projectId: req.params.projectId, userId: req.uID } }))?.dataValues
     ? next()
-    : res.status(400).json({'error': 'You are not a member of this project'})
+    : res.status(400).json({ 'error': 'You are not a member of this project' })
 }
 async function checkUserIsAdmin(req, res, next) {
-  return (await Project.findOne({where: { id: req.params.projectId, adminId: req.uID }}))?.dataValues
+  return (await Project.findOne({ where: { id: req.params.projectId, adminId: req.uID } }))?.dataValues
     ? next()
-    : res.status(400).json({'error': 'You are not the admin of this project'})
+    : res.status(400).json({ 'error': 'You are not the admin of this project' })
 }
 
 

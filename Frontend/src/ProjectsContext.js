@@ -9,8 +9,12 @@ export function ProjectsProvider(props) {
     setProjects(data);
   };
 
+  const deleteProject = async (id) => {
+    console.log('delete project', id)
+  }
+
   return (
-    <ProjectsContext.Provider value={[projects, updateProjects]}>
+    <ProjectsContext.Provider value={[projects, updateProjects, deleteProject]}>
       {props.children}
     </ProjectsContext.Provider>
   );
