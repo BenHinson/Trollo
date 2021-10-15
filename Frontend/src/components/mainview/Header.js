@@ -30,11 +30,6 @@ export default function Header({
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType="Members" />
   );
 
-  console.log(projects);
-  console.log(currProjectId);
-  console.log(projectName);
-  console.log(boardName);
-
   return (
     <div className="boardHeader">
       <span className="boardLocation">
@@ -54,7 +49,6 @@ export default function Header({
           Invite
         </button>
       </div>
-      {formComponent}
     </div>
   );
 }

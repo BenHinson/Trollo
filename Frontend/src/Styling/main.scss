@@ -85,26 +85,6 @@
         }
       } 
     }
-
-    form {
-      display: flex;
-      gap: 0.5em;
-      input {
-        width: calc(100% - 100px);
-        border-width: 1px;
-        border-radius: 5px;
-        padding: 0.5em 1em;
-        &::placeholder {
-          font-weight: 400;
-        }
-      }
-      button {
-        width: 40px;
-        border-radius: 5px;
-        font-size: 18px;
-        color: var(--text-contrast);
-      }
-    }
   }
 
   .pageList {
@@ -180,8 +160,20 @@
           background: var(--highlight-dark);
         }
       }
+      
+      >form {
+        position: absolute;
+        top: 78px;
+        right: 2em;
+        padding: 0.5em 1em;
+        background: var(--background);
+        border: 1px solid var(--feature);
+        >input {
+          border: 1px solid var(--highlight);
+        }
+      }
     }
-  
+
   }
 
   .board {
@@ -190,8 +182,7 @@
     overflow-y: hidden;
     overflow-x: scroll;
     gap: 1.5em;
-    padding: 0 0 1em;
-    margin: 0 2em;
+    padding: 0 2em 1em;
 
     >.column {
       min-width: 270px;
@@ -306,9 +297,22 @@
         font-size: 16px;
         padding: 0.25em 0.1em;
         border: 1px solid var(--highlight-faded);
-        color: var(--highlight);
+        color: var(--highlight-faded);
         background: transparent;
+        &:hover {
+          background: var(--highlight);
+          color: var(--text-contrast);
+        }
       }
+    }
+
+    >.boardMessage {
+      position: relative;
+      justify-self: center;
+      align-self: center;
+      left: calc(50% - 180px);
+      font-style: italic;
+      color: var(--text-dull);
     }
   }
 }
@@ -316,6 +320,26 @@
 
 
 // ========================================
+
+form {
+  display: flex;
+  gap: 0.5em;
+  input {
+    width: calc(100% - 100px);
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    &::placeholder {
+      font-weight: 400;
+    }
+  }
+  button {
+    width: 40px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: var(--text-contrast);
+  }
+}
 
 .deleteBtn {
   height: 1.5em;

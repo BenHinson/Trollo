@@ -101,6 +101,34 @@ export default function Authenticated() {
     setBoards([...boards].filter(b => b.id !== id))
   }
 
+  const handleAddColumn = async (name) => {
+    console.log("addcolumn: ", name)
+    const res = await fetch(`http://localhost:2053/project/${currProjectId}/board/${currBoardId}/column`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json',
+        'auth': localStorage.getItem('authCookie')
+      },
+      body: JSON.stringify({ name })
+    })
+    const resJson = await res.json()
+    const newCol = resJson.data
+    newCol.id = resJson.id
+    newCol.tasks = []
+    console.log(resJson)
+    setColumns([...columns, newCol])
+  }
+
+  const handleDeleteColumn = async (id) => {
+    console.log('delete column', id)
+    const res = await fetch(`http://localhost:2053/project/${currProjectId}/board/${currBoardId}/column/${id}`, {
+      method: "DELETE",
+      headers: { "auth": localStorage.getItem('authCookie') }
+    })
+    const resJson = await res.json()
+    setColumns([...columns].filter(c => c.id !== id))
+  }
+
   return (
     <div className="main">
       <Sidebar
@@ -113,9 +141,11 @@ export default function Authenticated() {
 
       <MainView
         columns={columns}
+        handleAddColumn={handleAddColumn}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
         currProjectId={currProjectId}
+        handleDeleteColumn={handleDeleteColumn}
       />
     </div>
   );
@@ -137,7 +167,6 @@ async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
       const members = responseJson.data.members;
-      console.log("Fetched members", members);
       updateMembers(members);
       updateBoards(boards);
     }
@@ -164,13 +193,6 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
       const columns = responseJson.data.columns;
       // columns comes in like this {1: {column}, 2: {column}} and needs to be an array [{column, {column}}]
       const formattedColumns = Object.values(columns)
-      console.log(
-        "Fetched columns for board id",
-        boardId,
-        "Project id:",
-        projectId,
-        columns
-      );
       updateCB(formattedColumns);
     }
   }

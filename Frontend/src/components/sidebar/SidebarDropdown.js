@@ -37,17 +37,14 @@ export default function SidebarDropdown({
     </li>
   ));
 
+  // console.log(name);
+
   return (
     <Fragment>
       <div className={`sideBarDropdown ${name}`}>
         <p>{name}</p>
         <span className="sidebar-btns">
-          <button>
-            ˅{/* {boardDropdown ? `˄` : `˅`} */}
-          </button>
-          <button onClick={showForm} className="add">
-          ＋
-          </button>
+          <button onClick={showForm} className="add">＋</button>
         </span>
       </div>
       <div className={`${name}-list pageList`}>{components}</div>

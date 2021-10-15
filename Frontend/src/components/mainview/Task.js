@@ -7,10 +7,6 @@ export default function Task({ name, description, userId }) {
   const [members] = useContext(ProjectMembersContext);
   const [assignedUserId, setAssignedUserId] = useState(userId);
 
-  // Make API call to assign the task
-
-  console.log("Rendering task", members);
-
   const handleUserChange = (userId) => {
     setAssignedUserId(userId);
   };

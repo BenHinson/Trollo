@@ -15,6 +15,7 @@ export default function Column({
   projectId,
   boardId,
   refetchBoard,
+  handleDeleteColumn
 }) {
   // boolean to control whether to pop up a modal for creating a new task
   const [addTaskModalVisible, setAddTaskModalVisible] = useState(false);
@@ -68,7 +69,7 @@ export default function Column({
         <h5>{columnName}</h5>
         <span>
           <button onClick={addTaskButtonClick}>＋</button>
-          <button onClick={() => deleteColumn(columnName)}>✕</button>
+          <button onClick={() => handleDeleteColumn(id)}>✕</button>
         </span>
       </div>
 
