@@ -4,6 +4,7 @@ import MainView from "./mainview/MainView";
 
 import { UserContext } from "../UserContext";
 import { ProjectsContext } from "../ProjectsContext";
+import { ProjectMembersContext } from "../ProjectsMembersContext";
 
 import "../Styling/main.css";
 
@@ -12,6 +13,7 @@ export default function Authenticated() {
   const [projects, updateProjects] = useContext(ProjectsContext);
   const [boards, setBoards] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [members, updateMembers] = useContext(ProjectMembersContext);
   const [currProjectId, setCurrProjectId] = useState(null);
   const [currBoardId, setCurrBoardId] = useState(null);
 
@@ -66,7 +68,7 @@ export default function Authenticated() {
 
   // FETCHING BOARDS
   useEffect(() => {
-    fetchBoardsData(currProjectId, updateBoards, user);
+    fetchBoardsData(currProjectId, updateBoards, user, updateMembers);
   }, [counter]);
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function Authenticated() {
 
   const handleProjectSelect = async (id) => {
     updateCurrProjectId(id);
-    await fetchBoardsData(id, updateBoards, user);
+    await fetchBoardsData(id, updateBoards, user, updateMembers);
   };
 
   const handleBoardSelect = async (id) => {
@@ -105,7 +107,7 @@ export default function Authenticated() {
   );
 }
 
-async function fetchBoardsData(projectId, updateCB, user) {
+async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
   const cookie = localStorage.getItem("authCookie");
 
   if (cookie && user?.username && projectId) {
@@ -120,7 +122,9 @@ async function fetchBoardsData(projectId, updateCB, user) {
     if (response.status === 200) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
-      updateCB(boards);
+      const members = responseJson.data.members;
+      updateBoards(boards);
+      updateMembers(members);
     }
   }
 }
