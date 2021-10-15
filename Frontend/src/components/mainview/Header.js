@@ -1,7 +1,6 @@
 import Avatar from "boring-avatars"
 
 export default function Header({ projectName, boardName, membersArray }) {
-  console.log(membersArray);
 
   return (
     <div className='boardHeader'>
@@ -13,7 +12,7 @@ export default function Header({ projectName, boardName, membersArray }) {
 
       <div className='members'>
         <span className='membersList'>
-          {membersArray.map((member) => {
+          {membersArray && membersArray.map((member) => {
             return <Avatar size='30' variant="beam" title={member.username}/>
           })}
         </span>

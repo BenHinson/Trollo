@@ -23,7 +23,6 @@ export default function Authenticated() {
 
   const updateColumns = (obj) => {
     const cols = Object.values(obj);
-    console.log("Columns being updated with this data: ", cols);
     setColumns(cols);
   };
 
@@ -56,14 +55,12 @@ export default function Authenticated() {
           },
         });
 
-        
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
         }
       }
     }
-    console.log("Fetching data");
     fetchData();
   }, [counter]);
 
@@ -79,6 +76,7 @@ export default function Authenticated() {
   const handleProjectSelect = async (id) => {
     updateCurrProjectId(id);
     await fetchBoardsData(id, updateBoards, user, updateMembers);
+    updateCounter();
   };
 
   const handleBoardSelect = async (id) => {
@@ -104,7 +102,7 @@ export default function Authenticated() {
         columns={columns}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
-       currProjectId={currProjectId}
+        currProjectId={currProjectId}
       />
     </div>
   );
@@ -126,8 +124,9 @@ async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
       const members = responseJson.data.members;
-      updateBoards(boards);
+      console.log("Fetched members", members);
       updateMembers(members);
+      updateBoards(boards);
     }
   }
 }
