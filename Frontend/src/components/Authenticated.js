@@ -44,6 +44,14 @@ export default function Authenticated() {
     setCounter(counter + 1);
   };
 
+  const handleAutoSelect = (data, setCurrId) => {
+    if (data.length > 0) {
+      setCurrId(data[0].id);
+      console.log(`Your CurrentId: ${data[0].id}`)
+    }
+
+  }
+
   // FETCHING PROJECTS
   useEffect(() => {
     async function fetchData() {
@@ -56,19 +64,23 @@ export default function Authenticated() {
             "Content-Type": "application/json",
           },
         });
-
+    
         if (response.status === 200) {
           const responseJson = await response.json();
-          updateProjects(responseJson.data);
+          updateProjects(responseJson.data);        
         }
       }
     }
     fetchData();
+    handleAutoSelect(projects, setCurrProjectId);
   }, [counter]);
 
   // FETCHING BOARDS
   useEffect(() => {
     fetchBoardsData(currProjectId, updateBoards, user, updateMembers);
+    console.log("BOARDS")
+    console.log(boards)
+    handleAutoSelect(boards, setCurrBoardId);
   }, [counter]);
 
   useEffect(() => {
