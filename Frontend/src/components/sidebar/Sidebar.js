@@ -10,13 +10,15 @@ export default function Sidebar({
   handleBoardSelect,
   handleSubmit,
   boards,
+  handleDeleteBoard
 }) {
   const { user, handleLogout } = useContext(UserContext);
-  const [projects] = useContext(ProjectsContext);
+  // should refactor ProjectContext to return an object rather than an array at some point.
+  const [projects, _, deleteProject] = useContext(ProjectsContext);
 
   return (
     <section className="sidebar">
-      <UserInfo handleLogout={handleLogout} user={user}/>
+      <UserInfo handleLogout={handleLogout} user={user} />
 
       <div className='projectBoardDropdown'>
         <SidebarDropdown
@@ -24,12 +26,14 @@ export default function Sidebar({
           arr={projects}
           handleSelect={handleProjectSelect} // returns an array of boards
           handleSubmit={handleSubmit}
+          handleDelete={deleteProject}
         />
         <SidebarDropdown
           name="Boards"
           arr={boards} // default
           handleSelect={handleBoardSelect} // returns a board id
           handleSubmit={handleSubmit}
+          handleDelete={handleDeleteBoard}
         />
       </div>
     </section>

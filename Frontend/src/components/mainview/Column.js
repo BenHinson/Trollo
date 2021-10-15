@@ -83,14 +83,15 @@ export default function Column({
   };
 
   return (
-    <article style={col}>
-      <h5>{columnName}</h5>
-      <button onClick={() => deleteColumn(columnName)} style={btnForDelete}>
-        −
-      </button>
-      <button onClick={addTaskButtonClick} style={btnForOthers1}>
-        +
-      </button>
+    <div className='column'>
+      <div className='columnHeader'>
+        <h5>{columnName}</h5>
+        <span>
+          <button onClick={() => deleteColumn(columnName)}>✕</button>
+          <button onClick={addTaskButtonClick}>+</button>
+        </span>
+      </div>
+
       {taskComponents}
 
       {addTaskModalVisible && (
@@ -101,6 +102,6 @@ export default function Column({
           columnId={id}
         />
       )}
-    </article>
+    </div>
   );
 }

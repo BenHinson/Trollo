@@ -277,6 +277,25 @@
   width: 270px;
 }
 
+.main .mainView .board > .column .columnHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid var(--component);
+}
+
+.main .mainView .board > .column .columnHeader > h5 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .deleteBtn {
   height: 1.5em;
   width: 1.5em;

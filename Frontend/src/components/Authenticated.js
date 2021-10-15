@@ -21,6 +21,7 @@ export default function Authenticated() {
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
 
+
   const updateColumns = (obj) => {
     const cols = Object.values(obj);
     setColumns(cols);
@@ -89,12 +90,17 @@ export default function Authenticated() {
     updateCounter();
   };
 
+  const handleDeleteBoard = async (id) => {
+    console.log("delete board", id)
+  }
+
   return (
     <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
+        handleDeleteBoard={handleDeleteBoard}
         boards={boards}
       />
 
@@ -149,6 +155,8 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
     if (response.status === 200) {
       const responseJson = await response.json();
       const columns = responseJson.data.columns;
+      // columns comes in like this {1: {column}, 2: {column}} and needs to be an array [{column, {column}}]
+      const formattedColumns = Object.values(columns)
       console.log(
         "Fetched columns for board id",
         boardId,
@@ -156,7 +164,7 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
         projectId,
         columns
       );
-      updateCB(columns);
+      updateCB(formattedColumns);
     }
   }
 }
