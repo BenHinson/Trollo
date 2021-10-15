@@ -39,7 +39,7 @@ export default function AddTaskModal({ hideModal, createNewTask, columnId }) {
   };
 
   return (
-    <div>
+    <div className='createTask'>
       <form onSubmit={handleSubmit}>
         <label>
           Name:

@@ -87,21 +87,25 @@ export default function Column({
       <div className='columnHeader'>
         <h5>{columnName}</h5>
         <span>
+          <button onClick={addTaskButtonClick}>＋</button>
           <button onClick={() => deleteColumn(columnName)}>✕</button>
-          <button onClick={addTaskButtonClick}>+</button>
         </span>
       </div>
 
-      {taskComponents}
+      <div className='columnTasks'>
+        {taskComponents}
 
-      {addTaskModalVisible && (
-        <AddTaskModal
-          userData={userData}
-          hideModal={hideModal}
-          createNewTask={createNewTask}
-          columnId={id}
-        />
-      )}
+        {addTaskModalVisible && (
+          <AddTaskModal
+            userData={userData}
+            hideModal={hideModal}
+            createNewTask={createNewTask}
+            columnId={id}
+          />
+        )}
+        
+      </div>
+
     </div>
   );
 }

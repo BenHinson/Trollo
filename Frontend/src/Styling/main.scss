@@ -124,7 +124,7 @@
         border: 1px solid var(--highlight);
       }
       &:hover {
-        background: var(--feature);
+        background: var(--component);
       }
     }
   }
@@ -135,7 +135,7 @@
   display: grid;
   grid-template-rows: 85px auto;
   background: var(--text-contrast);
-  overflow-y: hidden;
+  padding-bottom: 0.5em;
   margin-bottom: 0.5em;
 
   .boardHeader {
@@ -187,24 +187,128 @@
   .board {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
-    width: fit-content;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    gap: 1.5em;
+    padding: 0 0 1em;
+    margin: 0 2em;
 
     >.column {
-      width: 270px;
+      min-width: 270px;
+      max-width: 270px;
+      background: var(--component);
+      border-radius: 10px;
 
       .columnHeader {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        border-bottom: 1px solid var(--component);
+        align-items: center;
+        border-bottom: 1px solid var(--highlight-faded);
+        padding: 1em;
+        margin-bottom: 1em;
 
         >h5 {
-          font-size: 16px;
-          font-weight: 400;
+          font-size: 17px;
+          font-weight: 500;
+        }
+
+        >span {
+          display: flex;
+          gap: 0.5em;
+        }
+
+        button {
+          height: 1.5em;
+          width: 1.5em;
+          border-radius: 1em;
+          font-size: 18px;
+          cursor: pointer;
+          background: var(--feature);
+          &:nth-child(1):hover {
+            background: var(--highlight);
+            color: var(--text-contrast);
+          }
+          &:nth-child(n+2):hover {
+            background: var(--cancel);
+            color: var(--text-contrast);
+          }
         }
       }
 
+      .columnTasks {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+
+        .columnTask {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          background-color: var(--text-contrast);
+          border-radius: 5px;
+          padding: 0.5em 1em;
+          gap: 0.5em;
+          &:hover, :focus {
+            box-shadow: 0 0 0 1px var(--highlight);
+            background: white;
+          }
+          h3 {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--feature);
+            padding-bottom: 0.25em;
+          }
+          p {
+            font-size: 15px;
+          }
+          select {
+            margin: 0.5em 0;
+            width: 100%;
+            padding: 0.25em;
+            border-radius: 5px;
+            border: 1px solid var(--highlight);
+          }
+          img {
+            height: 30px;
+            width: 30px;
+            place-self: end;
+          }
+        }
+
+        .createTask {
+          background: var(--background);
+          padding: 1em;
+          border-radius: 5px;
+        }
+      }
+
+    }
+
+    >.newColumn {
+      display: grid;
+      place-content: center;
+      gap: 0.5em;
+      padding: 2em;
+      border-radius: 10px;
+      border: 1px dashed var(--feature);
+      background: transparent;
+      >input {
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        text-align: center;
+      }
+      >button {
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 0.25em 0.1em;
+        border: 1px solid var(--highlight-faded);
+        color: var(--highlight);
+        background: transparent;
+      }
     }
   }
 }
@@ -216,7 +320,6 @@
 .deleteBtn {
   height: 1.5em;
   width: 1.5em;
-  padding: 0.25em;
   border-radius: 1em;
   font-style: normal;
   font-size: 18px;
@@ -224,7 +327,8 @@
   background: transparent;
   color: var(--cancel);
   &:hover {
-    background: var(--component);
+    background: var(--cancel);
+    color: var(--text-contrast);
   }
 }
 .acceptBtn {
@@ -236,5 +340,6 @@
 
 
 ::-webkit-scrollbar { height: 12px; }
-::-webkit-scrollbar-thumb { background: var(--feature); border-radius: 6px; }
+::-webkit-scrollbar-track { background: var(--component); }
+::-webkit-scrollbar-thumb { background: var(--highlight-faded); border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--selected) }

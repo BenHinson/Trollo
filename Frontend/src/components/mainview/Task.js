@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
-import { task } from "../../Styling/Stylesheet";
 import { ProjectMembersContext } from "../../ProjectsMembersContext";
+
 
 export default function Task({ name, description, userId }) {
   const [members] = useContext(ProjectMembersContext);
@@ -17,22 +17,14 @@ export default function Task({ name, description, userId }) {
   const userComponent = assignedUserId ? (
     <UserAvatar userData={members} userId={assignedUserId} />
   ) : (
-    <label>
-      Assign user
-      <SelectUser handleSelect={handleUserChange} userData={members} />
-    </label>
+    <SelectUser handleSelect={handleUserChange} userData={userData} />
   );
 
   return (
-    <div style={task}>
+    <div className='columnTask'>
       <h3>{name}</h3>
       <p>{description}</p>
       {userComponent}
     </div>
   );
 }
-
-// style for development
-const style = {
-  backgroundColor: "aqua",
-};
