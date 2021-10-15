@@ -17,25 +17,6 @@ export default function Column({
   refetchBoard,
   handleDeleteColumn
 }) {
-  //TODO: Prop drilling userData for now, nasty practice, but it'll get solved with API calls
-  const [userData] = useState({
-    1: {
-      id: 1,
-      name: "Ben",
-      avatar: "",
-    },
-    2: {
-      id: 2,
-      name: "Jenny",
-      avatar: "https://source.boringavatars.com/beam/20",
-    },
-    3: {
-      id: 3,
-      name: "Gabriel",
-      avatar: "https://source.boringavatars.com/beam/3",
-    },
-  });
-
   // boolean to control whether to pop up a modal for creating a new task
   const [addTaskModalVisible, setAddTaskModalVisible] = useState(false);
 
@@ -43,13 +24,12 @@ export default function Column({
   let counter = 1000;
   const taskComponents = tasks.map((task) => {
     counter++;
+    console.log("Task is assigned to: ", task.assigned);
     return (
       <Task
-        // This key is not right, it'll be duplicate
         key={counter}
         name={task.name}
         description={task.description}
-        userData={userData}
         userId={task.assigned}
       />
     );
@@ -84,8 +64,8 @@ export default function Column({
   };
 
   return (
-    <div className='column'>
-      <div className='columnHeader'>
+    <div className="column">
+      <div className="columnHeader">
         <h5>{columnName}</h5>
         <span>
           <button onClick={addTaskButtonClick}>＋</button>
@@ -93,20 +73,17 @@ export default function Column({
         </span>
       </div>
 
-      <div className='columnTasks'>
+      <div className="columnTasks">
         {taskComponents}
 
         {addTaskModalVisible && (
           <AddTaskModal
-            userData={userData}
             hideModal={hideModal}
             createNewTask={createNewTask}
             columnId={id}
           />
         )}
-
       </div>
-
     </div>
   );
 }
