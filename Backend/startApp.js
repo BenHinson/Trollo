@@ -6,10 +6,12 @@ const auth = require('./auth')
 const seedData = async () => {
     const u1 = await auth.seedAccount({ email: "user1@mail.com", password: "password" })
     const u2 = await auth.seedAccount({ email: "user2@mail.com", password: "password" })
+    const u3 = await auth.seedAccount({ email: "user2@mail.com", password: "password" })
     const p1 = await models.Project.create({ name: "Project One" })
     const p2 = await models.Project.create({ name: "Project Two" })
 
     await p1.addUser(u1)
+    await p1.addUser(u3)
     await p2.addUser(u2)
 
     const todo = await p1.createBoard({ name: "TODO" })
