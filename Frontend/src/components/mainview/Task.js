@@ -3,7 +3,6 @@ import UserAvatar from "./UserAvatar";
 import SelectUser from "./SelectUser";
 import { ProjectMembersContext } from "../../ProjectsMembersContext";
 
-
 export default function Task({ name, description, userId }) {
   const [members] = useContext(ProjectMembersContext);
   const [assignedUserId, setAssignedUserId] = useState(userId);
@@ -17,11 +16,11 @@ export default function Task({ name, description, userId }) {
   const userComponent = assignedUserId ? (
     <UserAvatar userData={members} userId={assignedUserId} />
   ) : (
-    <SelectUser handleSelect={handleUserChange} userData={userData} />
+    <SelectUser handleSelect={handleUserChange} userData={members} />
   );
 
   return (
-    <div className='columnTask'>
+    <div className="columnTask">
       <h3>{name}</h3>
       <p>{description}</p>
       {userComponent}
