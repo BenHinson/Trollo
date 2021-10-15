@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ProjectMembersContext } from "../../ProjectsMembersContext";
 
-export default function SelectUser({ handleSelect }) {
+export default function SelectUser({ handleSelect, selectDefault }) {
   const [members] = useContext(ProjectMembersContext)
   
   const options = members.map((user) => {
@@ -20,8 +20,8 @@ export default function SelectUser({ handleSelect }) {
   // Do not ask me why you need two options to display the default info...
   return (
     <select onChange={handleChange} defaultValue="">
-      <option value='' selected disabled hidden>Set Task For</option>
-      <option value='' selected disabled hidden>Set Task For</option>
+      <option value='' selected disabled hidden>{selectDefault}</option>
+      <option value='' selected disabled hidden>{selectDefault}</option>
       {options}
     </select>
   );

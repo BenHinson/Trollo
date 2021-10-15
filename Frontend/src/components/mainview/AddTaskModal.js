@@ -41,28 +41,21 @@ export default function AddTaskModal({ hideModal, createNewTask, columnId }) {
   return (
     <div className="createTask">
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            value={name}
-            onChange={handleNameChange}
-            type="text"
-            required
-          ></input>
-        </label>
-        <label>
-          Description:
-          <input
-            value={description}
-            onChange={handleDescriptionChange}
-            type="text"
-            required
-          ></input>
-        </label>
-        <label>
-          Assign user:
-          <SelectUser userData={members} handleSelect={handleUserChange} />
-        </label>
+        <input
+          value={name}
+          onChange={handleNameChange}
+          type="text"
+          required
+          placeholder='Name...'
+        ></input>
+        <input
+          value={description}
+          onChange={handleDescriptionChange}
+          type="text"
+          required
+          placeholder='Description...'
+        ></input>
+        <SelectUser userData={members} handleSelect={handleUserChange} selectDefault={'Assign User'} />
         <button>Create new task</button>
       </form>
     </div>

@@ -189,7 +189,6 @@ app.post('/project/:projectId/board/:boardId/column/:columnId/task', auth.middle
 app.post('/user/signup', async (req, res) => { // Create User
   if (!req.body.email || !req.body.password) { return res.status(400).json({ 'error': 'Please provide an email and password' }) }
   await auth.createAccount({ email, password, avatar } = req.body, req, res);
-
 })
 
 app.post('/user/login', async (req, res) => {
@@ -202,7 +201,7 @@ app.post('/project/:projectId/member', auth.middle, checkUserIsMember, async (re
   try {
     let newUser = (await User.findOne({ where: { email } }))?.dataValues?.id;
     if (!newUser) { return res.status(400).json({ 'error': 'No Such User with that Email exists' }) }
-    if ((await ProjectMembers.findOne({ where: { projectId, userId: req.uID } }))?.dataValues) {
+    if ((await ProjectMembers.findOne({ where: { projectId, userId: newUser } }))?.dataValues) {
       return res.status(400).json({ 'error': 'The user is already a member of the project' })
     }
 
