@@ -1,18 +1,16 @@
-import React from "react";
-import Avatar from "boring-avatars"
+import React, { useContext } from "react";
+import Avatar from "boring-avatars";
+import { ProjectMembersContext } from "../../ProjectsMembersContext";
 
-export default function UserAvatar({ userId, userData }) {
-  let avatarComponent = <Avatar size='30' variant="beam" />
+export default function UserAvatar({ userId }) {
+  const [members] = useContext(ProjectMembersContext);
+  let avatarComponent = <Avatar size="30" variant="beam" />;
 
-  if (userData[userId].avatar) {
-    const avatarImgSrc = userData[userId].avatar
-    const str = userData[userId].name
-    avatarComponent = <img src={avatarImgSrc} alt={str} />
+  if (members[userId]?.avatar) {
+    const avatarImgSrc = members[userId].avatar;
+    const str = members[userId].username;
+    avatarComponent = <img src={avatarImgSrc} alt={str} />;
   }
 
-  return (
-    <>
-      {avatarComponent}
-    </>
-  );
+  return <>{avatarComponent}</>;
 }

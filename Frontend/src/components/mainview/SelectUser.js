@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ProjectMembersContext } from "../../ProjectsMembersContext";
 
-export default function SelectUser({ handleSelect, userData }) {
-  const options = Object.values(userData).map((user) => {
+export default function SelectUser({ handleSelect }) {
+  const [members] = useContext(ProjectMembersContext)
+  
+  const options = members.map((user) => {
     return (
       <option key={user.id} value={user.id}>
         {user.username}

@@ -14,9 +14,9 @@ export default function Task({ name, description, userId }) {
   };
 
   const userComponent = assignedUserId ? (
-    <UserAvatar userData={members} userId={assignedUserId} />
+    <UserAvatar userId={assignedUserId} />
   ) : (
-    <SelectUser handleSelect={handleUserChange} userData={members} />
+    <SelectUser handleSelect={handleUserChange} />
   );
 
   return (
