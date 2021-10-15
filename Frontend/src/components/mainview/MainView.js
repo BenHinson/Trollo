@@ -5,26 +5,28 @@ import Header from "./Header";
 import Board from "./Board";
 
 export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
+
   const [members, updateMembers] = useContext(ProjectMembersContext);
 
   const handleSubmit = async (value, formType) => {
     await addMember(value, currProjectId);
-    console.log(value)
+    refetchBoard();
   };
 
   // POST /project/:projectId/member
   async function addMember(value, id) {
+    const member = { email: value }
     const response = await fetch(`http://localhost:2053/project/${id}/member`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         auth: localStorage.getItem("authCookie"),
       },
-      body: JSON.stringify({ email: value }),
+      body: JSON.stringify(member),
     });
     console.log(response)
     if (response.status === 200) {
-       // Add member to members
+      updateMembers(...members, member)
     }
   }
 
