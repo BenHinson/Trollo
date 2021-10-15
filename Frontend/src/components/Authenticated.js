@@ -113,7 +113,9 @@ export default function Authenticated() {
     })
     const resJson = await res.json()
     const newCol = resJson.data
+    newCol.id = resJson.id
     newCol.tasks = []
+    console.log(resJson)
     setColumns([...columns, newCol])
   }
 
