@@ -49,6 +49,7 @@ export default function Header({
               return <UserAvatar size="30" userId={member.id} />;
             })}
         </span>
+        {formComponent}
         <button className="memberInviteBtn" onClick={showForm}>
           Invite
         </button>
