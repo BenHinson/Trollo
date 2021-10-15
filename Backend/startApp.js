@@ -35,6 +35,25 @@ const seedData = async () => {
     await testing.createTask({ name: "Add tests for new routes", description: "New routes have been added for deleteing" })
     await testing.createTask({ name: "Fid out why some tests are failing" })
 
+    const demo = await auth.seedAccount({ email: "demo@trollo.com", password: "password" })
+    const demoProject = await models.Project.create({ name: "Trollo" })
+    await demoProject.addUser(demo);
+
+    const theApp = await demoProject.createBoard({ name: "The Application" })
+    const fe = await theApp.createColumn({ name: "Frontend" })
+    await fe.createTask({ name: "Tidy up componenents", description: "Make sure all the lefotver console.logs are gone." })
+    await fe.createTask({ name: "Style landing page" })
+    const be = await theApp.createColumn({ name: "Backend" })
+    await be.createTask({ name: "Make sure all tests are passing" })
+    await be.createTask({ name: "Add documentation for all API routes" })
+    const docs = await theApp.createColumn({ name: "Documentation" })
+    docs.createTask({ name: "Make sure all routes of the API are documented" })
+    docs.createTask({ name: "Add screenshots to application documentation" })
+
+    const presentation = await demoProject.createBoard({ name: "The Presentation" })
+    const todo2 = await presentation.createColumn({ name: "TODO" })
+    todo2.createTask({ name: "Create demo user" })
+    todo2.createTask({ name: "Run through presentation" })
 
 }
 
