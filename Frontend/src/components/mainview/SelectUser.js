@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function SelectUser({ handleSelect, userData }) {
+export default function SelectUser({ handleSelect, userData, selectDefault }) {
   const options = Object.values(userData).map((user) => {
     return (
       <option key={user.id} value={user.id}>
@@ -17,8 +17,8 @@ export default function SelectUser({ handleSelect, userData }) {
   // Do not ask me why you need two options to display the default info...
   return (
     <select onChange={handleChange} defaultValue="">
-      <option value='' selected disabled hidden>Set Task For</option>
-      <option value='' selected disabled hidden>Set Task For</option>
+      <option value='' selected disabled hidden>{selectDefault}</option>
+      <option value='' selected disabled hidden>{selectDefault}</option>
       {options}
     </select>
   );

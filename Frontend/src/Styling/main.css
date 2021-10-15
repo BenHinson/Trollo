@@ -351,24 +351,42 @@
   font-size: 15px;
 }
 
-.main .mainView .board > .column .columnTasks .columnTask select {
-  margin: 0.5em 0;
-  width: 100%;
-  padding: 0.25em;
-  border-radius: 5px;
-  border: 1px solid var(--highlight);
-}
-
 .main .mainView .board > .column .columnTasks .columnTask img {
   height: 30px;
   width: 30px;
   place-self: end;
 }
 
-.main .mainView .board > .column .columnTasks .createTask {
+.main .mainView .board > .column .columnTasks .createTask > form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   background: var(--background);
   padding: 1em;
   border-radius: 5px;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > input {
+  width: inherit;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > button {
+  width: inherit;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 0.25em 0.1em;
+  border: 1px solid var(--highlight-faded);
+  color: var(--highlight-faded);
+  background: transparent;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > button:hover {
+  background: var(--highlight);
+  color: var(--text-contrast);
 }
 
 .main .mainView .board > .newColumn {
@@ -450,6 +468,14 @@ form button {
   border-radius: 5px;
   font-size: 18px;
   color: var(--text-contrast);
+}
+
+select {
+  margin: 0.5em 0;
+  width: 100%;
+  padding: 0.25em;
+  border-radius: 5px;
+  border: 1px solid var(--highlight);
 }
 
 .deleteBtn {

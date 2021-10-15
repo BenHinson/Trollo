@@ -24,6 +24,10 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType="Members" />
   );
 
+  if (membersArray.id) {
+    membersArray = [membersArray];
+  }
+
   return (
     <div className='boardHeader'>
       <span className='boardLocation'>
