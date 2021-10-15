@@ -15,7 +15,7 @@ export default function Form({ handleSubmit, hideForm, formType }) {
   return (
     <form onSubmit={onSubmit}>
       <input
-        placeholder={formType === "Members" ? `${formType} Email...` : `${formType} Email...`}
+        placeholder={formType === "Members" ? `${formType} Email...` : `${formType} Name...`}
         value={value}
         onChange={updateValue}
       />

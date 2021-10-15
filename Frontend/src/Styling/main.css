@@ -117,43 +117,6 @@
   background: var(--feature);
 }
 
-.main .sidebar .projectBoardDropdown form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 0.5em;
-}
-
-.main .sidebar .projectBoardDropdown form input {
-  width: calc(100% - 100px);
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 0.5em 1em;
-}
-
-.main .sidebar .projectBoardDropdown form input::-webkit-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input:-ms-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input::-ms-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input::placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form button {
-  width: 40px;
-  border-radius: 5px;
-  font-size: 18px;
-  color: var(--text-contrast);
-}
-
 .main .sidebar .pageList {
   margin-left: 1em;
 }
@@ -259,6 +222,19 @@
   background: var(--highlight-dark);
 }
 
+.main .mainView .boardHeader > .members > form {
+  position: absolute;
+  top: 78px;
+  right: 2em;
+  padding: 0.5em 1em;
+  background: var(--background);
+  border: 1px solid var(--feature);
+}
+
+.main .mainView .boardHeader > .members > form > input {
+  border: 1px solid var(--highlight);
+}
+
 .main .mainView .board {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -270,8 +246,7 @@
   overflow-y: hidden;
   overflow-x: scroll;
   gap: 1.5em;
-  padding: 0 0 1em;
-  margin: 0 2em;
+  padding: 0 2em 1em;
 }
 
 .main .mainView .board > .column {
@@ -376,24 +351,42 @@
   font-size: 15px;
 }
 
-.main .mainView .board > .column .columnTasks .columnTask select {
-  margin: 0.5em 0;
-  width: 100%;
-  padding: 0.25em;
-  border-radius: 5px;
-  border: 1px solid var(--highlight);
-}
-
 .main .mainView .board > .column .columnTasks .columnTask img {
   height: 30px;
   width: 30px;
   place-self: end;
 }
 
-.main .mainView .board > .column .columnTasks .createTask {
+.main .mainView .board > .column .columnTasks .createTask > form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   background: var(--background);
   padding: 1em;
   border-radius: 5px;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > input {
+  width: inherit;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > button {
+  width: inherit;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 0.25em 0.1em;
+  border: 1px solid var(--highlight-faded);
+  color: var(--highlight-faded);
+  background: transparent;
+}
+
+.main .mainView .board > .column .columnTasks .createTask > form > button:hover {
+  background: var(--highlight);
+  color: var(--text-contrast);
 }
 
 .main .mainView .board > .newColumn {
@@ -419,8 +412,70 @@
   font-size: 16px;
   padding: 0.25em 0.1em;
   border: 1px solid var(--highlight-faded);
-  color: var(--highlight);
+  color: var(--highlight-faded);
   background: transparent;
+}
+
+.main .mainView .board > .newColumn > button:hover {
+  background: var(--highlight);
+  color: var(--text-contrast);
+}
+
+.main .mainView .board > .boardMessage {
+  position: relative;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  left: calc(50% - 180px);
+  font-style: italic;
+  color: var(--text-dull);
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5em;
+}
+
+form input {
+  width: calc(100% - 100px);
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+}
+
+form input::-webkit-input-placeholder {
+  font-weight: 400;
+}
+
+form input:-ms-input-placeholder {
+  font-weight: 400;
+}
+
+form input::-ms-input-placeholder {
+  font-weight: 400;
+}
+
+form input::placeholder {
+  font-weight: 400;
+}
+
+form button {
+  width: 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  color: var(--text-contrast);
+}
+
+select {
+  margin: 0.5em 0;
+  width: 100%;
+  padding: 0.25em;
+  border-radius: 5px;
+  border: 1px solid var(--highlight);
 }
 
 .deleteBtn {

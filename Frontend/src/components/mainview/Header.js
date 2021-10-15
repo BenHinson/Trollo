@@ -30,6 +30,11 @@ export default function Header({
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType="Members" />
   );
 
+
+  if (membersArray.id) {
+    membersArray = [membersArray];
+  }
+
   return (
     <div className="boardHeader">
       <span className="boardLocation">

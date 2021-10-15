@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import {ProjectMembersContext} from '../../ProjectsMembersContext';
+import { ProjectMembersContext } from '../../ProjectsMembersContext';
 
 import Header from "./Header";
 import Board from "./Board";
 
-export default function MainView({ columns, projectId, refetchBoard, currProjectId }) {
+export default function MainView({ columns, projectId, refetchBoard, currProjectId, handleAddColumn, handleDeleteColumn }) {
 
   const [members, updateMembers] = useContext(ProjectMembersContext);
   console.log("YOUR MEMBERS");
@@ -41,7 +41,7 @@ export default function MainView({ columns, projectId, refetchBoard, currProject
         handleSubmit={handleSubmit}
         currProjectId={currProjectId}
       />
-      <Board columnData={columns} projectId={projectId} refetchBoard={refetchBoard}/>
+      <Board columnData={columns} projectId={projectId} refetchBoard={refetchBoard} handleAddColumn={handleAddColumn} handleDeleteColumn={handleDeleteColumn} />
     </section>
   );
 }
