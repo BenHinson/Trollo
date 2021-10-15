@@ -117,43 +117,6 @@
   background: var(--feature);
 }
 
-.main .sidebar .projectBoardDropdown form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 0.5em;
-}
-
-.main .sidebar .projectBoardDropdown form input {
-  width: calc(100% - 100px);
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 0.5em 1em;
-}
-
-.main .sidebar .projectBoardDropdown form input::-webkit-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input:-ms-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input::-ms-input-placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form input::placeholder {
-  font-weight: 400;
-}
-
-.main .sidebar .projectBoardDropdown form button {
-  width: 40px;
-  border-radius: 5px;
-  font-size: 18px;
-  color: var(--text-contrast);
-}
-
 .main .sidebar .pageList {
   margin-left: 1em;
 }
@@ -257,6 +220,19 @@
 
 .main .mainView .boardHeader > .members .memberInviteBtn:hover {
   background: var(--highlight-dark);
+}
+
+.main .mainView .boardHeader > .members > form {
+  position: absolute;
+  top: 78px;
+  right: 2em;
+  padding: 0.5em 1em;
+  background: var(--component);
+  border: 1px solid var(--feature);
+}
+
+.main .mainView .boardHeader > .members > form > input {
+  border: 1px solid var(--highlight);
 }
 
 .main .mainView .board {
@@ -421,6 +397,48 @@
   border: 1px solid var(--highlight-faded);
   color: var(--highlight);
   background: transparent;
+}
+
+.main .mainView .board > .newColumn > button:hover {
+  background: var(--highlight);
+  color: var(--text-contrast);
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5em;
+}
+
+form input {
+  width: calc(100% - 100px);
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+}
+
+form input::-webkit-input-placeholder {
+  font-weight: 400;
+}
+
+form input:-ms-input-placeholder {
+  font-weight: 400;
+}
+
+form input::-ms-input-placeholder {
+  font-weight: 400;
+}
+
+form input::placeholder {
+  font-weight: 400;
+}
+
+form button {
+  width: 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  color: var(--text-contrast);
 }
 
 .deleteBtn {

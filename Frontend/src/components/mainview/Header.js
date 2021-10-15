@@ -24,11 +24,6 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
     <Form handleSubmit={handleSubmit} hideForm={hideForm} formType="Members" />
   );
 
-  console.log(projects);
-  console.log(currProjectId);
-  console.log(projectName);
-  console.log(boardName);
-
   return (
     <div className='boardHeader'>
       <span className='boardLocation'>
@@ -39,13 +34,13 @@ export default function Header({ projectName, boardName, currProjectId, handleSu
 
       <div className='members'>
         <span className='membersList'>
-          {membersArray && membersArray.map((member) => {
-            return <Avatar size='30' variant="beam" title={member.username}/>
+          {membersArray && membersArray.map((member, i) => {
+            return <Avatar size='30' variant="beam" title={member.username} key={i}/>
           })}
         </span>
+        {formComponent}
         <button className='memberInviteBtn' onClick={showForm}>Invite</button>
       </div>
-      {formComponent}
     </div>
   );
 }
