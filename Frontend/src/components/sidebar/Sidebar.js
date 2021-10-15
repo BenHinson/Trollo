@@ -31,6 +31,7 @@ export default function Sidebar({
           arr={boards} // default
           handleSelect={handleBoardSelect} // returns a board id
           handleSubmit={handleSubmit}
+          handleDelete={() => console.log("delete board")}
         />
       </div>
     </section>
