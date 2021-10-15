@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ProjectMembersContext } from "../../ProjectsMembersContext";
 import SelectUser from "./SelectUser";
 
-export default function AddTaskModal({
-  hideModal,
-  createNewTask,
-  columnId,
-  userData,
-}) {
+export default function AddTaskModal({ hideModal, createNewTask, columnId }) {
+  const [members, updateMembers] = useContext(ProjectMembersContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [assignedUserId, setAssignedUserId] = useState(null);
@@ -42,7 +39,7 @@ export default function AddTaskModal({
   };
 
   return (
-    <div>
+    <div className='createTask'>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -64,7 +61,7 @@ export default function AddTaskModal({
         </label>
         <label>
           Assign user:
-          <SelectUser userData={userData} handleSelect={handleUserChange} />
+          <SelectUser userData={members} handleSelect={handleUserChange} />
         </label>
         <button>Create new task</button>
       </form>

@@ -16,7 +16,6 @@ export default function Column({
   boardId,
   refetchBoard,
 }) {
-
   //TODO: Prop drilling userData for now, nasty practice, but it'll get solved with API calls
   const [userData] = useState({
     1: {
@@ -40,11 +39,13 @@ export default function Column({
   const [addTaskModalVisible, setAddTaskModalVisible] = useState(false);
 
   // find tasks of this colum
+  let counter = 1000;
   const taskComponents = tasks.map((task) => {
+    counter++;
     return (
       <Task
         // This key is not right, it'll be duplicate
-        key={task.assigned}
+        key={counter}
         name={task.name}
         description={task.description}
         userData={userData}
@@ -62,7 +63,6 @@ export default function Column({
   };
 
   const createNewTask = async (task) => {
-    // TODO: This is where API call happens to create a new task in the database
     const url = `http://localhost:2053/project/${projectId}/board/${boardId}/column/${id}/task`;
     const response = await fetch(url, {
       method: "POST",
@@ -79,7 +79,7 @@ export default function Column({
 
     console.log("New task record has been created", await response.json());
     console.log(task);
-    await refetchBoard()
+    await refetchBoard();
   };
 
   return (
@@ -87,21 +87,25 @@ export default function Column({
       <div className='columnHeader'>
         <h5>{columnName}</h5>
         <span>
+          <button onClick={addTaskButtonClick}>＋</button>
           <button onClick={() => deleteColumn(columnName)}>✕</button>
-          <button onClick={addTaskButtonClick}>+</button>
         </span>
       </div>
 
-      {taskComponents}
+      <div className='columnTasks'>
+        {taskComponents}
 
-      {addTaskModalVisible && (
-        <AddTaskModal
-          userData={userData}
-          hideModal={hideModal}
-          createNewTask={createNewTask}
-          columnId={id}
-        />
-      )}
+        {addTaskModalVisible && (
+          <AddTaskModal
+            userData={userData}
+            hideModal={hideModal}
+            createNewTask={createNewTask}
+            columnId={id}
+          />
+        )}
+        
+      </div>
+
     </div>
   );
 }

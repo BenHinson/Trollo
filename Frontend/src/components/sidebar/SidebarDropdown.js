@@ -46,7 +46,7 @@ export default function SidebarDropdown({
             ˅{/* {boardDropdown ? `˄` : `˅`} */}
           </button>
           <button onClick={showForm} className="add">
-            +
+          ＋
           </button>
         </span>
       </div>

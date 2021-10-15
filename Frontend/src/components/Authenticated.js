@@ -16,16 +16,16 @@ export default function Authenticated() {
   const [members, updateMembers] = useContext(ProjectMembersContext);
   const [currProjectId, setCurrProjectId] = useState(null);
   const [currBoardId, setCurrBoardId] = useState(null);
+  const [currProjectData, setCurrProjectData] = useState(null);
 
   // Artificial state variable to trigger refetch of boards on adding a new board via the form.
   // It increments in handleSubmit and fetching the boards depends on the value change.
   const [counter, setCounter] = useState(0);
 
-  console.log('CURR PROJECT ID')
-  console.log(currProjectId)
-  const updateColumns = (arr) => {
-    setColumns(arr);
 
+  const updateColumns = (obj) => {
+    const cols = Object.values(obj);
+    setColumns(cols);
   };
 
   const updateBoards = (arr) => {
@@ -57,14 +57,12 @@ export default function Authenticated() {
           },
         });
 
-        
         if (response.status === 200) {
           const responseJson = await response.json();
           updateProjects(responseJson.data);
         }
       }
     }
-    console.log("Fetching data");
     fetchData();
   }, [counter]);
 
@@ -80,6 +78,7 @@ export default function Authenticated() {
   const handleProjectSelect = async (id) => {
     updateCurrProjectId(id);
     await fetchBoardsData(id, updateBoards, user, updateMembers);
+    updateCounter();
   };
 
   const handleBoardSelect = async (id) => {
@@ -92,12 +91,17 @@ export default function Authenticated() {
     updateCounter();
   };
 
+  const handleDeleteBoard = async (id) => {
+    console.log("delete board", id)
+  }
+
   return (
     <div className="main">
       <Sidebar
         handleProjectSelect={handleProjectSelect}
         handleBoardSelect={handleBoardSelect}
         handleSubmit={handleSubmit}
+        handleDeleteBoard={handleDeleteBoard}
         boards={boards}
       />
 
@@ -105,7 +109,7 @@ export default function Authenticated() {
         columns={columns}
         projectId={currProjectId}
         refetchBoard={() => updateCounter()}
-       currProjectId={currProjectId}
+        currProjectId={currProjectId}
       />
     </div>
   );
@@ -127,8 +131,9 @@ async function fetchBoardsData(projectId, updateBoards, user, updateMembers) {
       const responseJson = await response.json();
       const boards = responseJson.data.boards;
       const members = responseJson.data.members;
-      updateBoards(boards);
+      console.log("Fetched members", members);
       updateMembers(members);
+      updateBoards(boards);
     }
   }
 }
@@ -151,6 +156,8 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
     if (response.status === 200) {
       const responseJson = await response.json();
       const columns = responseJson.data.columns;
+      // columns comes in like this {1: {column}, 2: {column}} and needs to be an array [{column, {column}}]
+      const formattedColumns = Object.values(columns)
       console.log(
         "Fetched columns for board id",
         boardId,
@@ -158,7 +165,7 @@ async function fetchColumnsData(boardId, updateCB, user, projectId) {
         projectId,
         columns
       );
-      updateCB(columns);
+      updateCB(formattedColumns);
     }
   }
 }
